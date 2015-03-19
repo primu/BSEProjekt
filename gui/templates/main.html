@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nerural GUI</title>
+    <meta charset="utf-8"/>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no"/>
+
+    <link href="/static/bower_components/angular-material/angular-material.css" rel="stylesheet"/>
+
+    <script src="/static/bower_components/angular/angular.js"></script>
+    <script src="/static/bower_components/angular-aria/angular-aria.js"></script>
+    <script src="/static/bower_components/angular-animate/angular-animate.js"></script>
+    <script src="/static/bower_components/angular-material/angular-material.js"></script>
+    <script src="/static/bower_components/angular-resource/angular-resource.js"></script>
+    <script src="/static/ng/controllers/controllers.js"></script>
+    <script src="/static/ng/directives/directives.js"></script>
+    <script src="/static/ng/services/services.js"></script>
+
+    <script src="/static/ng/apps/neural_gui_app.js"></script>
+    <script src="/static/ng/controllers/demo_controller.js"></script>
+    <script src="/static/ng/directives/drawing_directive.js"></script>
+    <script src="/static/ng/services/query_service.js"></script>
+
+</head>
+<body ng-app="neuralGuiApp" ng-controller="DemoCtrl">
+<md-progress-linear ng-show="details.processing" md-mode="indeterminate"
+                    style="position: absolute; top:0; width: 100%;"></md-progress-linear>
+<div layout="column" layout-align="center center" style="min-height: 300px; min-width: 600px;">
+
+    <md-content>
+        <md-list>
+            <md-item>
+
+                <md-whiteframe class="md-whiteframe-z1" layout layout-align="center center" style="padding-top:10px;">
+                    <canvas width="300" height="300" drawing style="padding: 5px;;"></canvas>
+                </md-whiteframe>
+            </md-item>
+            <md-item ng-repeat="item in history">
+                <md-item-content>
+                    <div class="md-tile-left">
+                        {[ item.image ]}
+                    </div>
+                    <div class="md-tile-content">
+                        Rozpoznana litera: {[ item.recognizedLetter ]}
+                        <md-input-container>
+                            <label>Wpisz poprawną literę</label>
+                            <input/>
+                        </md-input-container>
+                    </div>
+                </md-item-content>
+            </md-item>
+        </md-list>
+    </md-content>
+</div>
+
+</body>
+</html>
