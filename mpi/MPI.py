@@ -10,10 +10,10 @@ Created on Sun Mar 22 12:35:10 2015
 #-przetwarzanie przy uzyciu wszystkich wezlow, gdy nie podano konfiguracji (processData)
 #-obsluga wyjatkow
 
-from mpi4py import MPI
 import json
 import random
 import numpy
+from mpi4py import MPI
 
 cData = {}
 cData['numberOfProcesses'] = 2;
@@ -30,7 +30,7 @@ def processData(conf, data, result):
     confData = json.loads(conf);    
     for node in confData:
         nodesArr[node['nodes']] = 1
-        nodesCount = nodesCount + 1
+        nodesCount += 1
 
     #inicjacja MPI
     mpiComm = MPI.COMM_WORLD
@@ -47,23 +47,23 @@ def processData(conf, data, result):
     
         #oczekiwanie na dane z wezlow
         for i in range(mpiSize):
-    	    if nodesArr[i] > 0:
-             nodesArr[i] = mpiComm.recv(source=i, tag=mpiOutputDataTag)
+	      if nodesArr[i] > 0:
+                nodesArr[i] = mpiComm.recv(source=i, tag=mpiOutputDataTag)
     
         #przetwarzanie wynikow
         response = []
         for i in range(mpiSize):
             if nodesArr[i] > 0:
-                response.append({'node': i, 'prob' : nodesArr[i]})
+                response.append({'node': i, 'prob': nodesArr[i]})
             else:
-                response.append({'node': i, 'prob' : 0})
+                response.append({'node': i, 'prob': 0})
     
         result.append(json.dumps(response))
         return True
     else:
         localBuff = []
         localBuff = mpiComm.recv(source=0, tag=mpiInputDataTag)
-    	#
+	  #
         #przetwarzanie w ramach sieci neuronowej...
         #
         result = round(random.uniform(0.1, 1.0), 6)
@@ -80,7 +80,10 @@ def tmpInputConf():
     return json.dumps(response)     
        
 #tymczasowe dane wejsciowe
-tmpData = {202, 254, 101, 15, 147, 78}
+tmpData = {
+    202, 254, 101, 
+    15, 147, 78
+    }
 
 #
 #
@@ -91,4 +94,4 @@ result = []
 status = processData(tmpInputConf(), tmpData, result);
 
 if status == True:
-	print(result[0])
+    print(result[0])
