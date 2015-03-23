@@ -7,72 +7,80 @@ Created on Sun Mar 22 12:35:10 2015
 
 #TD:
 #-asynchroniczne odbieranie danych
-#-przetwarzanie przy uzyciu wszystkich wezlow, gdy nie podano konfiguracji (processData)
 #-obsluga wyjatkow
+
+#wywolanie z poziomu CMD
+#mpiexec -np 5 python MPI.py
 
 import json
 import random
 import numpy
 from mpi4py import MPI
 
-cData = {}
-cData['numberOfProcesses'] = 2;
+c_data = {}
 
 
-def loadConf(inputFile):
-    with open(inputFile) as confFile:
-        return json.load(confFile)['main']
+def load_conf(input_file):
+    with open(input_file) as conf_file:
+        return json.load(conf_file)['main']
         
-def processData(conf, data, result):
-    #lista wezłow bioracych udzial w przetwarzaniu    
-    nodesArr = [0]*int(cData['numberOfProcesses'])
-    nodesCount = 0
-    confData = json.loads(conf);    
-    for node in confData:
-        nodesArr[node['nodes']] = 1
-        nodesCount += 1
-
+def process_data(conf, data, result):
     #inicjacja MPI
-    mpiComm = MPI.COMM_WORLD
-    mpiRank = mpiComm.Get_rank()
-    mpiSize = mpiComm.Get_size()
-    mpiInputDataTag = 50 #dane (odbior)
-    mpiOutputDataTag = 60 #dane (odbior)
+    mpi_comm = MPI.COMM_WORLD
+    mpi_rank = mpi_comm.Get_rank()
+    mpi_size = mpi_comm.Get_size()
+    mpi_input_data_tag = 50 #dane (odbior)
+    mpi_output_data_tag = 60 #dane (odbior)
     
-    if mpiRank == 0:        
+    #lista wezłow bioracych udzial w przetwarzaniu
+    nodes_arr = []    
+    if conf is None:
+        nodes_arr = [1]*mpi_size
+    else: 
+        nodes_arr = [0]*mpi_size
+        conf_data = json.loads(conf);    
+        for node in conf_data:
+            if len(nodes_arr) > node['nodes']:
+                nodes_arr[node['nodes']] = 1
+            
+    #przetwarzanie
+    if mpi_rank == 0:        
         #rozeslanie danych do wezlow&odbior
-        for i in range(mpiSize):
-            if nodesArr[i] > 0:
-                mpiComm.send(data, dest=i, tag=mpiInputDataTag)	
+        for i in range(1, mpi_size):
+            if nodes_arr[i] > 0:
+                mpi_comm.send(data, dest=i, tag=mpi_input_data_tag)	
     
         #oczekiwanie na dane z wezlow
-        for i in range(mpiSize):
-	      if nodesArr[i] > 0:
-                nodesArr[i] = mpiComm.recv(source=i, tag=mpiOutputDataTag)
+        for i in range(1, mpi_size):
+            if nodes_arr[i] > 0:
+                nodes_arr[i] = mpi_comm.recv(source=i, tag=mpi_output_data_tag)
     
         #przetwarzanie wynikow
         response = []
-        for i in range(mpiSize):
-            if nodesArr[i] > 0:
-                response.append({'node': i, 'prob': nodesArr[i]})
+        for i in range(1, mpi_size):
+            if nodes_arr[i] > 0:
+                response.append({'node': i, 'prob': nodes_arr[i]})
             else:
                 response.append({'node': i, 'prob': 0})
     
         result.append(json.dumps(response))
         return True
     else:
-        localBuff = []
-        localBuff = mpiComm.recv(source=0, tag=mpiInputDataTag)
+        if (nodes_arr[mpi_rank] == 0):
+            return False
+        
+        local_buff = []
+        local_buff = mpi_comm.recv(source=0, tag=mpi_input_data_tag)
 	  #
         #przetwarzanie w ramach sieci neuronowej...
         #
         result = round(random.uniform(0.1, 1.0), 6)
-        mpiComm.send(result, dest=0, tag=mpiOutputDataTag)
+        mpi_comm.send(result, dest=0, tag=mpi_output_data_tag)
         
         return False
     
 #tymczasowa konfiguracja wejsciowa
-def tmpInputConf():
+def tmp_input_conf():
     response = []
     for num in range(1, 4):
         response.append({'nodes': num})
@@ -80,7 +88,7 @@ def tmpInputConf():
     return json.dumps(response)     
        
 #tymczasowe dane wejsciowe
-tmpData = {
+tmp_data = {
     202, 254, 101, 
     15, 147, 78
     }
@@ -88,10 +96,10 @@ tmpData = {
 #
 #
 #
-cData = loadConf('conf.json')
+c_data = load_conf('conf.json')
 
 result = []
-status = processData(tmpInputConf(), tmpData, result);
+status = process_data(tmp_input_conf(), tmp_data, result); #zamiast tmp_input_conf można dać None
 
 if status == True:
     print(result[0])
