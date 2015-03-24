@@ -38,7 +38,7 @@ def process_data(conf, data, result):
         nodes_arr = [1]*mpi_size
     else: 
         nodes_arr = [0]*mpi_size
-        conf_data = json.loads(conf);    
+        conf_data = json.loads(conf)
         for node in conf_data:
             if len(nodes_arr) > node['nodes']:
                 nodes_arr[node['nodes']] = 1
@@ -99,7 +99,7 @@ tmp_data = {
 c_data = load_conf('conf.json')
 
 result = []
-status = process_data(tmp_input_conf(), tmp_data, result); #zamiast tmp_input_conf można dać None
+status = process_data(None, tmp_data, result) #zamiast tmp_input_conf można dać None
 
 if status == True:
     print(result[0])
