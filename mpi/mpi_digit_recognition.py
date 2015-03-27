@@ -1,12 +1,13 @@
 from Queue import Queue
 import json
+import random
+import string
 import threading
 from time import sleep, time
-from uuid import uuid4
+# from uuid import uuid4 # jakims cudem to blokuje wykonanie w mpiexec.. dafuq
 from mpi import image_reader
 from mpi.mpi_wrapper import MPIWrapper
 from algorithms.letter_recognition_simple.digit_neuron import DigitNeuron
-
 
 class MPIDigitRecognition(MPIWrapper):
 
@@ -24,6 +25,7 @@ class MPIDigitRecognition(MPIWrapper):
     SPAWN_TAG = 10
     TRAINING_TAG = 20
     QUERYING_TAG = 30
+    LOG_TAG = 40
 
     INPUT_TAG = 50
     OUTPUT_TAG = 60
@@ -54,6 +56,15 @@ class MPIDigitRecognition(MPIWrapper):
     def _node_for_digit(self, digit):
         return digit + 1
 
+    def _main_node_logging_thread(self):
+        while True:
+            data = self._comm.recv(tag=MPIDigitRecognition.LOG_TAG)
+            print(data)
+
+    def _worker_node_log(self, data):
+        if self._config["worker_logging"]:
+            self._comm.send("Worker: {}".format(data), dest=self._main_node_id, tag=MPIDigitRecognition.LOG_TAG)
+
     def _main_node_training_thread(self):
         while True:
             digit_matrix = self._training_queue.get(block=True)
@@ -82,7 +93,7 @@ class MPIDigitRecognition(MPIWrapper):
                 subresults.append(data)
 
             results = {"best_guess": "", "certainty": -1, "data": []}
-            max_certainty = max([x["certainty"] for x in subresults])
+            max_certainty = max([x["certainty"] for x in subresults if subresults]) if subresults else 0
             for result in subresults:
                 certainty, neuron = (result["certainty"] / max_certainty) * 100.0, \
                                     result["neuron"]
@@ -118,15 +129,21 @@ class MPIDigitRecognition(MPIWrapper):
 
         training_thread = threading.Thread(target=self._main_node_training_thread).start()
         querying_thread = threading.Thread(target=self._main_node_querying_thread).start()
+        if self._config["worker_logging"]:
+            logging_thread = threading.Thread(target=self._main_node_logging_thread).start()
 
         self.debug("Main node: threads ran")
 
     def worker_node_task(self):
         message = self._comm.recv(source=self._main_node_id, tag=MPIDigitRecognition.SPAWN_TAG)
         self._neuron = DigitNeuron(message["digit"], (28, 28))
+        self._worker_node_log("Started: {}".format(message["digit"]))
 
         training_thread = threading.Thread(target=self._worker_node_training_thread).start()
         querying_thread = threading.Thread(target=self._worker_node_querying_thread).start()
+
+        while True:
+            sleep(0.1)
 
     def _wait_for_result(self, task_id):
         while self._results.get(task_id) is None:
@@ -134,7 +151,7 @@ class MPIDigitRecognition(MPIWrapper):
         return True
 
     def query(self, digit_matrix):
-        task_id = str(uuid4())
+        task_id = "".join(random.choice(string.ascii_uppercase + string.digits) for _ in range(26))
         self._query_queue.put({
             "id": task_id,
             "data": digit_matrix
@@ -146,14 +163,14 @@ class MPIDigitRecognition(MPIWrapper):
         return self._results.pop(task_id)
 
 if __name__ == "__main__":
+    print("Pre run")
     rec = MPIDigitRecognition("conf.json")
     try:
+        print("Run")
         rec.run()
+        print("After run")
         if rec.is_main_node():
             pixels, _ = image_reader.ImageConverter.get_matrix("../algorithms/letter_recognition_simple/data/other/2.jpg")
             print(rec.query(pixels))
-        else:
-            while True:
-                sleep(0.1)
     except KeyboardInterrupt:
         rec.stop()
