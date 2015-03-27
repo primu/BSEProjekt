@@ -1,5 +1,6 @@
 import pickle
 import numpy as np
+from mpi.image_reader import ImageConverter
 
 
 class DigitNeuron(object):
@@ -23,7 +24,6 @@ class DigitNeuron(object):
         :return:
         """
         self._digit = digit
-        assert(isinstance(input_dimensions, tuple), "Not instance of tuple type")
 
         self._dimensions = input_dimensions
         self._memory = np.zeros(input_dimensions)
@@ -56,5 +56,15 @@ class DigitNeuron(object):
                 similar += self._memory[w][h] * image_array[w][h]
 
         return similar
+
+    def dump_memory(self):
+
+        memory = self._memory.copy()
+        memory[memory < 0] = 0
+        max_value = np.amax(memory)
+        memory /= max_value
+        memory = 255 - (memory * 255)
+
+        ImageConverter.to_image(memory, "tmp/{}.bmp".format(self._digit))
 
 

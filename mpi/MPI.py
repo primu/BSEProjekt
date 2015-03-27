@@ -16,6 +16,7 @@ import json
 import random
 import numpy
 from mpi4py import MPI
+from mpi import image_reader
 
 c_data = {}
 
@@ -101,21 +102,21 @@ def tmp_input_conf():
     for num in range(1, 4):
         response.append({'node': num, "letter": num})
 
-    return json.dumps(response)     
-       
-#tymczasowe dane wejsciowe
-tmp_data = {
-    202, 254, 101, 
-    15, 147, 78
-    }
+    return json.dumps(response)
 
-#
-#
-#
-c_data = load_conf('conf.json')
+if __name__ == "__main__":
+    #tymczasowe dane wejsciowe
+    tmp_data = {
+        202, 254, 101,
+        15, 147, 78
+        }
 
-result = []
-status = process_data(tmp_input_conf(), tmp_data, result) #zamiast tmp_input_conf można dać None
+    pixels, size = image_reader.ImageConverter.get_matrix("../algorithms/letter_recognition_simple/data/other/a.bmp")
 
-if status == True:
-    print(result[0])
+    c_data = load_conf('conf.json')
+
+    result = []
+    status = process_data(tmp_input_conf(), tmp_data, result) #zamiast tmp_input_conf można dać None
+
+    if status == True:
+        print(result[0])

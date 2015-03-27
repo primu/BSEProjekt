@@ -1,5 +1,6 @@
 from digit_neuron import DigitNeuron
 from mnist_reader import MNISTReader
+from mpi import image_reader
 
 
 class DigitTrainer(object):
@@ -49,10 +50,32 @@ class DigitTrainer(object):
                                                                 incorrect_values,
                                                                 correct_values*100/(correct_values + incorrect_values)))
 
+    def test_file(self, path, expected):
+        pixels, size = image_reader.ImageConverter.get_matrix(path)
+        result = {"expected": expected,
+                          "best_guess": {
+                              "value": -999,
+                              "neuron": ""
+                          }}
+        for i, neuron in enumerate(self._neurons):
+            neuron_result = neuron.test(pixels)
+            result[str(i)] = neuron_result
+            if result["best_guess"]["value"] < neuron_result:
+                result["best_guess"]["value"] = neuron_result
+                result["best_guess"]["neuron"] = i
+
+        return result
+
+    def dump_memory(self):
+        for neuron in self._neurons:
+            neuron.dump_memory()
+
 
 if __name__ == "__main__":
     dt = DigitTrainer()
     # dt.train("data/train/train-labels.idx1-ubyte", "data/train/train-images.idx3-ubyte")
-    dt.end_training()
-    dt.test("data/test/t10k-labels.idx1-ubyte", "data/test/t10k-images.idx3-ubyte")
+    # dt.end_training()
+    # dt.test("data/test/t10k-labels.idx1-ubyte", "data/test/t10k-images.idx3-ubyte")
+    print(dt.test_file("data/other/2.jpg", "5"))
+    # dt.dump_memory()
 

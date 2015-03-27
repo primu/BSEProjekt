@@ -1,6 +1,6 @@
 {
-"main":
-	{
-		"numberOfProcesses" : "5"
-	}
+  "main": {
+    "numberOfProcesses": "5"
+  },
+  "debug": true
 }
