@@ -23,6 +23,9 @@ class MPIWrapper(object):
         else:
             self.worker_node_task()
 
+    def stop(self):
+        raise NotImplementedError("stop is not implemented")
+
     def is_main_node(self):
         return self._rank == 0
 
