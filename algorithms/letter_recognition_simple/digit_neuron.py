@@ -35,7 +35,7 @@ class DigitNeuron(object):
                 self._memory = pickle.load(open("tmp/{}.data".format(self._digit), "rb"))
                 self._loaded_from_file = True
             except IOError:
-                pass
+                print("!")
 
     def train(self, data):
         image_array = np.array(data)
