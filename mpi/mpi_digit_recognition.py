@@ -34,12 +34,13 @@ class MPIDigitRecognition(MPIWrapper):
 
     def __init__(self, config_path):
         super(MPIDigitRecognition, self).__init__()
-        self._load_config(config_path)
+        if self.is_main_node():
+            self._load_config(config_path)
 
-        self._training_queue = Queue()
-        self._query_queue = Queue()
+            self._training_queue = Queue()
+            self._query_queue = Queue()
 
-        self._results = {}
+            self._results = {}
 
     def debug(self, text):
         """
@@ -189,7 +190,7 @@ class MPIDigitRecognition(MPIWrapper):
         """
         for node, number in zip(self._worker_nodes_ids, range(0, 10)):
             self.debug("Starting node with id {}".format(node))
-            self._comm.send({"digit": number}, dest=node, tag=MPIDigitRecognition.SPAWN_TAG)
+            self._comm.send({"digit": number, "config": self._config}, dest=node, tag=MPIDigitRecognition.SPAWN_TAG)
 
         training_thread = threading.Thread(target=self._main_node_training_thread).start()
         querying_thread = threading.Thread(target=self._main_node_querying_thread).start()
@@ -205,6 +206,7 @@ class MPIDigitRecognition(MPIWrapper):
         :return:
         """
         message = self._comm.recv(source=self._main_node_id, tag=MPIDigitRecognition.SPAWN_TAG)
+        self._config = message["config"]
         self._neuron = DigitNeuron(message["digit"], (28, 28))
         self._worker_node_log("Started: {}".format(message["digit"]))
 
