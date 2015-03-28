@@ -62,7 +62,7 @@ class MPIDigitRecognition(MPIWrapper):
             print(data)
 
     def _worker_node_log(self, data):
-        if self._config["worker_logging"]:
+        if self._config["worker_debug"]:
             self._comm.send("Worker: {}".format(data), dest=self._main_node_id, tag=MPIDigitRecognition.LOG_TAG)
 
     def _main_node_training_thread(self):
@@ -129,7 +129,7 @@ class MPIDigitRecognition(MPIWrapper):
 
         training_thread = threading.Thread(target=self._main_node_training_thread).start()
         querying_thread = threading.Thread(target=self._main_node_querying_thread).start()
-        if self._config["worker_logging"]:
+        if self._config["worker_debug"]:
             logging_thread = threading.Thread(target=self._main_node_logging_thread).start()
 
         self.debug("Main node: threads ran")
