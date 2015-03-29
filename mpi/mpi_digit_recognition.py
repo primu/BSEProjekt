@@ -9,6 +9,8 @@ from time import sleep, time
 import pickle
 from conf import PROJECT_ROOT
 from helpers import image_reader
+import helpers
+from helpers.path_for import full_path_for
 from mpi.mpi_wrapper import MPIWrapper
 from algorithms.letter_recognition_simple.digit_neuron import DigitNeuron
 
@@ -62,7 +64,7 @@ class MPIDigitRecognition(MPIWrapper):
             self._config = json.load(conf_file)
 
     def _get_memory_for_neuron(self, neuron):
-        file_path = os.path.join(PROJECT_ROOT, self._config["neurons"].get("knowledge_path").format(neuron))
+        file_path = full_path_for(self._config["neurons"].get("knowledge_path").format(neuron))
         try:
             return pickle.load(open(file_path, "rb"))
         except IOError:
@@ -70,7 +72,7 @@ class MPIDigitRecognition(MPIWrapper):
             return False
 
     def _save_memory_for_neuron(self, neuron, memory):
-        file_path = os.path.join(PROJECT_ROOT, self._config["neurons"].get("knowledge_path").format(neuron))
+        file_path = full_path_for(self._config["neurons"].get("knowledge_path").format(neuron))
         pickle.dump(memory, open(file_path, "wb"))
         self.debug("Memory for {} saved to {}".format(neuron, file_path))
 
