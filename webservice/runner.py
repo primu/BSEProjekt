@@ -1,8 +1,9 @@
 import os
 from flask import Flask, jsonify, request
+from conf import PROJECT_ROOT
 from mpi.mpi_digit_recognition import MPIDigitRecognition
 
-recognition = MPIDigitRecognition("../mpi/conf.json")
+recognition = MPIDigitRecognition(os.path.join(PROJECT_ROOT, "conf.json"))
 recognition.run()
 
 if recognition.is_main_node():

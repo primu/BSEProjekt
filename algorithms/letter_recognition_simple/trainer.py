@@ -1,6 +1,7 @@
+import os
 from digit_neuron import DigitNeuron
-from mnist_reader import MNISTReader
-from mpi import image_reader
+from helpers.mnist_reader import MNISTReader
+from helpers import image_reader
 
 
 class DigitTrainer(object):
@@ -18,7 +19,7 @@ class DigitTrainer(object):
 
     def end_training(self):
         for neuron in self._neurons:
-            neuron.end_training()
+            neuron.persist_knowledge()
 
     def test(self, label_file_path, images_file_path):
         reader = MNISTReader(label_file_path, images_file_path)

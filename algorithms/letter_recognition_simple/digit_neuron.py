@@ -1,6 +1,6 @@
 import pickle
 import numpy as np
-from mpi.image_reader import ImageConverter
+from helpers.image_reader import ImageConverter
 
 
 class DigitNeuron(object):
@@ -14,10 +14,9 @@ class DigitNeuron(object):
 
     _numbers_incorporated = None
 
-    _try_load_from_file = None
-    _loaded_from_file = None
+    _config = None
 
-    def __init__(self, digit, input_dimensions, try_load_from_file=True):
+    def __init__(self, digit, input_dimensions, memory=None):
         """
 
         :param digit: Letter that this neuron will represent
@@ -26,26 +25,28 @@ class DigitNeuron(object):
         self._digit = digit
 
         self._dimensions = input_dimensions
-        self._memory = np.zeros(input_dimensions)
         self._numbers_incorporated = 0
-        self._try_load_from_file = try_load_from_file
 
-        if self._try_load_from_file:
-            try:
-                self._memory = pickle.load(open("tmp/{}.data".format(self._digit), "rb"))
-                self._loaded_from_file = True
-            except IOError:
-                print("Couldn't load tmp/{}!".format(self._digit))
+        if memory:
+            self._memory = memory
+        else:
+            self._memory = {
+                "matrix": np.zeros(input_dimensions),
+                "mean": np.zeros(input_dimensions)
+            }
 
     def train(self, data):
         image_array = np.array(data)
-        self._memory = np.add(self._memory, image_array)
+        matrix, mean = self._memory["matrix"], self._memory["mean"]
+
+        matrix = np.add(matrix, mean)
+        matrix = np.add(matrix, image_array)
+        mean = np.mean(matrix)
+
+        self._memory["matrix"] = matrix
+        self._memory["mean"] = mean
+
         self._numbers_incorporated += 1
-
-    def end_training(self):
-        self._memory -= np.mean(self._memory)
-        pickle.dump(self._memory, open("tmp/{}.data".format(self._digit), "wb"))
-
 
     def test(self, data=None):
         image_array = np.array(data)
@@ -53,18 +54,11 @@ class DigitNeuron(object):
         width, height = self._dimensions
         for w in range(width):
             for h in range(height):
-                similar += self._memory[w][h] * image_array[w][h]
+                similar += self._memory["matrix"][w][h] * image_array[w][h]
 
         return similar
 
-    def dump_memory(self):
-
-        memory = self._memory.copy()
-        memory[memory < 0] = 0
-        max_value = np.amax(memory)
-        memory /= max_value
-        memory = 255 - (memory * 255)
-
-        ImageConverter.to_image(memory, "tmp/{}.bmp".format(self._digit))
+    def get_memory(self):
+        return self._memory
 
 

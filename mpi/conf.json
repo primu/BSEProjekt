@@ -1,7 +1,0 @@
-{
-  "main": {
-    "number_of_processes": "5"
-  },
-  "debug": true,
-  "worker_debug": false
-}

@@ -1,11 +1,14 @@
 from Queue import Queue
 import json
+import os
 import random
 import string
 import threading
 from time import sleep, time
 # from uuid import uuid4 # jakims cudem to blokuje wykonanie w mpiexec.. dafuq
-from mpi import image_reader
+import pickle
+from conf import PROJECT_ROOT
+from helpers import image_reader
 from mpi.mpi_wrapper import MPIWrapper
 from algorithms.letter_recognition_simple.digit_neuron import DigitNeuron
 
@@ -26,9 +29,7 @@ class MPIDigitRecognition(MPIWrapper):
     TRAINING_TAG = 20
     QUERYING_TAG = 30
     LOG_TAG = 40
-
-    INPUT_TAG = 50
-    OUTPUT_TAG = 60
+    PERSISTING_TAG = 50
 
     _QuitThread = object()
 
@@ -48,7 +49,7 @@ class MPIDigitRecognition(MPIWrapper):
         :param text: text to be debugged
         :return:
         """
-        if self._config["debug"]:
+        if self._config.get("debug"):
             print(text)
 
     def _load_config(self, config_path):
@@ -60,6 +61,18 @@ class MPIDigitRecognition(MPIWrapper):
         with open(config_path) as conf_file:
             self._config = json.load(conf_file)
 
+    def _get_memory_for_neuron(self, neuron):
+        file_path = os.path.join(PROJECT_ROOT, self._config["neurons"].get("knowledge_path").format(neuron))
+        try:
+            return pickle.load(open(file_path, "rb"))
+        except IOError:
+            print("File not found: {}".format(file_path))
+            return False
+
+    def _save_memory_for_neuron(self, neuron, memory):
+        file_path = os.path.join(PROJECT_ROOT, self._config["neurons"].get("knowledge_path").format(neuron))
+        pickle.dump(memory, open(file_path, "wb"))
+
     def stop(self):
         """
         Stop all instances - main and workers
@@ -68,6 +81,8 @@ class MPIDigitRecognition(MPIWrapper):
         if self.is_main_node():
             self._query_queue.put({"data:": self._QuitThread, "id": "QUIT"})
             self._training_queue.put({"data:": self._QuitThread, "id": "QUIT"})
+            # todo: beautify
+            self._comm.send(self._QuitThread, tag=MPIDigitRecognition.PERSISTING_TAG)
 
     def _node_for_digit(self, digit):
         """
@@ -92,7 +107,7 @@ class MPIDigitRecognition(MPIWrapper):
         :param text:
         :return:
         """
-        if self._config["worker_debug"]:
+        if self._config.get("worker_debug"):
             self._comm.send("Worker: {}".format(text), dest=self._main_node_id, tag=MPIDigitRecognition.LOG_TAG)
 
     def _main_node_training_thread(self):
@@ -182,6 +197,13 @@ class MPIDigitRecognition(MPIWrapper):
                 "certainty": result
             }, dest=self._main_node_id, tag=MPIDigitRecognition.QUERYING_TAG)
 
+    def _worker_node_persisting_thread(self):
+        while True:
+            request = self._comm.recv(source=self._main_node_id, tag=MPIDigitRecognition.PERSISTING_TAG)
+            if request is self._QuitThread:
+                break
+            self._comm.send(self._neuron.get_memory(), dest=self._main_node_id, tag=MPIDigitRecognition.PERSISTING_TAG)
+
     def main_node_task(self):
         """
         Main node main task, spawns training, querying threads and the logging thread for workers if
@@ -190,7 +212,11 @@ class MPIDigitRecognition(MPIWrapper):
         """
         for node, number in zip(self._worker_nodes_ids, range(0, 10)):
             self.debug("Starting node with id {}".format(node))
-            self._comm.send({"digit": number, "config": self._config}, dest=node, tag=MPIDigitRecognition.SPAWN_TAG)
+            self._comm.send({
+                "digit": number,
+                "config": self._config,
+                "memory": self._get_memory_for_neuron(number)
+            }, dest=node, tag=MPIDigitRecognition.SPAWN_TAG)
 
         training_thread = threading.Thread(target=self._main_node_training_thread).start()
         querying_thread = threading.Thread(target=self._main_node_querying_thread).start()
@@ -207,11 +233,12 @@ class MPIDigitRecognition(MPIWrapper):
         """
         message = self._comm.recv(source=self._main_node_id, tag=MPIDigitRecognition.SPAWN_TAG)
         self._config = message["config"]
-        self._neuron = DigitNeuron(message["digit"], (28, 28))
+        self._neuron = DigitNeuron(message["digit"], (28, 28), message["memory"])
         self._worker_node_log("Started: {}".format(message["digit"]))
 
         training_thread = threading.Thread(target=self._worker_node_training_thread).start()
         querying_thread = threading.Thread(target=self._worker_node_querying_thread).start()
+        persisting_thread = threading.Thread(target=self._worker_node_persisting_thread).start()
 
     def _wait_for_result(self, task_id):
         """
@@ -234,3 +261,12 @@ class MPIDigitRecognition(MPIWrapper):
         wait_thread.start()
         wait_thread.join()
         return self._results.pop(task_id)
+
+    def train(self, digit, digit_matrix):
+        self._comm.send(digit_matrix, dest=self._node_for_digit(digit), tag=MPIDigitRecognition.TRAINING_TAG)
+
+    def persist_neurons_knowledge(self):
+        for node in self._worker_nodes_ids:
+            self._comm.send(True, dest=node, tag=MPIDigitRecognition.PERSISTING_TAG)
+            memory = self._comm.recv(source=node, tag=MPIDigitRecognition.PERSISTING_TAG)
+            self._save_memory_for_neuron(node, memory)
