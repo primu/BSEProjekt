@@ -120,11 +120,11 @@ class MPIDigitRecognition(MPIWrapper):
         :return:
         """
         while True:
-            digit_matrix = self._training_queue.get(block=True)
-            self._comm.send(digit_matrix["data"],
-                            dest=self._node_for_digit(digit_matrix["digit"]),
+            data = self._training_queue.get(block=True)
+            self._comm.send(data["data"],
+                            dest=self._node_for_digit(data["digit"]),
                             tag=MPIDigitRecognition.TRAINING_TAG)
-            if digit_matrix["data"] is MPIDigitRecognition._QuitThread:
+            if data["data"] is MPIDigitRecognition._QuitThread:
                 self.debug("Got kill signal, quitting..")
                 break
 
@@ -183,7 +183,7 @@ class MPIDigitRecognition(MPIWrapper):
             digit_matrix = self._comm.recv(source=self._main_node_id, tag=MPIDigitRecognition.TRAINING_TAG)
             if digit_matrix is self._QuitThread:
                 break
-            self._neuron.train(digit_matrix)
+            self._neuron.train(digit_matrix["data"])
 
     def _worker_node_querying_thread(self):
         """
@@ -266,7 +266,11 @@ class MPIDigitRecognition(MPIWrapper):
         return self._results.pop(task_id)
 
     def train(self, digit, digit_matrix):
-        self._comm.send(digit_matrix, dest=self._node_for_digit(digit), tag=MPIDigitRecognition.TRAINING_TAG)
+        self._training_queue.put(digit_matrix)
+        self._comm.send({
+            "digit": digit,
+            "data": digit_matrix
+        }, dest=self._node_for_digit(digit), tag=MPIDigitRecognition.TRAINING_TAG)
 
     def persist_neurons_knowledge(self):
         for node in self._worker_nodes_ids:

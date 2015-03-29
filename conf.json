@@ -1,7 +1,7 @@
 {
   "neurons": {
       "knowledge_path": "algorithms/letter_recognition_simple/knowledge/{}.data",
-      "load_from_file": true
+      "load_from_file": false
   },
   "debug": true,
   "worker_debug": false
