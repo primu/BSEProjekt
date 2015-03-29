@@ -72,6 +72,7 @@ class MPIDigitRecognition(MPIWrapper):
     def _save_memory_for_neuron(self, neuron, memory):
         file_path = os.path.join(PROJECT_ROOT, self._config["neurons"].get("knowledge_path").format(neuron))
         pickle.dump(memory, open(file_path, "wb"))
+        self.debug("Memory for {} saved to {}".format(neuron, file_path))
 
     def stop(self):
         """
