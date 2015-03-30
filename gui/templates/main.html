@@ -15,6 +15,10 @@
     <script src="/static/bower_components/angular-animate/angular-animate.js"></script>
     <script src="/static/bower_components/angular-material/angular-material.js"></script>
     <script src="/static/bower_components/angular-resource/angular-resource.js"></script>
+    <script src="/static/bower_components/angular-material-icons/angular-material-icons.min.js"></script>
+    <script src="/static/bower_components/svg-morpheus/compile/minified/svg-morpheus.js"></script>
+
+
     <script src="/static/ng/controllers/controllers.js"></script>
     <script src="/static/ng/directives/directives.js"></script>
     <script src="/static/ng/services/services.js"></script>
@@ -24,32 +28,56 @@
     <script src="/static/ng/directives/drawing_directive.js"></script>
     <script src="/static/ng/services/query_service.js"></script>
 
+    <style>
+        .md-button {
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+    </style>
+
 </head>
 <body ng-app="neuralGuiApp" ng-controller="DemoCtrl">
 <md-progress-linear ng-show="details.processing" md-mode="indeterminate"
                     style="position: absolute; top:0; width: 100%;"></md-progress-linear>
-<div layout="column" layout-align="center center" style="min-height: 300px; min-width: 600px;">
 
+<div layout="column" layout-align="start center">
+    <div>
+        <canvas drawing width="300" height="300" style="padding: 5px;"></canvas>
+    </div>
+    <section layout="row" layout-sm="column" layout-align="center center" style="margin-top: 20px">
+        <md-button ng-click="onSendQuery()" class="md-raised md-primary">Odczytaj</md-button>
+        <md-button ng-click="onReset()" class="md-raised">Wyczyść</md-button>
+    </section>
+</div>
+<div layout="column" layout-align="center center">
     <md-content>
         <md-list>
-            <md-item>
-
-                <md-whiteframe class="md-whiteframe-z1" layout layout-align="center center" style="padding-top:10px;">
-                    <canvas width="300" height="300" drawing style="padding: 5px;;"></canvas>
-                </md-whiteframe>
-            </md-item>
-            <md-item ng-repeat="item in history">
+            <md-item ng-repeat="item in todos">
                 <md-item-content>
                     <div class="md-tile-left">
-                        {[ item.image ]}
+                        <canvas drawed data-input="" width="100" height="100"></canvas>
                     </div>
                     <div class="md-tile-content">
-                        Rozpoznana litera: {[ item.recognizedLetter ]}
-                        <md-input-container>
-                            <label>Wpisz poprawną literę</label>
-                            <input/>
-                        </md-input-container>
+                        <section layout="row" layout-sm="column" layout-align="center center">
+                            <div>
+                                <h2>Odczytano: A</h2>
+                            </div>
+                        </section>
                     </div>
+                    <div class="md-tile-right">
+                        <div>
+                            <md-button>
+                                <ng-md-icon icon="redo"></ng-md-icon>
+                            </md-button>
+
+                        </div>
+                        <div>
+                            <md-button>
+                                <ng-md-icon icon="autorenew"></ng-md-icon>
+                            </md-button>
+                        </div>
+                    </div>
+
                 </md-item-content>
             </md-item>
         </md-list>
