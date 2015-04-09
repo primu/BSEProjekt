@@ -6,6 +6,8 @@
                 link: function (scope, element, attrs) {
 
                     var id = attrs.drawingId || null;
+                    var xSize = attrs.xSize || 16;
+                    var ySize = attrs.ySize || 16;
 
                     var ctx = element[0].getContext('2d');
                     var canvas = element[0];
@@ -13,9 +15,31 @@
                     var canvasWidth = canvas.width;
                     var canvasHeight = canvas.height;
 
+                    var xScale = xSize / canvasWidth;
+                    var yScale = ySize / canvasHeight;
+
                     ctx.strokeStyle = "#000";
                     ctx.lineJoin = "round";
                     ctx.lineWidth = 2;
+
+                    function deflateArray(array, width, height) {
+                        var out = new Array(height);
+                        var x = 0;
+                        var y = 0;
+
+                        for (var i = 0; i < array.length; i++) {
+                            if (x > width) {
+                                x = 0;
+                                y += 1;
+
+                                out[y] = new Array(width);
+                            }
+                            out[y][x] = array[i];
+                            x++;
+                        }
+
+                        return out;
+                    }
 
                     function getArray() {
                         var imageData = ctx.getImageData(0, 0, canvasWidth, canvasHeight).data;
@@ -26,15 +50,26 @@
                         for (var i = 3; i < count; i += 4) {
                             out[idx++] = imageData[i];
                         }
-                        return out;
+                        return deflateArray(out, canvasWidth, canvasHeight);
                     }
 
                     function setArray(imageData) {
+                        var count = imageData.length << 2;
+                        var input = new Array(count);
 
-                        ctx.putImageData(imageData, 0, 0);
+                        lodash.fill(input, 0);
+                        var idx = 0;
+                        for (var i = 3; i < count; i += 4) {
+                            input[i] = imageData[idx++];
+                        }
+                        ctx.putImageData(input, 0, 0);
                     }
 
-                    if (!lodash.isUndefined(attrs.readonly) || attrs.readonly == false) {
+                    if (!lodash.isUndefined(attrs.drawingMatrix)) {
+                        setArray(attrs.drawingMatrix);
+                    }
+
+                    if (lodash.isUndefined(attrs.readonly) || attrs.readonly == false) {
                         // for non-readonly
 
                         var paint = false;
@@ -76,6 +111,8 @@
 
                         element.bind('mouseup', function (event) {
                             paint = false;
+                            // attrs.$set("matrix", getArray());
+                            // scope.$apply();
                         });
 
                         function draw(lX, lY, cX, cY) {
