@@ -4,13 +4,16 @@
 
 
             $scope.current = {};
-
             $scope.history = [
                 {
                     "item": "a",
                     "recognizedLetter": "A"
                 }
             ];
+
+            $scope.getData = function() {
+
+            };
 
             $scope.onSendQuery = function () {
 
