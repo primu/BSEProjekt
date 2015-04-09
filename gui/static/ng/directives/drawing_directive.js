@@ -1,60 +1,23 @@
 (function () {
     angular.module("neuralGuiApp.directives")
-        .directive("drawing", function () {
+        .directive("drawing", function (lodash) {
             return {
                 restrict: "A",
                 link: function (scope, element, attrs) {
 
+                    var id = attrs.drawingId || null;
+
                     var ctx = element[0].getContext('2d');
-                    var canvas = element[0].canvas;
+                    var canvas = element[0];
+
+                    var canvasWidth = canvas.width;
+                    var canvasHeight = canvas.height;
 
                     ctx.strokeStyle = "#000";
                     ctx.lineJoin = "round";
                     ctx.lineWidth = 2;
 
-                    var paint = false;
-                    var lastX;
-                    var lastY;
-
-                    element.bind('mousedown', function (event) {
-                        if (event.offsetX !== undefined) {
-                            lastX = event.offsetX;
-                            lastY = event.offsetY;
-                        } else {
-                            lastX = event.layerX - event.currentTarget.offsetLeft;
-                            lastY = event.layerY - event.currentTarget.offsetTop;
-                        }
-
-                        ctx.beginPath();
-                        paint = true;
-                    });
-                    element.bind('mousemove', function (event) {
-                        if (paint) {
-                            var currentX, currentY;
-                            // get current mouse position
-                            if (event.offsetX !== undefined) {
-                                currentX = event.offsetX;
-                                currentY = event.offsetY;
-                            } else {
-                                currentX = event.layerX - event.currentTarget.offsetLeft;
-                                currentY = event.layerY - event.currentTarget.offsetTop;
-                            }
-
-                            draw(lastX, lastY, currentX, currentY);
-
-                            lastX = currentX;
-                            lastY = currentY;
-                        }
-
-                    });
-
-                    element.bind('mouseup', function (event) {
-                        paint = false;
-                    });
-
                     function getArray() {
-                        var canvasWidth = canvas.width;
-                        var canvasHeight = canvas.height;
                         var imageData = ctx.getImageData(0, 0, canvasWidth, canvasHeight).data;
                         var count = canvasWidth * canvasHeight;
                         var out = new Array(count);
@@ -66,14 +29,66 @@
                         return out;
                     }
 
-                    function reset() {
-                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    function setArray(imageData) {
+
+                        ctx.putImageData(imageData, 0, 0);
                     }
 
-                    function draw(lX, lY, cX, cY) {
-                        ctx.moveTo(lX, lY);
-                        ctx.lineTo(cX, cY);
-                        ctx.stroke();
+                    if (!lodash.isUndefined(attrs.readonly) || attrs.readonly == false) {
+                        // for non-readonly
+
+                        var paint = false;
+                        var lastX;
+                        var lastY;
+
+                        element.bind('mousedown', function (event) {
+                            if (event.offsetX !== undefined) {
+                                lastX = event.offsetX;
+                                lastY = event.offsetY;
+                            } else {
+                                lastX = event.layerX - event.currentTarget.offsetLeft;
+                                lastY = event.layerY - event.currentTarget.offsetTop;
+                            }
+
+                            ctx.beginPath();
+                            paint = true;
+                        });
+
+                        element.bind('mousemove', function (event) {
+                            if (paint) {
+                                var currentX, currentY;
+                                // get current mouse position
+                                if (event.offsetX !== undefined) {
+                                    currentX = event.offsetX;
+                                    currentY = event.offsetY;
+                                } else {
+                                    currentX = event.layerX - event.currentTarget.offsetLeft;
+                                    currentY = event.layerY - event.currentTarget.offsetTop;
+                                }
+
+                                draw(lastX, lastY, currentX, currentY);
+
+                                lastX = currentX;
+                                lastY = currentY;
+                            }
+
+                        });
+
+                        element.bind('mouseup', function (event) {
+                            paint = false;
+                        });
+
+                        function draw(lX, lY, cX, cY) {
+                            ctx.moveTo(lX, lY);
+                            ctx.lineTo(cX, cY);
+                            ctx.stroke();
+                        }
+
+                        scope.$on("clearCanvas", function (event, msg) {
+                            if (!lodash.isUndefined(msg) && !lodash.isUndefined(msg.id) && msg.id == id) {
+                                ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+                            }
+                        });
                     }
                 }
             };

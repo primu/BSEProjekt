@@ -15,6 +15,7 @@
     <script src="/static/bower_components/angular-animate/angular-animate.js"></script>
     <script src="/static/bower_components/angular-material/angular-material.js"></script>
     <script src="/static/bower_components/angular-resource/angular-resource.js"></script>
+    <script src="/static/bower_components/ng-lodash/build/ng-lodash.min.js"></script>
     <script src="/static/bower_components/angular-material-icons/angular-material-icons.min.js"></script>
     <script src="/static/bower_components/svg-morpheus/compile/minified/svg-morpheus.js"></script>
 
@@ -41,11 +42,11 @@
 
 <div layout="column" layout-align="start center">
     <div>
-        <canvas drawing width="300" height="300" style="padding: 5px;"></canvas>
+        <canvas drawing drawing-id="main" width="300" height="300" style="padding: 5px;"></canvas>
     </div>
     <section layout="row" layout-sm="column" layout-align="center center" style="margin-top: 20px">
         <md-button ng-click="onSendQuery()" class="md-raised md-primary">Odczytaj</md-button>
-        <md-button ng-click="onReset()" class="md-raised">Wyczyść</md-button>
+        <md-button ng-click="onClearCanvas()" class="md-raised">Wyczyść</md-button>
     </section>
 </div>
 <div layout="column" layout-align="center center">

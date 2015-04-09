@@ -11,12 +11,18 @@
                 }
             ];
 
-            $scope.getData = function() {
+            $scope.getCanvasData = function() {
 
             };
 
             $scope.onSendQuery = function () {
 
+            };
+
+            $scope.onClearCanvas = function() {
+                $scope.$broadcast("clearCanvas", {
+                    "id": "main"
+                });
             };
 
         }).config(function ($mdThemingProvider) {
