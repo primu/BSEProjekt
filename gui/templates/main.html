@@ -52,28 +52,28 @@
 <div layout="column" layout-align="center center">
     <md-content>
         <md-list>
-            <md-item ng-repeat="item in todos">
+            <md-item ng-repeat="item in history">
                 <md-item-content>
                     <div class="md-tile-left">
-                        <canvas drawed data-input="" width="100" height="100"></canvas>
+                        <canvas drawing drawing-id="{[ item.id ]}" readonly="true" drawing-matrix="{[ item.matrix ]}" width="100" height="100"></canvas>
                     </div>
                     <div class="md-tile-content">
                         <section layout="row" layout-sm="column" layout-align="center center">
                             <div>
-                                <h2>Odczytano: A</h2>
+                                <h2>Odczytano: {[ item.recognized ]}</h2>
                             </div>
                         </section>
                     </div>
                     <div class="md-tile-right">
                         <div>
                             <md-button>
-                                <ng-md-icon icon="redo"></ng-md-icon>
+                                <ng-md-icon ng-click="learn(item)" icon="redo"></ng-md-icon>
                             </md-button>
 
                         </div>
                         <div>
                             <md-button>
-                                <ng-md-icon icon="autorenew"></ng-md-icon>
+                                <ng-md-icon ng-click="redo(item)" icon="autorenew"></ng-md-icon>
                             </md-button>
                         </div>
                     </div>

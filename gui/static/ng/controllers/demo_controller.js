@@ -5,18 +5,28 @@
 
             $scope.current = {};
             $scope.history = [
-                {
-                    "item": "a",
-                    "recognizedLetter": "A"
-                }
             ];
 
-            $scope.getCanvasData = function() {
 
+            $scope.getCanvasData = function(event, msg) {
+                $scope.history.push({
+                    id: msg.id,
+                    matrix: msg.matrix,
+                    recognized: "A"
+                });
+
+                if ($scope.history.length > 3) {
+                    $scope.history = $scope.history.slice(1, $scope.history.length + 1);
+                }
+
+                $scope.onClearCanvas();
             };
 
+            $scope.$on("canvasData", $scope.getCanvasData);
             $scope.onSendQuery = function () {
-
+                $scope.$broadcast("getCanvasData", {
+                    "id": "main"
+                });
             };
 
             $scope.onClearCanvas = function() {

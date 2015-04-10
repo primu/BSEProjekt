@@ -1,6 +1,7 @@
 (function () {
     angular.module("neuralGuiApp.directives")
         .directive("drawing", function (lodash) {
+            "use strict";
             return {
                 restrict: "A",
                 link: function (scope, element, attrs) {
@@ -23,12 +24,13 @@
                     ctx.lineWidth = 2;
 
                     function deflateArray(array, width, height) {
+                        // convert vector to width x height matrix
                         var out = new Array(height);
                         var x = 0;
                         var y = 0;
-
+                        out[0] = new Array(width);
                         for (var i = 0; i < array.length; i++) {
-                            if (x > width) {
+                            if (x == width) {
                                 x = 0;
                                 y += 1;
 
@@ -41,7 +43,18 @@
                         return out;
                     }
 
+                    function flattenArray(array) {
+                        var out = [];
+                        for (var x = 0; x < array.length; x++) {
+                            for (var y = 0; y < array[x].length; y++) {
+                                out.push(array[x][y]);
+                            }
+                        }
+                        return out;
+                    }
+
                     function getArray() {
+
                         var imageData = ctx.getImageData(0, 0, canvasWidth, canvasHeight).data;
                         var count = canvasWidth * canvasHeight;
                         var out = new Array(count);
@@ -50,17 +63,54 @@
                         for (var i = 3; i < count; i += 4) {
                             out[idx++] = imageData[i];
                         }
+
                         return deflateArray(out, canvasWidth, canvasHeight);
                     }
 
-                    function setArray(imageData) {
-                        var count = imageData.length << 2;
-                        var input = new Array(count);
+                    function scaleTo(array, width, height) {
+                        var originalX = array.length;
+                        var originalY = array[0].length;
 
-                        lodash.fill(input, 0);
+                        var scaleX = width / originalX;
+                        var scaleY = height / originalY;
+
+                        var out = new Array(width);
+                        for (var i = 0; i < height; i++) {
+                            out[i] = new Array(height);
+                            for (var j = 0; j < height; j++) {
+                                out[i][j] = 0;
+                            }
+                        }
+
+                        for (var x = 0; x < array.length; x++) {
+                            for (var y = 0; y < array[x].length; y++) {
+                                var newX = parseInt(x * scaleX);
+                                var newY = parseInt(y * scaleY);
+
+                                if (out[newX][newY] == 0) {
+                                    out[newX][newY] = array[x][y];
+                                }
+                            }
+                        }
+
+                        return out;
+                    }
+
+                    function setArray(imageData) {
+                        imageData = JSON.parse(imageData);
+                        imageData = scaleTo(imageData, canvasWidth, canvasHeight);
+                        imageData = flattenArray(imageData);
+                        var count = canvasWidth * canvasHeight;
+                        count <<= 2;
+                        var input = ctx.createImageData(canvasWidth, canvasHeight);
+
+                        for (var i = 0; i < count; i++) {
+                            input.data[i] = 0;
+                        }
+
                         var idx = 0;
                         for (var i = 3; i < count; i += 4) {
-                            input[i] = imageData[idx++];
+                            input.data[i] = imageData[idx++];
                         }
                         ctx.putImageData(input, 0, 0);
                     }
@@ -124,6 +174,15 @@
                         scope.$on("clearCanvas", function (event, msg) {
                             if (!lodash.isUndefined(msg) && !lodash.isUndefined(msg.id) && msg.id == id) {
                                 ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+                            }
+                        });
+
+                        scope.$on("getCanvasData", function (event, msg) {
+                            if (!lodash.isUndefined(msg) && !lodash.isUndefined(msg.id) && msg.id == id) {
+                                scope.$broadcast("canvasData", {
+                                    id: id,
+                                    matrix: getArray()
+                                });
                             }
                         });
                     }
