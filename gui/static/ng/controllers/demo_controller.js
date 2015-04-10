@@ -5,11 +5,15 @@
 
             $scope.current = {};
             $scope.history = [];
+            $scope.details = {
+                processing: false
+            };
 
 
             $scope.getCanvasData = function (event, msg) {
-
+                $scope.details.processing = true;
                 NeuralService.$query(msg.matrix, function (data) {
+                    $scope.details.processing = false;
                     console.log(data);
                     $scope.history.push({
                         id: msg.id,
