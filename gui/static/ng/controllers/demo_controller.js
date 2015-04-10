@@ -1,6 +1,6 @@
 (function () {
     angular.module("neuralGuiApp.controllers")
-        .controller("DemoCtrl", function ($scope, $timeout) {
+        .controller("DemoCtrl", function ($scope, $timeout, NeuralService) {
 
 
             $scope.current = {};
@@ -9,7 +9,9 @@
 
 
             $scope.getCanvasData = function(event, msg) {
-                $scope.history.push({
+
+                NeuralService.$query(msg.matrix, function(data) {
+                    $scope.history.push({
                     id: msg.id,
                     matrix: msg.matrix,
                     recognized: "A"
@@ -20,6 +22,7 @@
                 }
 
                 $scope.onClearCanvas();
+                });
             };
 
             $scope.$on("canvasData", $scope.getCanvasData);
