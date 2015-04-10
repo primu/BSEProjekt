@@ -11,6 +11,7 @@
             $scope.getCanvasData = function(event, msg) {
 
                 NeuralService.$query(msg.matrix, function(data) {
+                    console.log(data);
                     $scope.history.push({
                     id: msg.id,
                     matrix: msg.matrix,
