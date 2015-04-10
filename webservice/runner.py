@@ -9,26 +9,48 @@ recognition = MPIDigitRecognition(full_path_for("conf.json"))
 recognition.run()
 
 if recognition.is_main_node():
-    app = Flask(__name__)
-    cors = CORS(app)
-    app.config["CORS_HEADERS"] = "Content-Type"
+	app = Flask(__name__)
+	cors = CORS(app)
+	app.config["CORS_HEADERS"] = "Content-Type"
 
-    @app.route("/train", methods=["POST"])
-    @cross_origin()
-    def train():
+	def scale_to(array, width, height):
+		width = float(width)
+		height = float(height)
+		originalX = float(len(array))
+		originalY = float(len(array[0]))
 
-        return jsonify({"result": True})
+		scaleX = width / originalX
+		scaleY = width / originalY
 
-    @app.route("/query", methods=["POST"])
-    @cross_origin()
-    def query():
-        data = request.json
-        if data:
-            return jsonify(recognition.query(data))
-        return jsonify({"result": False})
+		out = [[0.0 for _ in range(int(height))] for _ in range(int(width))]
 
-    if __name__ == "__main__":
-        try:
-            app.run(host="0.0.0.0", port=10240)
-        except KeyboardInterrupt:
-            recognition.stop()
+		for x, column in enumerate(array):
+			for y, cell in enumerate(column):
+				newX = int(x * scaleX)
+				newY = int(y * scaleY)
+				if out[newX][newY] == 0.0:
+					out[newX][newY] = 1.0 if cell > 0 else 0.0
+
+		return out
+
+
+	@app.route("/train", methods=["POST"])
+	@cross_origin()
+	def train():
+		return jsonify({"result": True})
+
+	@app.route("/query", methods=["POST"])
+	@cross_origin()
+	def query():
+		data = request.json
+		if data:
+			#todo(Pawel): jako parametr
+			data = scale_to(data, 28.0, 28.0)
+			return jsonify(recognition.query(data))
+		return jsonify({"result": False})
+
+	if __name__ == "__main__":
+		try:
+			app.run(host="0.0.0.0", port=10240)
+		except KeyboardInterrupt:
+			recognition.stop()

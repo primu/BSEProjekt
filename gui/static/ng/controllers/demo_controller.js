@@ -4,25 +4,24 @@
 
 
             $scope.current = {};
-            $scope.history = [
-            ];
+            $scope.history = [];
 
 
-            $scope.getCanvasData = function(event, msg) {
+            $scope.getCanvasData = function (event, msg) {
 
-                NeuralService.$query(msg.matrix, function(data) {
+                NeuralService.$query(msg.matrix, function (data) {
                     console.log(data);
                     $scope.history.push({
-                    id: msg.id,
-                    matrix: msg.matrix,
-                    recognized: "A"
-                });
+                        id: msg.id,
+                        matrix: msg.matrix,
+                        recognized: data.best_guess
+                    });
 
-                if ($scope.history.length > 3) {
-                    $scope.history = $scope.history.slice(1, $scope.history.length + 1);
-                }
+                    if ($scope.history.length > 3) {
+                        $scope.history = $scope.history.slice(1, $scope.history.length + 1);
+                    }
 
-                $scope.onClearCanvas();
+                    $scope.onClearCanvas();
                 });
             };
 
@@ -33,7 +32,7 @@
                 });
             };
 
-            $scope.onClearCanvas = function() {
+            $scope.onClearCanvas = function () {
                 $scope.$broadcast("clearCanvas", {
                     "id": "main"
                 });

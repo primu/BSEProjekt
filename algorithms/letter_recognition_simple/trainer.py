@@ -1,4 +1,6 @@
 import os
+import pickle
+
 from digit_neuron import DigitNeuron
 from helpers.mnist_reader import MNISTReader
 from helpers import image_reader
@@ -18,8 +20,8 @@ class DigitTrainer(object):
             self._neurons[digit].train(image)
 
     def end_training(self):
-        for neuron in self._neurons:
-            neuron.persist_knowledge()
+        for index, neuron in enumerate(self._neurons):
+            pickle.dump(neuron.get_memory(), open(os.path.join("knowledge", "{}.data".format(index)), mode="wb"))
 
     def test(self, label_file_path, images_file_path):
         reader = MNISTReader(label_file_path, images_file_path)
@@ -74,9 +76,9 @@ class DigitTrainer(object):
 
 if __name__ == "__main__":
     dt = DigitTrainer()
-    # dt.train("data/train/train-labels.idx1-ubyte", "data/train/train-images.idx3-ubyte")
-    # dt.end_training()
-    # dt.test("data/test/t10k-labels.idx1-ubyte", "data/test/t10k-images.idx3-ubyte")
-    print(dt.test_file("data/other/2.jpg", "5"))
+    dt.train("../datasets/train/train-labels.idx1-ubyte", "../datasets/train/train-images.idx3-ubyte")
+    dt.end_training()
+    dt.test("../datasets/test/t10k-labels.idx1-ubyte", "../datasets/test/t10k-images.idx3-ubyte")
+    # print(dt.test_file("data/other/2.jpg", "5"))
     # dt.dump_memory()
 

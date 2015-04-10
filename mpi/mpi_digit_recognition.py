@@ -1,15 +1,13 @@
-from Queue import Queue
 import json
-import os
 import random
 import string
 import threading
-from time import sleep, time
+from time import sleep
+
+from Queue import Queue
+
 # from uuid import uuid4 # jakims cudem to blokuje wykonanie w mpiexec.. dafuq
 import pickle
-from conf import PROJECT_ROOT
-from helpers import image_reader
-import helpers
 from helpers.path_for import full_path_for
 from mpi.mpi_wrapper import MPIWrapper
 from algorithms.letter_recognition_simple.digit_neuron import DigitNeuron
@@ -215,7 +213,7 @@ class MPIDigitRecognition(MPIWrapper):
         :return:
         """
         for node, number in zip(self._worker_nodes_ids, range(0, 10)):
-            self.debug("Starting node with id {}".format(node))
+            self.debug("Starting node with id {}, memory {}".format(node, self._get_memory_for_neuron(number)))
             self._comm.send({
                 "digit": number,
                 "config": self._config,
