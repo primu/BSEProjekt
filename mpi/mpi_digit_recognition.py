@@ -1,3 +1,4 @@
+import importlib
 import json
 import random
 import string
@@ -235,7 +236,14 @@ class MPIDigitRecognition(MPIWrapper):
         """
         message = self._comm.recv(source=self._main_node_id, tag=MPIDigitRecognition.SPAWN_TAG)
         self._config = message["config"]
-        self._neuron = DigitNeuron(message["digit"], (28, 28), message["memory"])
+
+        klass_object = self._config["neurons"]["class"]
+        module = importlib.import_module(klass_object["package"])
+
+        cls = getattr(module, klass_object["cls"])
+        input_image_size = tuple(klass_object["size"])
+
+        self._neuron = cls(message["digit"], input_image_size, message["memory"])
         self._worker_node_log("Started: {}".format(message["digit"]))
 
         training_thread = threading.Thread(target=self._worker_node_training_thread).start()

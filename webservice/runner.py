@@ -44,8 +44,9 @@ if recognition.is_main_node():
 	def query():
 		data = request.json
 		if data:
+			sizes = recognition._config["neurons"]["class"]["size"]
 			#todo(Pawel): jako parametr
-			data = scale_to(data, 28.0, 28.0)
+			data = scale_to(data, float(sizes[0]), float(sizes[1]))
 			return jsonify(recognition.query(data))
 		return jsonify({"result": False})
 
