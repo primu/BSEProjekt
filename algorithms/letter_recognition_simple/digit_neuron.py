@@ -37,9 +37,10 @@ class DigitNeuron(object):
         image_array = np.array(data)
         matrix, mean = self._memory["matrix"], self._memory["mean"]
 
-        # matrix = np.add(matrix, mean)
+        matrix = np.add(matrix, mean)
         matrix = np.add(matrix, image_array)
-        # mean = np.mean(matrix)
+        mean = np.mean(matrix)
+        matrix -= mean
 
         self._memory["matrix"] = matrix
         self._memory["mean"] = mean

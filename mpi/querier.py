@@ -9,5 +9,8 @@ from mpi.mpi_digit_recognition import MPIDigitRecognition
 rec = MPIDigitRecognition(full_path_for("conf.json"))
 rec.run()
 if rec.is_main_node():
-    print(rec.query(image_reader.ImageConverter.get_matrix(sys.argv[1], grayscale=True)[0]))
+    for filename in sys.argv[1:]:
+        array, size = image_reader.ImageConverter.get_matrix(filename)
+        print("Result for {}".format(filename))
+        print(rec.query(array))
     rec.stop()
