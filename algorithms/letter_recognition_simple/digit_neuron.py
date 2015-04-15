@@ -53,7 +53,8 @@ class DigitNeuron(object):
         width, height = self._dimensions
         for w in range(width):
             for h in range(height):
-                similar += self._memory["matrix"][w][h] * image_array[w][h]
+                similiar_subresult = self._memory["matrix"][w][h] * image_array[w][h]
+                similar += similiar_subresult if similiar_subresult > 0 else (similiar_subresult / 4)
 
         return similar
 
