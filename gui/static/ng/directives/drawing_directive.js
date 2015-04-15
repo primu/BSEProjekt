@@ -115,6 +115,12 @@
                         ctx.putImageData(input, 0, 0);
                     }
 
+                    function draw(lX, lY, cX, cY) {
+                        ctx.moveTo(lX, lY);
+                        ctx.lineTo(cX, cY);
+                        ctx.stroke();
+                    }
+
                     if (!lodash.isUndefined(attrs.drawingMatrix)) {
                         setArray(attrs.drawingMatrix);
                     }
@@ -164,12 +170,6 @@
                             // attrs.$set("matrix", getArray());
                             // scope.$apply();
                         });
-
-                        function draw(lX, lY, cX, cY) {
-                            ctx.moveTo(lX, lY);
-                            ctx.lineTo(cX, cY);
-                            ctx.stroke();
-                        }
 
                         scope.$on("clearCanvas", function (event, msg) {
                             if (!lodash.isUndefined(msg) && !lodash.isUndefined(msg.id) && msg.id == id) {
