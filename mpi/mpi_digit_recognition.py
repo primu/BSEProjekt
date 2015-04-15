@@ -32,7 +32,7 @@ class MPIDigitRecognition(MPIWrapper):
     LOG_TAG = 40
     PERSISTING_TAG = 50
 
-    _QuitThread = object()
+    _QuitThread = "quit"
 
     def __init__(self, config_path):
         super(MPIDigitRecognition, self).__init__()
@@ -82,10 +82,11 @@ class MPIDigitRecognition(MPIWrapper):
         """
         if self.is_main_node():
             self._query_queue.put({"data": self._QuitThread, "id": "QUIT"})
-            self._training_queue.put({"data": self._QuitThread, "id": "QUIT"})
             # todo: beautify
             for node in self._worker_nodes_ids:
-                self.train(node, self._QuitThread)
+                self.train(node - 1, self._QuitThread)
+
+            self.train(self._QuitThread, self._QuitThread)
 
     def _node_for_digit(self, digit):
         """
@@ -121,12 +122,12 @@ class MPIDigitRecognition(MPIWrapper):
         """
         while True:
             data = self._training_queue.get(block=True)
-            self._comm.send(data["data"],
-                            dest=self._node_for_digit(data["digit"]),
-                            tag=MPIDigitRecognition.TRAINING_TAG)
-            if data["data"] is MPIDigitRecognition._QuitThread:
+            if data["digit"] == data["data"] == self._QuitThread:
                 self.debug("Got kill signal, quitting..")
                 break
+            self._comm.send(data["data"],
+                        dest=self._node_for_digit(data["digit"]),
+                        tag=MPIDigitRecognition.TRAINING_TAG)
 
     def _main_node_querying_thread(self):
         """
@@ -145,7 +146,7 @@ class MPIDigitRecognition(MPIWrapper):
                                 dest=node,
                                 tag=MPIDigitRecognition.QUERYING_TAG)
 
-            if digit_matrix["data"] is MPIDigitRecognition._QuitThread:
+            if digit_matrix["data"] == MPIDigitRecognition._QuitThread:
                 break
 
             subresults = []
@@ -181,7 +182,7 @@ class MPIDigitRecognition(MPIWrapper):
         """
         while True:
             digit_matrix = self._comm.recv(source=self._main_node_id, tag=MPIDigitRecognition.TRAINING_TAG)
-            if digit_matrix is self._QuitThread:
+            if digit_matrix == self._QuitThread:
                 break
             self._neuron.train(digit_matrix)
 
@@ -192,7 +193,7 @@ class MPIDigitRecognition(MPIWrapper):
         """
         while True:
             digit_matrix = self._comm.recv(source=self._main_node_id, tag=MPIDigitRecognition.QUERYING_TAG)
-            if digit_matrix is self._QuitThread:
+            if digit_matrix == self._QuitThread:
                 break
             result = self._neuron.test(digit_matrix)
             self._comm.send({
@@ -203,7 +204,7 @@ class MPIDigitRecognition(MPIWrapper):
     def _worker_node_persisting_thread(self):
         while True:
             request = self._comm.recv(source=self._main_node_id, tag=MPIDigitRecognition.PERSISTING_TAG)
-            if request is self._QuitThread:
+            if request == self._QuitThread:
                 break
             self._comm.send(self._neuron.get_memory(), dest=self._main_node_id, tag=MPIDigitRecognition.PERSISTING_TAG)
 
@@ -213,8 +214,10 @@ class MPIDigitRecognition(MPIWrapper):
         set in config file to do so.
         :return:
         """
+        if self._config["worker_debug"]:
+            logging_thread = threading.Thread(target=self._main_node_logging_thread).start()
         for node, number in zip(self._worker_nodes_ids, range(0, 10)):
-            self.debug("Starting node with id {}, memory {}".format(node, self._get_memory_for_neuron(number)))
+            self.debug("Starting node with id {}, memory".format(node))
             self._comm.send({
                 "digit": number,
                 "config": self._config,
@@ -223,8 +226,6 @@ class MPIDigitRecognition(MPIWrapper):
 
         training_thread = threading.Thread(target=self._main_node_training_thread).start()
         querying_thread = threading.Thread(target=self._main_node_querying_thread).start()
-        if self._config["worker_debug"]:
-            logging_thread = threading.Thread(target=self._main_node_logging_thread).start()
 
         self.debug("Main node: threads ran")
 
@@ -241,10 +242,10 @@ class MPIDigitRecognition(MPIWrapper):
         module = importlib.import_module(klass_object["package"])
 
         cls = getattr(module, klass_object["cls"])
-        input_image_size = tuple(klass_object["size"])
+        input_image_size = (klass_object["size"][0], klass_object["size"][1])
 
         self._neuron = cls(message["digit"], input_image_size, message["memory"])
-        self._worker_node_log("Started: {}".format(message["digit"]))
+        self._worker_node_log("Started: {}, size: {}".format(message["digit"], input_image_size))
 
         training_thread = threading.Thread(target=self._worker_node_training_thread).start()
         querying_thread = threading.Thread(target=self._worker_node_querying_thread).start()

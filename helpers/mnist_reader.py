@@ -24,7 +24,8 @@ class MNISTReader(object):
 
             while True:
                 current_image_number += 1
-                print("Current image number: {}/{}".format(current_image_number, number_of_images))
+                if current_image_number % 1000 == 0:
+                    print("{}/{}".format(current_image_number, number_of_images))
                 label_bytes = labels.read(1)
                 if label_bytes == b'':
                     break
