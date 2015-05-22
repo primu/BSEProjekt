@@ -1,5 +1,6 @@
 import os
 import pickle
+import sys
 
 from digit_neuron import DigitNeuron
 from helpers.mnist_reader import MNISTReader
@@ -14,7 +15,7 @@ class DigitTrainer(object):
         for x in range(10):
             # do listy neuronow dodajemy kolejne, wyspecjalizowane w rozpoznawaniu
             # liczb 0-9
-            self._neurons.append(DigitNeuron(x, (28, 28)))
+            self._neurons.append(DigitNeuron(x, (28, 28), pickle.load(open("knowledge/{}.data".format(x)))))
 
     def train(self, label_file_path, images_file_path):
         # specjalny trainer ktory jest w stanie odczytywac z plikow MNIST
@@ -26,10 +27,17 @@ class DigitTrainer(object):
         for index, neuron in enumerate(self._neurons):
             pickle.dump(neuron.get_memory(), open(os.path.join("knowledge", "{}.data".format(index)), mode="wb"))
 
-    def test(self, label_file_path, images_file_path):
+    def test(self, label_file_path, images_file_path, how_many):
         reader = MNISTReader(label_file_path, images_file_path)
         test_results = []
+
+        processed = 0
+
         for digit, image in reader.get_next():
+            if processed == how_many:
+                break
+            processed += 1
+
             subresults = {"expected": str(digit),
                           "best_guess": {
                               "value": -999,
@@ -79,16 +87,22 @@ class DigitTrainer(object):
 
 if __name__ == "__main__":
     dt = DigitTrainer()
+
+    params = sys.argv[1:]
+
     # tu jest trenowanie ze specjalnego formatu dostarczonego przez MNIST - mozna nadpisac
-    print("Train")
-    #dt.train("../datasets/train/train-labels.idx1-ubyte", "../datasets/train/train-images.idx3-ubyte")
+    if "train" in params:
+        print("Train")
+        dt.train("../datasets/train/train-labels.idx1-ubyte", "../datasets/train/train-images.idx3-ubyte")
 
-    # zapisanie wiedzy do pliku - wazne!!
-    #dt.end_training()
+        # zapisanie wiedzy do pliku - wazne!!
+        dt.end_training()
 
-    # testowanie przy uzyciu formatu MNIST - mozna nadpisac
-    print("Test")
-    dt.test("../datasets/test/t10k-labels.idx1-ubyte", "../datasets/test/t10k-images.idx3-ubyte")
+    if "test" in params:
+        how_many = int(params[-1]) or 999999
+        # testowanie przy uzyciu formatu MNIST - mozna nadpisac
+        print("Test")
+        dt.test("../datasets/test/t10k-labels.idx1-ubyte", "../datasets/test/t10k-images.idx3-ubyte", how_many)
     # print(dt.test_file("data/other/2.jpg", "5"))
     # dt.dump_memory()
 

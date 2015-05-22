@@ -9,6 +9,7 @@ class DigitNeuron(object):
     _digit = None
     _dimensions = None
     _memory = None
+    _temp = {}
 
     _numbers_incorporated = None
 
@@ -28,8 +29,16 @@ class DigitNeuron(object):
             self._memory = memory
         else:
             self._memory = {
-                "matrix": np.zeros(input_dimensions)
+                "matrix": np.zeros(input_dimensions),
+                "mean": np.zeros(input_dimensions)
             }
+
+    def svd_cut(self, data, how_many_stays):
+        u, s, v = np.linalg.svd(data)
+        new_s = [val if i < how_many_stays else 0.0 for i, val in enumerate(s)]
+        S = np.diag(new_s)
+
+        return np.dot(u, np.dot(S, v))
 
     def train(self, data):
         """
@@ -40,13 +49,19 @@ class DigitNeuron(object):
         :return: None
         """
         image_array = np.array(data)
-        matrix = self._memory["matrix"]
-        for position in np.ndenumerate(image_array):
-            h = position[0][0]
-            w = position[0][1]
-            matrix[h][w] = (float(matrix[h][w]) + float(image_array[h][w])) / 2.0
+        matrix, mean = self._memory["matrix"], self._memory["mean"]
+
+        matrix = np.add(matrix, mean)
+        matrix = np.add(matrix, image_array)
+
+        mean = np.mean(matrix)
+        matrix = matrix - mean
+
+        if self._numbers_incorporated % 1000 == 0:
+            print(matrix)
 
         self._memory["matrix"] = matrix
+        self._memory["mean"] = mean
 
         self._numbers_incorporated += 1
 
@@ -58,12 +73,15 @@ class DigitNeuron(object):
         :return: skala podobienstwa
         """
         image_array = np.array(data)
+        if "query_matrix" not in self._temp.keys():
+            self._temp["query_matrix"] = self.svd_cut(self._memory["matrix"], 2)
+
         similar = 0
         width, height = self._dimensions
         for w in range(width):
             for h in range(height):
-                similiar_subresult = self._memory["matrix"][h][w] * image_array[h][w]
-                similar += similiar_subresult if similiar_subresult > 0 else (similiar_subresult / 4)
+                similiar_subresult = self._temp["query_matrix"][h][w] * image_array[h][w]
+                similar += similiar_subresult # similiar_subresult if similiar_subresult > 0 else (similiar_subresult / 4)
 
         return similar
 
