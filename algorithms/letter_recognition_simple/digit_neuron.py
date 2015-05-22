@@ -16,7 +16,6 @@ class DigitNeuron(object):
 
     def __init__(self, digit, input_dimensions, memory=None):
         """
-
         :param digit: Letter that this neuron will represent
         :return:
         """
@@ -34,6 +33,13 @@ class DigitNeuron(object):
             }
 
     def train(self, data):
+        """
+        Metoda trenowania neuronu, powinna aktualizowac pole _memory w obiekcie
+        Wartosc pola jest zapisywana miedzy wywolaniami programu
+
+        :param data: macierz z obrazkiem (o rozmiarach takich jak self._dimensions)
+        :return: None
+        """
         image_array = np.array(data)
         matrix, mean = self._memory["matrix"], self._memory["mean"]
 
@@ -48,6 +54,12 @@ class DigitNeuron(object):
         self._numbers_incorporated += 1
 
     def test(self, data=None):
+        """
+        Nalezy uzywa pamieci neuronu (zapisanej w self._memory)
+
+        :param data: macierz z obrazkiem (o rozmiarach takich jak self._dimensions)
+        :return: skala podobienstwa
+        """
         image_array = np.array(data)
         similar = 0
         width, height = self._dimensions

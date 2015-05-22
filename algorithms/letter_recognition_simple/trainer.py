@@ -12,9 +12,12 @@ class DigitTrainer(object):
     def __init__(self):
         self._neurons = []
         for x in range(10):
+            # do listy neuronow dodajemy kolejne, wyspecjalizowane w rozpoznawaniu
+            # liczb 0-9
             self._neurons.append(DigitNeuron(x, (28, 28)))
 
     def train(self, label_file_path, images_file_path):
+        # specjalny trainer ktory jest w stanie odczytywac z plikow MNIST
         reader = MNISTReader(label_file_path, images_file_path)
         for digit, image in reader.get_next():
             self._neurons[digit].train(image)

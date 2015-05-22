@@ -6,6 +6,7 @@ from mpi.mpi_digit_recognition import MPIDigitRecognition
 
 
 recognition = MPIDigitRecognition(full_path_for("conf.json"))
+print(recognition._rank)
 recognition.run()
 
 if recognition.is_main_node():
