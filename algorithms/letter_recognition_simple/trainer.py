@@ -79,8 +79,15 @@ class DigitTrainer(object):
 
 if __name__ == "__main__":
     dt = DigitTrainer()
-    dt.train("../datasets/train/train-labels.idx1-ubyte", "../datasets/train/train-images.idx3-ubyte")
-    dt.end_training()
+    # tu jest trenowanie ze specjalnego formatu dostarczonego przez MNIST - mozna nadpisac
+    print("Train")
+    #dt.train("../datasets/train/train-labels.idx1-ubyte", "../datasets/train/train-images.idx3-ubyte")
+
+    # zapisanie wiedzy do pliku - wazne!!
+    #dt.end_training()
+
+    # testowanie przy uzyciu formatu MNIST - mozna nadpisac
+    print("Test")
     dt.test("../datasets/test/t10k-labels.idx1-ubyte", "../datasets/test/t10k-images.idx3-ubyte")
     # print(dt.test_file("data/other/2.jpg", "5"))
     # dt.dump_memory()

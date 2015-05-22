@@ -28,8 +28,7 @@ class DigitNeuron(object):
             self._memory = memory
         else:
             self._memory = {
-                "matrix": np.zeros(input_dimensions),
-                "mean": np.zeros(input_dimensions)
+                "matrix": np.zeros(input_dimensions)
             }
 
     def train(self, data):
@@ -41,15 +40,13 @@ class DigitNeuron(object):
         :return: None
         """
         image_array = np.array(data)
-        matrix, mean = self._memory["matrix"], self._memory["mean"]
-
-        matrix = np.add(matrix, mean)
-        matrix = np.add(matrix, image_array)
-        mean = np.mean(matrix)
-        matrix -= mean
+        matrix = self._memory["matrix"]
+        for position in np.ndenumerate(image_array):
+            h = position[0][0]
+            w = position[0][1]
+            matrix[h][w] = (float(matrix[h][w]) + float(image_array[h][w])) / 2.0
 
         self._memory["matrix"] = matrix
-        self._memory["mean"] = mean
 
         self._numbers_incorporated += 1
 
@@ -65,7 +62,7 @@ class DigitNeuron(object):
         width, height = self._dimensions
         for w in range(width):
             for h in range(height):
-                similiar_subresult = self._memory["matrix"][w][h] * image_array[w][h]
+                similiar_subresult = self._memory["matrix"][h][w] * image_array[h][w]
                 similar += similiar_subresult if similiar_subresult > 0 else (similiar_subresult / 4)
 
         return similar
