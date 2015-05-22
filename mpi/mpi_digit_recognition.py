@@ -7,11 +7,12 @@ from time import sleep
 
 from Queue import Queue
 
+
 # from uuid import uuid4 # jakims cudem to blokuje wykonanie w mpiexec.. dafuq
 import pickle
 from helpers.path_for import full_path_for
 from mpi.mpi_wrapper import MPIWrapper
-from algorithms.letter_recognition_simple.digit_neuron import DigitNeuron
+
 
 class MPIDigitRecognition(MPIWrapper):
 
@@ -154,12 +155,13 @@ class MPIDigitRecognition(MPIWrapper):
             for node in self._worker_nodes_ids:
                 data = self._comm.recv(source=node,
                                        tag=MPIDigitRecognition.QUERYING_TAG)
+                data["certainty"] += 1000000000.0
                 self.debug("Got results from worker node: {}".format(json.dumps(data)))
                 subresults.append(data)
 
             results = {"best_guess": "", "certainty": -1, "data": []}
-            max_certainty = max([x["certainty"] for x in subresults if subresults]) if subresults else 0
-            max_certainty = 1 if max_certainty == 0 else max_certainty
+            max_certainty = max([x["certainty"] for x in subresults])
+
             for result in subresults:
                 certainty, neuron = (result["certainty"] / max_certainty) * 100.0, \
                                     result["neuron"]
@@ -173,6 +175,7 @@ class MPIDigitRecognition(MPIWrapper):
                     "certainty": certainty,
                 })
             self._results[digit_matrix["id"]] = results
+            self.debug(self._results)
         self._results[current_id] = None
 
     def _worker_node_training_thread(self):

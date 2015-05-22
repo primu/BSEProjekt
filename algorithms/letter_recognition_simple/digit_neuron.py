@@ -73,15 +73,13 @@ class DigitNeuron(object):
         :return: skala podobienstwa
         """
         image_array = np.array(data)
-        if "query_matrix" not in self._temp.keys():
-            self._temp["query_matrix"] = self.svd_cut(self._memory["matrix"], 2)
 
         similar = 0
         width, height = self._dimensions
         for w in range(width):
             for h in range(height):
-                similiar_subresult = self._temp["query_matrix"][h][w] * image_array[h][w]
-                similar += similiar_subresult # similiar_subresult if similiar_subresult > 0 else (similiar_subresult / 4)
+                similiar_subresult = self._memory["matrix"][h][w] * image_array[h][w]
+                similar += (similiar_subresult if similiar_subresult > 0 else (similiar_subresult * 40))
 
         return similar
 

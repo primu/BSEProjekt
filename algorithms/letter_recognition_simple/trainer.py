@@ -99,7 +99,10 @@ if __name__ == "__main__":
         dt.end_training()
 
     if "test" in params:
-        how_many = int(params[-1]) or 999999
+        try:
+            how_many = int(params[-1])
+        except ValueError:
+            how_many = 999999
         # testowanie przy uzyciu formatu MNIST - mozna nadpisac
         print("Test")
         dt.test("../datasets/test/t10k-labels.idx1-ubyte", "../datasets/test/t10k-images.idx3-ubyte", how_many)
