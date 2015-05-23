@@ -8,6 +8,7 @@ from time import sleep
 from Queue import Queue
 
 
+
 # from uuid import uuid4 # jakims cudem to blokuje wykonanie w mpiexec.. dafuq
 import pickle
 from helpers.path_for import full_path_for
@@ -95,7 +96,7 @@ class MPIDigitRecognition(MPIWrapper):
         :param digit: digit to be mapped on node
         :return:
         """
-        return digit + 1
+        return int(digit) + 1
 
     def _main_node_logging_thread(self):
         """
@@ -141,7 +142,7 @@ class MPIDigitRecognition(MPIWrapper):
         while True:
             digit_matrix = self._query_queue.get(block=True)
             current_id = digit_matrix["id"]
-            self.debug("Got digit matrix, task id: {}".format(digit_matrix["id"]))
+            self.debug("Got digit matrix, task id: {}, data: {}".format(digit_matrix["id"], digit_matrix["data"]))
             for node in self._worker_nodes_ids:
                 self._comm.send(digit_matrix["data"],
                                 dest=node,
@@ -152,18 +153,19 @@ class MPIDigitRecognition(MPIWrapper):
 
             subresults = []
 
+            results = {"best_guess": "", "certainty": -999999999999, "data": []}
+
             for node in self._worker_nodes_ids:
                 data = self._comm.recv(source=node,
                                        tag=MPIDigitRecognition.QUERYING_TAG)
-                data["certainty"] += 1000000000.0
                 self.debug("Got results from worker node: {}".format(json.dumps(data)))
                 subresults.append(data)
 
-            results = {"best_guess": "", "certainty": -1, "data": []}
-            max_certainty = max([x["certainty"] for x in subresults])
+            sub = [x["certainty"] for x in subresults]
+            max_certainty = max(sub)
 
             for result in subresults:
-                certainty, neuron = (result["certainty"] / max_certainty) * 100.0, \
+                certainty, neuron = result["certainty"], \
                                     result["neuron"]
 
                 if certainty > results["certainty"]:

@@ -21,7 +21,7 @@
 
                     ctx.strokeStyle = "#000";
                     ctx.lineJoin = "round";
-                    ctx.lineWidth = 4;
+                    ctx.lineWidth = 5;
 
                     function deflateArray(array, width, height) {
                         // convert vector to width x height matrix
@@ -178,6 +178,7 @@
                         });
 
                         scope.$on("getCanvasData", function (event, msg) {
+                            console.log(JSON.stringify(getArray()));
                             if (!lodash.isUndefined(msg) && !lodash.isUndefined(msg.id) && msg.id == id) {
                                 scope.$broadcast("canvasData", {
                                     id: id,

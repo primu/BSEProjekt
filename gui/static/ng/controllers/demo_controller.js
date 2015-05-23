@@ -1,6 +1,24 @@
 (function () {
+
+    function LeanDialogController($scope, $mdDialog, item, NeuralService) {
+        $scope.item = item;
+        $scope.data = {
+            expected: "",
+            hard: true
+        };
+
+        $scope.learn = function () {
+            NeuralService.train.go({
+                data: item.matrix,
+                character: $scope.data.expected
+            }, function (data) {
+
+            });
+        };
+    }
+
     angular.module("neuralGuiApp.controllers")
-        .controller("DemoCtrl", function ($scope, $timeout, NeuralService) {
+        .controller("DemoCtrl", function ($scope, $timeout, NeuralService, $mdDialog) {
 
 
             $scope.current = {};
@@ -9,10 +27,31 @@
                 processing: false
             };
 
+            $scope.learn = function (item) {
+                $mdDialog.show({
+                    controller: LeanDialogController,
+                    templateUrl: "static/ng/views/LearnDialog.html",
+                    locals: {
+                        item: item
+                    }
+
+                }).then(function () {
+
+                }, function () {
+
+                });
+            };
+
+            $scope.redo = function (item) {
+                $scope.getCanvasData(null, {
+                    id: "",
+                    matrix: item.matrix
+                })
+            };
 
             $scope.getCanvasData = function (event, msg) {
                 $scope.details.processing = true;
-                NeuralService.$query(msg.matrix, function (data) {
+                NeuralService.query.go(msg.matrix, function (data) {
                     $scope.details.processing = false;
                     console.log(data);
                     $scope.history.push({

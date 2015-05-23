@@ -79,7 +79,7 @@ class DigitNeuron(object):
         for w in range(width):
             for h in range(height):
                 similiar_subresult = self._memory["matrix"][h][w] * image_array[h][w]
-                similar += (similiar_subresult if similiar_subresult > 0 else (similiar_subresult * 40))
+                similar += int((similiar_subresult if similiar_subresult > 0 else (similiar_subresult * 50)) / 1000000)
 
         return similar
 

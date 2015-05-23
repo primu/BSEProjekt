@@ -4,7 +4,11 @@
       "class": {
         "package": "algorithms.letter_recognition_simple.digit_neuron",
         "cls": "DigitNeuron",
-        "size": [28, 28]
+        "size": [28, 28],
+        "settings": {
+          "crop_pad": 50,
+          "train_factor": 50000
+        }
       }
   },
   "debug": true,

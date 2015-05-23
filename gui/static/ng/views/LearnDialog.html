@@ -1,0 +1,28 @@
+<md-dialog aria-label="Learn Dialog">
+    <form>
+        <md-dialog-content class="sticky-container">
+            <md-subheader class="md-sticky-no-effect">Re-learn</md-subheader>
+            <div>
+                <md-input-container  style="padding: 15px;">
+                    <label>Oczekiwana wartość</label>
+                    <input ng-model="data.expected">
+                </md-input-container>
+                <md-checkbox ng-model="data.hard" aria-label="Hard learn">
+                    Hard learn
+                </md-checkbox>
+            </div>
+        </md-dialog-content>
+        <div class="md-actions" layout="row">
+            <md-button href="http://en.wikipedia.org/wiki/Mango" target="_blank" hide show-md>
+                More on Wikipedia
+            </md-button>
+            <span flex></span>
+            <md-button ng-click="close()" class="md-primary">
+                Anuluj
+            </md-button>
+            <md-button ng-click="learn()" class="md-primary">
+                Naucz
+            </md-button>
+        </div>
+    </form>
+</md-dialog>
