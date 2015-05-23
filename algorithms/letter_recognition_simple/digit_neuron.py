@@ -49,6 +49,9 @@ class DigitNeuron(object):
         :return: None
         """
         image_array = np.array(data)
+
+
+
         matrix, mean = self._memory["matrix"], self._memory["mean"]
 
         matrix = np.add(matrix, mean)
