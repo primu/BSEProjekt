@@ -3,10 +3,12 @@ import numpy as np
 def feature(memory, how_many_stays):
     u, s, v = np.linalg.svd(memory)
     S = np.diag([val if i < how_many_stays else 0 for i, val in enumerate(s)])
-    # S = np.diag(s[:how_many_stays])
     feature = np.dot(S, v)
 
-    return u, np.delete(feature, len(feature) - 1, 0)
+    for x in range(len(s) - how_many_stays):
+        feature = np.delete(feature, -1, 0)
+
+    return u, feature
 
 def transpose(array):
     return [list(i) for i in zip(*array)]
@@ -37,8 +39,8 @@ compare2 = np.delete(compare2, -1, 1)
 
 # compare2 = np.dot(compare2.T, compare)
 
-norm1 = np.linalg.norm(compare1.T - feature1)
-norm2 = np.linalg.norm(compare2.T - feature2)
+norm1 = np.linalg.norm(feature1.T - compare1)
+norm2 = np.linalg.norm(feature2.T - compare2)
 
 print(norm1)
 print(norm2)

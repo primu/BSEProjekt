@@ -2,8 +2,8 @@
   "neurons": {
       "knowledge_path": "algorithms/letter_recognition_simple/knowledge/{}.data",
       "class": {
-        "package": "algorithms.letter_recognition_simple.digit_neuron",
-        "cls": "DigitNeuron",
+        "package": "algorithms.letter_recognition_simple.digit_neuron_svd",
+        "cls": "DigitNeuronSVD",
         "size": [28, 28],
         "settings": {
           "crop_pad": 50,
