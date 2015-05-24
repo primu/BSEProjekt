@@ -57,14 +57,17 @@ class DigitTrainer(object):
                               "value": -999,
                               "neuron": ""
                           }}
+            print("Expected: " + str(digit))
             for i, neuron in enumerate(self._neurons):
                 neuron_result = neuron.test(image)
+                print("Neuron: " + str(i) + ", result: " + str(neuron_result))
                 print(neuron_result)
                 subresults[str(i)] = neuron_result
                 if subresults["best_guess"]["value"] < neuron_result:
                     subresults["best_guess"]["value"] = neuron_result
                     subresults["best_guess"]["neuron"] = i
             test_results.append(subresults)
+            print("Guess: " + str(subresults["best_guess"]["neuron"]))
 
         correct_values = 0
         incorrect_values = 0

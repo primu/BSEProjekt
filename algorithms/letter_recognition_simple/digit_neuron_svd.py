@@ -7,7 +7,7 @@ class SVD(object):
     def get_feature(memory, how_many_stays):
         u, s, v = np.linalg.svd(memory)
         S = np.diag([val if i <= how_many_stays else 0 for i, val in enumerate(s)][:how_many_stays])
-        print(u.shape, s.shape, v.shape)
+        # print(u.shape, s.shape, v.shape)
         for x in range(v.shape[0] - how_many_stays):
             v = np.delete(v, -1, 0)
 
@@ -98,16 +98,26 @@ class DigitNeuronSVD(object):
         vector_length = len(data)
         data_length = self._memory["svd_first_of_s"]# len(self._memory["data"])
 
-        print(vector_length)
-        print(data_length)
+        # print(vector_length)
+        # print(data_length)
 
+        u = self._memory["svd_params"]["u"].copy()
+        to_delete = u.shape[0] - self._memory["svd_first_of_s"]
+        print("Del " + str(to_delete))
+        for x in range(to_delete):
+            u = np.delete(u, -1, 1)
 
-        compare = np.dot(data, self._memory["svd_params"]["u"])
+        print("Data: " + str(np.array(data).shape))
+        print("U: " + str(u.shape))
+        compare = np.dot(data, u)
+        print("Compare 1: " + str(compare.shape))
         compare = np.repeat(compare, data_length, axis=0)
-        compare = compare.reshape((vector_length, data_length))
+        print("Compare: " + str(compare.shape))
+        print("Feature: " + str(feature.shape))
+        compare = compare.reshape((data_length, data_length))
 
-        print(compare.shape)
-        print(self._memory["svd_params"]["feature"].shape)
+        # print(compare.shape)
+        # print(self._memory["svd_params"]["feature"].shape)
         distance = np.linalg.norm(compare[0] - self._memory["svd_params"]["feature"].T)
         # min_value = distance
         #
@@ -116,7 +126,7 @@ class DigitNeuronSVD(object):
         #     if min_value > distance:
         #         min_value = distance
 
-        return abs(distance)
+        return 1000 - abs(distance)
 
     def get_memory(self):
         return self._memory
