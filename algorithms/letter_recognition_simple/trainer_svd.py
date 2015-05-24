@@ -1,3 +1,4 @@
+from multiprocessing.pool import ThreadPool
 import os
 import pickle
 import sys
@@ -10,22 +11,31 @@ from helpers import image_reader
 class DigitTrainer(object):
     _neurons = None
 
+    def start_thread(self, number):
+        print("Starting " + str(number))
+        try:
+            memory = pickle.load(open("knowledge/{}.data".format(number)))
+        except Exception:
+            print("Warning, no knowledge for " + str(number))
+            memory = None
+
+        return DigitNeuronSVD(number, (28, 28), memory)
+
     def __init__(self):
-        self._neurons = []
-        for x in range(10):
-            # do listy neuronow dodajemy kolejne, wyspecjalizowane w rozpoznawaniu
-            # liczb 0-9
+        p = ThreadPool(5)
+        self._neurons = p.map(self.start_thread, list(range(10)))
 
-            #
-            self._neurons.append(None)
-            print("Starting " + str(x))
-            self._neurons.append(DigitNeuronSVD(x, (28, 28), pickle.load(open("knowledge/{}.data".format(x)))))
 
-    def train(self, label_file_path, images_file_path):
+    def train(self, label_file_path, images_file_path, how_manu):
         # specjalny trainer ktory jest w stanie odczytywac z plikow MNIST
         reader = MNISTReader(label_file_path, images_file_path)
+        processed = 0
         for digit, image in reader.get_next():
             self._neurons[digit].train(image)
+            if processed == how_many:
+                break
+            processed += 1
+
 
     def end_training(self):
         for index, neuron in enumerate(self._neurons):
@@ -49,6 +59,7 @@ class DigitTrainer(object):
                           }}
             for i, neuron in enumerate(self._neurons):
                 neuron_result = neuron.test(image)
+                print(neuron_result)
                 subresults[str(i)] = neuron_result
                 if subresults["best_guess"]["value"] < neuron_result:
                     subresults["best_guess"]["value"] = neuron_result
@@ -96,8 +107,12 @@ if __name__ == "__main__":
 
     # tu jest trenowanie ze specjalnego formatu dostarczonego przez MNIST - mozna nadpisac
     if "train" in params:
+        try:
+            how_many = int(params[-1])
+        except ValueError:
+            how_many = 9999999
         print("Train")
-        dt.train("../datasets/train/train-labels.idx1-ubyte", "../datasets/train/train-images.idx3-ubyte")
+        dt.train("../datasets/train/train-labels.idx1-ubyte", "../datasets/train/train-images.idx3-ubyte", how_many)
 
         # zapisanie wiedzy do pliku - wazne!!
         dt.end_training()
