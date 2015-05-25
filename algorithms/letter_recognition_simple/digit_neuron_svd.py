@@ -47,8 +47,8 @@ class SVD(object):
         for x in range(v.shape[0] - how_many_stays):
             v = np.delete(v, -1, 0)
 
-        for x in range(u.shape[0] - how_many_stays):
-            u = np.delete(u, -1, 1)
+        # for x in range(u.shape[0] - how_many_stays):
+        #     u = np.delete(u, -1, 1)
 
         feature = np.dot(S, v)
         print("Post-process shapes", u.shape, S.shape, v.shape)
@@ -87,8 +87,8 @@ class DigitNeuronSVD(object):
         self._dimensions = input_dimensions
         self._numbers_incorporated = 0
 
-        self._in_each_bucket = 20
-        self._svd_first_of_s = 10
+        self._in_each_bucket = 10
+        self._svd_first_of_s = 20
 
         if memory:
             self._memory = memory
@@ -153,25 +153,25 @@ class DigitNeuronSVD(object):
 
         compare = np.dot(data, self._memory["svd_params"]["u"])
 
-        #print("Compare post-dot", compare.shape)
-        #compare = np.tile(compare, samples_length)
-        #print("Compare pre-reshape", compare.shape)
-        #compare = compare.reshape((data_length, samples_length))
+        print("Compare post-dot", compare.shape)
+        compare = np.repeat(compare, data_length, axis=0)
+        print("Compare pre-reshape", compare.shape)
+        compare = compare.reshape((vector_length, data_length))
 
         print(compare.shape)
         print(self._memory["svd_params"]["feature"].shape)
 
         log("compare", compare.tolist())
         log("feature", self._memory["svd_params"]["feature"].tolist())
-        distance = np.linalg.norm(compare - self._memory["svd_params"]["feature"][:,0])
+        distance = np.linalg.norm(compare[0] - self._memory["svd_params"]["feature"].T)
         min_value = distance
 
         for i in range(1, data_length):
-            distance = np.linalg.norm(compare - self._memory["svd_params"]["feature"][:,i])
-            if min_value > distance:
+            distance = np.linalg.norm(compare[i] - self._memory["svd_params"]["feature"].T)
+            if min_value < distance:
                 min_value = distance
 
-        return 100.0 - abs(min_value)
+        return abs(min_value)
 
     def get_memory(self):
         return self._memory
