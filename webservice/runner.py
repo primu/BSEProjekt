@@ -1,8 +1,7 @@
-import json
-
-from flask import Flask, jsonify, request
-
 import numpy as np
+
+import json
+from flask import Flask, jsonify, request
 from flask.ext.cors import CORS, cross_origin
 from helpers.path_for import full_path_for
 from mpi.mpi_digit_recognition import MPIDigitRecognition
@@ -155,12 +154,12 @@ if recognition.is_main_node():
                 data = process_input_matrix(data)
                 data = power_up_train_array(data, settings["train_factor"])
                 if True: #request.json["hard"]:
-                    i = 5
-                    while i > 0:
-                        recognition.train(character, data)
-                        i -= 1
+                    while str(recognition.query(data)["best_guess"]) != character:
+                        i = 5
+                        while i > 0:
+                            recognition.train(character, data)
+                            i -= 1
 
-                recognition.train(character, data)
                 return jsonify({"result": True})
             return jsonify({"result": False})
         except Exception as e:

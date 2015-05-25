@@ -87,8 +87,8 @@ class DigitNeuronSVD(object):
         self._dimensions = input_dimensions
         self._numbers_incorporated = 0
 
-        self._in_each_bucket = 10
-        self._svd_first_of_s = 20
+        self._in_each_bucket = 20
+        self._svd_first_of_s = 30
 
         if memory:
             self._memory = memory

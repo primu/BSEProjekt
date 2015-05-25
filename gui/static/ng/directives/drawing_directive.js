@@ -21,7 +21,7 @@
 
                     ctx.strokeStyle = "#000";
                     ctx.lineJoin = "round";
-                    ctx.lineWidth = 1;
+                    ctx.lineWidth = 6;
 
                     function deflateArray(array, width, height) {
                         // convert vector to width x height matrix
