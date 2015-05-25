@@ -1,5 +1,8 @@
 import numpy as np
 
+from algorithms.letter_recognition_simple.digit_neuron_svd import SVD
+
+
 def get_feature(memory, how_many_stays):
     u, s, v = np.linalg.svd(memory)
     S = np.diag([val if i <= how_many_stays else 0 for i, val in enumerate(s)][:how_many_stays])
@@ -16,6 +19,8 @@ def transpose(array):
 
 def flatten(data):
     return [item for sublist in data for item in sublist]
+
+c = SVD.average_bucketize([[1, 0, 1, 0, 0], [1, 1, 1, 0, 0], [1, 0, 1, 0, 0], [1, 1, 1, 0, 0]], 2)
 
 stays = 3
 
