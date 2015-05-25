@@ -9,10 +9,10 @@ class SVD(object):
         S = np.diag([val if i <= how_many_stays else 0 for i, val in enumerate(s)][:how_many_stays])
         print("Pre-process shapes", u.shape, s.shape, v.shape)
         for x in range(v.shape[0] - how_many_stays):
-            v = np.delete(v, -1, 1)
+            v = np.delete(v, -1, 0)
 
         for x in range(u.shape[0] - how_many_stays):
-            u = np.delete(u, -1, 0)
+            u = np.delete(u, -1, 1)
 
         feature = np.dot(S, v)
         print("Post-process shapes", u.shape, S.shape, v.shape)
