@@ -10,7 +10,8 @@
         $scope.learn = function () {
             NeuralService.train.go({
                 data: item.matrix,
-                character: $scope.data.expected
+                character: $scope.data.expected,
+                hard: $scope.hard
             }, function (data) {
 
             });

@@ -146,18 +146,26 @@ if recognition.is_main_node():
     @app.route("/train", methods=["POST"])
     @cross_origin()
     def train():
-        data = request.json
-        character = request.json["character"]
-        data = request.json["data"]
-        if data:
-            settings = recognition._config["neurons"]["class"]["settings"]
+        try:
+            character = request.json["character"]
+            data = request.json["data"]
+            if data:
+                settings = recognition._config["neurons"]["class"]["settings"]
 
-            data = process_input_matrix(data)
-            data = power_up_train_array(data, settings["train_factor"])
+                data = process_input_matrix(data)
+                data = power_up_train_array(data, settings["train_factor"])
+                if True: #request.json["hard"]:
+                    i = 5
+                    while i > 0:
+                        recognition.train(character, data)
+                        i -= 1
 
-            recognition.train(character, data)
-            return jsonify({"result": True})
-        return jsonify({"result": False})
+                recognition.train(character, data)
+                return jsonify({"result": True})
+            return jsonify({"result": False})
+        except Exception as e:
+            log("train", json.dumps(str(e)))
+            return jsonify({"result": False})
 
     @app.route("/query", methods=["POST"])
     @cross_origin()

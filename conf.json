@@ -6,7 +6,7 @@
         "cls": "DigitNeuronSVD",
         "size": [28, 28],
         "settings": {
-          "crop_pad": 50,
+          "crop_pad": 20,
           "train_factor": 50000
         }
       }
