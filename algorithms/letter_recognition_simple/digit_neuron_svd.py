@@ -125,7 +125,7 @@ class DigitNeuronSVD(object):
             if min_value > distance:
                 min_value = distance
 
-        return 100 - abs(distance)
+        return 100 - abs(min_value)
 
     def get_memory(self):
         return self._memory
