@@ -1,5 +1,3 @@
-from PIL import Image
-
 import numpy as np
 
 import json
@@ -13,7 +11,7 @@ def log(filename, data):
 class SVD(object):
 
     @staticmethod
-    def average_bucketize(memory, in_each_bucket=50):
+    def average_bucketize(memory, in_each_bucket=50, min_number_of_results=20):
         memory = np.array(memory, dtype=np.float)
 
         def avg_vector(single_vector, nums_of_concat):
@@ -22,25 +20,23 @@ class SVD(object):
             single_vector /= float(max_value)
             # single_vector[single_vector < 0.0] = 0.0
 
-            return single_vector
+            return single_vector # np.array([1.0 if x > 0.0 else 0.0 for x in single_vector])
 
         result = []
         in_current_bucket = 0
         temp = None
-        for vector in memory:
-            if temp is None:
-                temp = vector
-            else:
-                temp = np.add(temp, vector)
-            in_current_bucket += 1
-            if in_current_bucket == in_each_bucket:
-                result.append(avg_vector(temp, in_each_bucket))
-                im = Image.fromarray(np.uint8(result[-1].reshape(28, 28)))
-                im.save("vector.bmp")
-                temp = None
-                in_current_bucket = 0
-        if temp is not None:
-            result.append(avg_vector(temp, in_current_bucket))
+        while len(result) < min_number_of_results:
+            for vector in memory:
+                if temp is None:
+                    temp = vector
+                else:
+                    temp = np.add(temp, vector)
+                in_current_bucket += 1
+                if in_current_bucket == in_each_bucket:
+                    result.append(avg_vector(temp, in_each_bucket))
+                    temp = None
+                    in_current_bucket = 0
+
         return result
 
     @staticmethod
@@ -91,8 +87,8 @@ class DigitNeuronSVD(object):
         self._dimensions = input_dimensions
         self._numbers_incorporated = 0
 
-        self._in_each_bucket = 50
-        self._svd_first_of_s = 30
+        self._in_each_bucket = 20
+        self._svd_first_of_s = 10
 
         if memory:
             self._memory = memory
@@ -131,7 +127,7 @@ class DigitNeuronSVD(object):
 
         if self._memory["dirty"]:
             print("Bucketize enter")
-            memory = SVD.average_bucketize(self._memory["data"], self._in_each_bucket)
+            memory = SVD.average_bucketize(self._memory["data"], self._in_each_bucket, self._svd_first_of_s)
             print("Bucketize end")
             memory = SVD.transpose(memory)
             print("Transpose end")
