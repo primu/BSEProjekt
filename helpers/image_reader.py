@@ -1,4 +1,5 @@
 from PIL import Image
+
 import numpy as np
 
 
@@ -21,7 +22,7 @@ class ImageConverter(object):
         return new_pixels, size
 
     @staticmethod
-    def to_image(matrix, path):
+    def to_image(matrix, path=None):
         height = len(matrix)
         width = len(matrix[0])
         matrix_rgb = np.zeros((width, height, 3), dtype=np.uint8)
@@ -30,4 +31,6 @@ class ImageConverter(object):
                 matrix_rgb[x, y] = (matrix[x][y], 0, 0)
 
         image = Image.fromarray(matrix_rgb, mode="L")
-        image.save(path)
+        if path:
+            return image.save(path)
+        return image

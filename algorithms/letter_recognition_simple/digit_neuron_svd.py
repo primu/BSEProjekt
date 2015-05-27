@@ -1,6 +1,6 @@
-import numpy as np
-
 import json
+
+import numpy as np
 
 
 def log(filename, data):
@@ -11,7 +11,10 @@ def log(filename, data):
 class SVD(object):
 
     @staticmethod
-    def average_bucketize(memory, in_each_bucket=50, min_number_of_results=20):
+    def average_bucketize(memory, in_each_bucket=50, min_number_of_results=20, vector_length=784):
+        if memory is None or len(memory) == 0:
+            memory = [[1.0] * vector_length]
+
         memory = np.array(memory, dtype=np.float)
 
         def avg_vector(single_vector, nums_of_concat):
@@ -87,7 +90,7 @@ class DigitNeuronSVD(object):
         self._dimensions = input_dimensions
         self._numbers_incorporated = 0
 
-        self._in_each_bucket = 20
+        self._in_each_bucket = 5
         self._svd_first_of_s = 30
 
         if memory:

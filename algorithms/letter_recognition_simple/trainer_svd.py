@@ -1,48 +1,59 @@
+import json
 from multiprocessing.pool import ThreadPool
-import os
 import pickle
+import string
 import sys
 
 from digit_neuron_svd import DigitNeuronSVD
-from helpers.mnist_reader import MNISTReader
+from helpers.eng_reader import EnglishReader
 from helpers import image_reader
+from helpers.path_for import full_path_for
 
 
 class DigitTrainer(object):
     _neurons = None
+    _conf = None
+    _all = list(range(0, 10)) + list(string.ascii_uppercase)
 
     def start_thread(self, number):
         print("Starting " + str(number))
         try:
-            memory = pickle.load(open("knowledge/{}.data".format(number)))
+            memory = pickle.load(open(full_path_for(self._conf["neurons"]["knowledge_path"]).format(number)))
         except Exception:
             print("Warning, no knowledge for " + str(number))
             memory = None
 
-        return DigitNeuronSVD(number, (28, 28), memory)
+        return DigitNeuronSVD(number, tuple(self._conf["neurons"]["class"]["size"]), memory)
 
     def __init__(self):
+        with open(full_path_for("conf.json")) as f:
+            self._conf = json.load(f)
         p = ThreadPool(5)
-        self._neurons = p.map(self.start_thread, list(range(10)))
+        self._neurons = p.map(self.start_thread, self._all)
 
 
     def train(self, label_file_path, images_file_path, how_manu):
         # specjalny trainer ktory jest w stanie odczytywac z plikow MNIST
-        reader = MNISTReader(label_file_path, images_file_path)
+        reader = EnglishReader(label_file_path, images_file_path)
         processed = 0
-        for digit, image in reader.get_next():
-            self._neurons[digit].train(image)
+        last_processed_char = 0
+        for character, image in reader.get_next():
+            self._neurons[self._all.index(character)].train(image)
             if processed == how_many:
                 break
+            if last_processed_char != character:
+                last_processed_char = character
+                print("New char", character)
             processed += 1
 
 
     def end_training(self):
         for index, neuron in enumerate(self._neurons):
-            pickle.dump(neuron.get_memory(), open(os.path.join("knowledge", "{}.data".format(index)), mode="wb"))
+            print("Dumping {}..".format(index))
+            pickle.dump(neuron.get_memory(), open(full_path_for(self._conf["neurons"]["knowledge_path"].format(self._all[index])), mode="wb"))
 
     def test(self, label_file_path, images_file_path, how_many):
-        reader = MNISTReader(label_file_path, images_file_path)
+        reader = EnglishReader(label_file_path, images_file_path)
         test_results = []
 
         processed = 0
@@ -99,7 +110,8 @@ class DigitTrainer(object):
         return result
 
     def dump_memory(self):
-        for neuron in self._neurons:
+        for index, neuron in enumerate(self._neurons):
+            print("Dumping {}..".format(index))
             neuron.dump_memory()
 
 
@@ -115,7 +127,7 @@ if __name__ == "__main__":
         except ValueError:
             how_many = 9999999
         print("Train")
-        dt.train("../datasets/train/train-labels.idx1-ubyte", "../datasets/train/train-images.idx3-ubyte", how_many)
+        dt.train("../datasets/train/train-labels.idx1-ubyte", "../datasets/char_test", how_many)
 
         # zapisanie wiedzy do pliku - wazne!!
         dt.end_training()
@@ -127,7 +139,7 @@ if __name__ == "__main__":
             how_many = 999999
         # testowanie przy uzyciu formatu MNIST - mozna nadpisac
         print("Test")
-        dt.test("../datasets/test/t10k-labels.idx1-ubyte", "../datasets/test/t10k-images.idx3-ubyte", how_many)
+        dt.test("../datasets/test/t10k-labels.idx1-ubyte", "../datasets/char_test", how_many)
     # print(dt.test_file("data/other/2.jpg", "5"))
     # dt.dump_memory()
 

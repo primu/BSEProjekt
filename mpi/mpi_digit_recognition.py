@@ -36,6 +36,8 @@ class MPIDigitRecognition(MPIWrapper):
 
     _QuitThread = "quit"
 
+    _all = list(range(0, 10)) + list(string.ascii_uppercase)
+
     def __init__(self, config_path):
         super(MPIDigitRecognition, self).__init__()
         if self.is_main_node():
@@ -70,7 +72,7 @@ class MPIDigitRecognition(MPIWrapper):
             return pickle.load(open(file_path, "rb"))
         except IOError:
             print("File not found: {}".format(file_path))
-            return False
+            return None
 
     def _save_memory_for_neuron(self, neuron, memory):
         file_path = full_path_for(self._config["neurons"].get("knowledge_path").format(neuron))
@@ -96,7 +98,7 @@ class MPIDigitRecognition(MPIWrapper):
         :param digit: digit to be mapped on node
         :return:
         """
-        return int(digit) + 1
+        return self._all.index(digit) + 1
 
     def _main_node_logging_thread(self):
         """
@@ -161,9 +163,6 @@ class MPIDigitRecognition(MPIWrapper):
                 self.debug("Got results from worker node: {}".format(json.dumps(data)))
                 subresults.append(data)
 
-            sub = [x["certainty"] for x in subresults]
-            max_certainty = max(sub)
-
             for result in subresults:
                 certainty, neuron = result["certainty"], \
                                     result["neuron"]
@@ -221,7 +220,8 @@ class MPIDigitRecognition(MPIWrapper):
         """
         if self._config["worker_debug"]:
             logging_thread = threading.Thread(target=self._main_node_logging_thread).start()
-        for node, number in zip(self._worker_nodes_ids, range(0, 10)):
+
+        for node, number in zip(self._worker_nodes_ids, self._all):
             self.debug("Starting node with id {}, memory".format(node))
             self._comm.send({
                 "digit": number,
@@ -285,7 +285,7 @@ class MPIDigitRecognition(MPIWrapper):
         })
 
     def persist_neurons_knowledge(self):
-        for node, number in zip(self._worker_nodes_ids, range(0, 10)):
+        for node, number in zip(self._worker_nodes_ids, self._all):
             self._comm.send(True, dest=node, tag=MPIDigitRecognition.PERSISTING_TAG)
             memory = self._comm.recv(source=node, tag=MPIDigitRecognition.PERSISTING_TAG)
             self._save_memory_for_neuron(number, memory)
