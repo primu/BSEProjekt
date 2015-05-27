@@ -1,18 +1,17 @@
-import logging
-from logging.handlers import RotatingFileHandler
 import json
 from PIL import Image
+import sys
 
 import numpy as np
 from flask import Flask, jsonify, request
 from flask.ext.cors import CORS, cross_origin
 
 from helpers.image_processing import crop2, scale_to
-from helpers.path_for import full_path_for
+from helpers.utils import full_path_for
 from mpi.mpi_digit_recognition import MPIDigitRecognition
 
 
-recognition = MPIDigitRecognition(full_path_for("conf.json"))
+recognition = MPIDigitRecognition(full_path_for(sys.argv[1]))
 recognition.run()
 
 if recognition.is_main_node():
@@ -76,9 +75,6 @@ if recognition.is_main_node():
 
     if __name__ == "__main__":
         try:
-            handler = RotatingFileHandler('web.log', maxBytes=100000, backupCount=1)
-            handler.setLevel(logging.DEBUG)
-            app.logger.addHandler(handler)
-            app.run(host="0.0.0.0", port=10240)
+            app.run(host="0.0.0.0", port=int(sys.argv[2]))
         except KeyboardInterrupt:
             recognition.stop()

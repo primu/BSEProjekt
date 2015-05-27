@@ -1,0 +1,31 @@
+{
+  "neurons": {
+      "charset": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      "knowledge_path": "algorithms/letter_recognition_simple/knowledge/{}.data",
+      "class": {
+        "package": "algorithms.letter_recognition_simple.digit_neuron_svd",
+        "cls": "DigitNeuronSVD",
+        "size": [28, 28],
+        "settings": {
+          "crop_pad": 20,
+          "train_factor": 50000
+        }
+      }
+  },
+    "learn": {
+    "test": {
+      "labels_path": "../datasets/test/t10k-labels.idx1-ubyte",
+      "images_path": "../datasets/test/t10k-images.idx3-ubyte"
+    },
+    "train": {
+      "labels_path": "../datasets/train/train-labels.idx1-ubyte",
+      "images_path": "../datasets/train/train-images.idx3-ubyte"
+    },
+    "reader": {
+      "package": "helpers.mnist_reader",
+      "cls": "MNISTReader"
+    }
+  },
+  "debug": true,
+  "worker_debug": true
+}

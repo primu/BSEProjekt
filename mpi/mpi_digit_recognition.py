@@ -1,4 +1,3 @@
-import importlib
 import json
 import random
 import string
@@ -11,7 +10,7 @@ from Queue import Queue
 
 # from uuid import uuid4 # jakims cudem to blokuje wykonanie w mpiexec.. dafuq
 import pickle
-from helpers.path_for import full_path_for
+from helpers.utils import full_path_for, get_class
 from mpi.mpi_wrapper import MPIWrapper
 
 
@@ -36,12 +35,13 @@ class MPIDigitRecognition(MPIWrapper):
 
     _QuitThread = "quit"
 
-    _all = list(range(0, 10)) + list(string.ascii_uppercase)
+    _all = None
 
     def __init__(self, config_path):
         super(MPIDigitRecognition, self).__init__()
         if self.is_main_node():
             self._load_config(config_path)
+            self._all = self._config["neurons"]["charset"]
 
             self._training_queue = Queue()
             self._query_queue = Queue()
@@ -177,6 +177,7 @@ class MPIDigitRecognition(MPIWrapper):
                 })
             self._results[digit_matrix["id"]] = results
             self.debug(self._results)
+            sleep(1)
         self._results[current_id] = None
 
     def _worker_node_training_thread(self):
@@ -212,6 +213,14 @@ class MPIDigitRecognition(MPIWrapper):
                 break
             self._comm.send(self._neuron.get_memory(), dest=self._main_node_id, tag=MPIDigitRecognition.PERSISTING_TAG)
 
+    def initer(self, node, number):
+        self.debug("Starting node with id {}, memory".format(node))
+        self._comm.send({
+            "digit": number,
+            "config": self._config,
+            "memory": self._get_memory_for_neuron(number)
+        }, dest=node, tag=MPIDigitRecognition.SPAWN_TAG)
+
     def main_node_task(self):
         """
         Main node main task, spawns training, querying threads and the logging thread for workers if
@@ -221,13 +230,19 @@ class MPIDigitRecognition(MPIWrapper):
         if self._config["worker_debug"]:
             logging_thread = threading.Thread(target=self._main_node_logging_thread).start()
 
+        start_threads = []
         for node, number in zip(self._worker_nodes_ids, self._all):
-            self.debug("Starting node with id {}, memory".format(node))
-            self._comm.send({
-                "digit": number,
-                "config": self._config,
-                "memory": self._get_memory_for_neuron(number)
-            }, dest=node, tag=MPIDigitRecognition.SPAWN_TAG)
+            while len(start_threads) > 4:
+                sleep(1)
+                start_threads = [t for t in start_threads if t.isAlive()]
+            t = threading.Thread(target=self.initer, args=(node, number))
+            t.start()
+            start_threads.append(t)
+
+        while len(start_threads) != 0:
+            sleep(1)
+            start_threads = [t for t in start_threads if t.isAlive()]
+
 
         training_thread = threading.Thread(target=self._main_node_training_thread).start()
         querying_thread = threading.Thread(target=self._main_node_querying_thread).start()
@@ -244,9 +259,10 @@ class MPIDigitRecognition(MPIWrapper):
         self._config = message["config"]
 
         klass_object = self._config["neurons"]["class"]
-        module = importlib.import_module(klass_object["package"])
+        module_name = klass_object["package"]
+        klass_name = klass_object["cls"]
 
-        cls = getattr(module, klass_object["cls"])
+        cls = get_class(module_name, klass_name)
         input_image_size = (klass_object["size"][0], klass_object["size"][1])
 
         self._neuron = cls(message["digit"], input_image_size, message["memory"])

@@ -1,0 +1,31 @@
+{
+  "neurons": {
+      "charset": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"],
+      "knowledge_path": "algorithms/letter_recognition_simple/knowledge_chars/{}.data",
+      "class": {
+        "package": "algorithms.letter_recognition_simple.digit_neuron_svd",
+        "cls": "DigitNeuronSVD",
+        "size": [56, 56],
+        "settings": {
+          "crop_pad": 20,
+          "train_factor": 50000
+        }
+      }
+  },
+  "learn": {
+    "test": {
+      "labels_path": "",
+      "images_path": "../datasets/char_test"
+    },
+    "train": {
+      "labels_path": "",
+      "images_path": "../datasets/char_test"
+    },
+    "reader": {
+      "package": "helpers.eng_reader",
+      "cls": "EnglishReader"
+    }
+  },
+  "debug": true,
+  "worker_debug": true
+}

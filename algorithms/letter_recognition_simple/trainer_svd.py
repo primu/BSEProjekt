@@ -1,19 +1,19 @@
 import json
 from multiprocessing.pool import ThreadPool
 import pickle
-import string
 import sys
 
 from digit_neuron_svd import DigitNeuronSVD
-from helpers.eng_reader import EnglishReader
 from helpers import image_reader
-from helpers.path_for import full_path_for
+from helpers.utils import full_path_for, get_class
 
 
 class DigitTrainer(object):
     _neurons = None
     _conf = None
-    _all = list(range(0, 10)) + list(string.ascii_uppercase)
+    _all = None
+
+    _reader = None
 
     def start_thread(self, number):
         print("Starting " + str(number))
@@ -25,16 +25,18 @@ class DigitTrainer(object):
 
         return DigitNeuronSVD(number, tuple(self._conf["neurons"]["class"]["size"]), memory)
 
-    def __init__(self):
-        with open(full_path_for("conf.json")) as f:
+    def __init__(self, conf_file):
+        with open(full_path_for(conf_file)) as f:
             self._conf = json.load(f)
+        self._reader = get_class(self._conf["learn"]["reader"]["package"], self._conf["learn"]["reader"]["cls"])
+        self._all = self._conf["neurons"]["charset"]
         p = ThreadPool(5)
         self._neurons = p.map(self.start_thread, self._all)
 
 
     def train(self, label_file_path, images_file_path, how_manu):
         # specjalny trainer ktory jest w stanie odczytywac z plikow MNIST
-        reader = EnglishReader(label_file_path, images_file_path)
+        reader = self._reader(label_file_path, images_file_path)
         processed = 0
         last_processed_char = 0
         for character, image in reader.get_next():
@@ -53,7 +55,7 @@ class DigitTrainer(object):
             pickle.dump(neuron.get_memory(), open(full_path_for(self._conf["neurons"]["knowledge_path"].format(self._all[index])), mode="wb"))
 
     def test(self, label_file_path, images_file_path, how_many):
-        reader = EnglishReader(label_file_path, images_file_path)
+        reader = self._reader(label_file_path, images_file_path)
         test_results = []
 
         processed = 0
@@ -116,9 +118,9 @@ class DigitTrainer(object):
 
 
 if __name__ == "__main__":
-    dt = DigitTrainer()
+    dt = DigitTrainer(sys.argv[1])
 
-    params = sys.argv[1:]
+    params = sys.argv[2:]
 
     # tu jest trenowanie ze specjalnego formatu dostarczonego przez MNIST - mozna nadpisac
     if "train" in params:
@@ -127,7 +129,7 @@ if __name__ == "__main__":
         except ValueError:
             how_many = 9999999
         print("Train")
-        dt.train("../datasets/train/train-labels.idx1-ubyte", "../datasets/char_test", how_many)
+        dt.train(dt._conf["learn"]["train"]["labels_path"], dt._conf["learn"]["train"]["images_path"], how_many)
 
         # zapisanie wiedzy do pliku - wazne!!
         dt.end_training()
@@ -139,7 +141,7 @@ if __name__ == "__main__":
             how_many = 999999
         # testowanie przy uzyciu formatu MNIST - mozna nadpisac
         print("Test")
-        dt.test("../datasets/test/t10k-labels.idx1-ubyte", "../datasets/char_test", how_many)
+        dt.test(dt._conf["learn"]["test"]["labels_path"], dt._conf["learn"]["test"]["images_path"], how_many)
     # print(dt.test_file("data/other/2.jpg", "5"))
     # dt.dump_memory()
 
