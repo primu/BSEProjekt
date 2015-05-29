@@ -1,6 +1,6 @@
-import numpy as np
-
 import json
+
+import numpy as np
 
 
 def log(filename, data):
@@ -36,7 +36,7 @@ class SVD(object):
                     result.append(avg_vector(temp, in_each_bucket))
                     temp = None
                     in_current_bucket = 0
-
+        log("memory", json.dumps(result[0].tolist()))
         return result
 
     @staticmethod
@@ -124,54 +124,57 @@ class DigitNeuronSVD(object):
         :param data: macierz z obrazkiem (o rozmiarach takich jak self._dimensions)
         :return: skala podobienstwa
         """
+        try:
+            if self._memory["dirty"]:
+                print("Bucketize enter")
+                memory = SVD.average_bucketize(self._memory["data"], self._in_each_bucket, self._svd_first_of_s)
+                print("Bucketize end")
+                memory = SVD.transpose(memory)
+                print("Transpose end")
+                u, feature = SVD.get_feature(memory, self._svd_first_of_s)
+                print("Get feature end")
+                self._memory["svd_params"]["u"] = u
+                self._memory["svd_params"]["feature"] = feature
+                self._memory["dirty"] = False
+                print("Dirty end")
 
-        if self._memory["dirty"]:
-            print("Bucketize enter")
-            memory = SVD.average_bucketize(self._memory["data"], self._in_each_bucket, self._svd_first_of_s)
-            print("Bucketize end")
-            memory = SVD.transpose(memory)
-            print("Transpose end")
-            u, feature = SVD.get_feature(memory, self._svd_first_of_s)
-            print("Get feature end")
-            self._memory["svd_params"]["u"] = u
-            self._memory["svd_params"]["feature"] = feature
-            self._memory["dirty"] = False
-            print("Dirty end")
+            data = SVD.flatten(data)
+            max_value = max(data)
+            data = np.array(data, dtype=np.float)
+            data /= max_value
+            # data = SVD.transpose([data])
 
-        data = SVD.flatten(data)
-        max_value = max(data)
-        data = np.array(data, dtype=np.float)
-        data /= max_value
-        # data = SVD.transpose([data])
+            vector_length = len(data)
+            data_length = self._svd_first_of_s # len(self._memory["data"])
+            samples_length = self._memory["svd_params"]["feature"].shape[1]
 
-        vector_length = len(data)
-        data_length = self._svd_first_of_s # len(self._memory["data"])
-        samples_length = self._memory["svd_params"]["feature"].shape[1]
+            print("Vector length", vector_length)
+            print("Data length", data_length)
 
-        print("Vector length", vector_length)
-        print("Data length", data_length)
+            compare = np.dot(data, self._memory["svd_params"]["u"])
 
-        compare = np.dot(data, self._memory["svd_params"]["u"])
+            print("Compare post-dot", compare.shape)
+            compare = np.repeat(compare, data_length, axis=0)
+            print("Compare pre-reshape", compare.shape)
+            compare = compare.reshape((vector_length, data_length))
 
-        print("Compare post-dot", compare.shape)
-        compare = np.repeat(compare, data_length, axis=0)
-        print("Compare pre-reshape", compare.shape)
-        compare = compare.reshape((vector_length, data_length))
+            print(compare.shape)
+            print(self._memory["svd_params"]["feature"].shape)
 
-        print(compare.shape)
-        print(self._memory["svd_params"]["feature"].shape)
+            log("compare", compare.tolist())
+            log("feature", self._memory["svd_params"]["feature"].tolist())
+            distance = np.linalg.norm(compare[0] - self._memory["svd_params"]["feature"].T)
+            min_value = distance
 
-        log("compare", compare.tolist())
-        log("feature", self._memory["svd_params"]["feature"].tolist())
-        distance = np.linalg.norm(compare[0] - self._memory["svd_params"]["feature"].T)
-        min_value = distance
+            for i in range(1, data_length):
+                distance = np.linalg.norm(compare[i] - self._memory["svd_params"]["feature"].T)
+                if min_value < distance:
+                    min_value = distance
 
-        for i in range(1, data_length):
-            distance = np.linalg.norm(compare[i] - self._memory["svd_params"]["feature"].T)
-            if min_value < distance:
-                min_value = distance
-
-        return abs(min_value)
+            return abs(min_value)
+        except Exception as e:
+            print(str(e))
+            return -1.0
 
     def get_memory(self):
         return self._memory

@@ -55,14 +55,14 @@
                 NeuralService.query.go(msg.matrix, function (data) {
                     $scope.details.processing = false;
                     console.log(data);
-                    $scope.history.push({
+                    $scope.history.unshift({
                         id: msg.id,
                         matrix: msg.matrix,
                         recognized: data.best_guess
                     });
 
-                    if ($scope.history.length > 3) {
-                        $scope.history = $scope.history.slice(1, $scope.history.length + 1);
+                    if ($scope.history.length > 5) {
+                        $scope.history.splice(-1, 1);
                     }
 
                     $scope.onClearCanvas();
