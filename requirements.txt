@@ -1,0 +1,17 @@
+Flask==0.10.1
+Flask-Cors==2.0.0
+Jinja2==2.7.3
+MarkupSafe==0.23
+Pillow==2.7.0
+SOAPpy==0.12.0
+Werkzeug==0.10.4
+argparse==1.2.1
+fpconst==0.7.2
+itsdangerous==0.24
+mpi4py==1.3.1
+numpy==1.9.2
+python-debianbts==1.11
+redis==2.10.3
+six==1.9.0
+urllib3==1.10.2
+wsgiref==0.1.2
