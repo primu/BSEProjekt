@@ -8,7 +8,7 @@ Vagrant.configure(2) do |config|
   config.ssh.password = "vagrant"
   config.vm.provision "shell", path: "ansible/provision.sh"
   config.vm.network "forwarded_port", guest: 80, host: 8090
-
+  config.vm.network "forwarded_port", guest: 443, host: 443
   config.vm.synced_folder ".", "/vagrant"
   config.vm.synced_folder ".", "/vagrant_nox", :mount_options => ["fmode=666"]
 
@@ -16,5 +16,6 @@ Vagrant.configure(2) do |config|
     vb.memory = 3000
     vb.cpus = 2
   end
+  config.vm.provision "shell", path: "./ssl/setup.sh"
 end
 
