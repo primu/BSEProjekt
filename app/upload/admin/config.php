@@ -3,8 +3,8 @@
 define('HTTP_SERVER', 'http://localhost:8090/admin/');
 define('HTTP_CATALOG', 'http://localhost:8090/');
 // HTTPS
-define('HTTPS_SERVER', 'http://localhost:8090/admin/');
-define('HTTPS_CATALOG', 'http://localhost:8090/');
+define('HTTPS_SERVER', 'https://localhost/admin/');
+define('HTTPS_CATALOG', 'https://localhost/');
 // DIR
 define('DIR_APPLICATION', '/vagrant/app/upload/admin/');
 define('DIR_SYSTEM', '/vagrant/app/upload/system/');

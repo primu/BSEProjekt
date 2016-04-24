@@ -74,6 +74,7 @@ class ControllerAccountOrder extends Controller {
 				'products'   => ($product_total + $voucher_total),
 				'total'      => $this->currency->format($result['total'], $result['currency_code'], $result['currency_value']),
 				'view'       => $this->url->link('account/order/info', 'order_id=' . $result['order_id'], true),
+				'download' => ($result['status'] = 'Complete' ? $this->url->link('account/order/download', 'order_id=' . $result['order_id'], true) : ''),
 			);
 		}
 
@@ -478,5 +479,70 @@ class ControllerAccountOrder extends Controller {
 		}
 
 		$this->response->redirect($this->url->link('account/order/info', 'order_id=' . $order_id));
+	}
+	
+	public function download() {
+		$this->load->language('account/order');
+
+		if (isset($this->request->get['order_id'])) {
+			$order_id = $this->request->get['order_id'];
+		} else {
+			$order_id = 0;
+		}
+
+		if (!$this->customer->isLogged()) {
+			$this->session->data['redirect'] = $this->url->link('account/order/download', 'order_id=' . $order_id, true);
+
+			$this->response->redirect($this->url->link('account/login', '', true));
+		}
+
+		$this->load->model('account/order');
+
+		$order_info = $this->model_account_order->getOrder($order_id);
+
+		if ($order_info) {
+			die('Pobieram!');
+		} else {
+			$this->document->setTitle('Pobieranie biletu');
+
+			$data['heading_title'] = 'Pobieranie biletu';
+
+			$data['text_error'] = 'Nie znaleziono biletu do pobrania!';
+
+			$data['button_continue'] = 'Kontynuuj';
+
+			$data['breadcrumbs'] = array();
+
+			$data['breadcrumbs'][] = array(
+				'text' => $this->language->get('text_home'),
+				'href' => $this->url->link('common/home')
+			);
+
+			$data['breadcrumbs'][] = array(
+				'text' => $this->language->get('text_account'),
+				'href' => $this->url->link('account/account', '', true)
+			);
+
+			$data['breadcrumbs'][] = array(
+				'text' => $this->language->get('heading_title'),
+				'href' => $this->url->link('account/order', '', true)
+			);
+			
+			$data['breadcrumbs'][] = array(
+				'text' => 'Pobieranie biletu',
+				'href' => $this->url->link('account/order/download', 'order_id=' . $order_id, true)
+			);
+			
+			$data['continue'] = $this->url->link('account/order', '', true);
+
+			$data['column_left'] = $this->load->controller('common/column_left');
+			$data['column_right'] = $this->load->controller('common/column_right');
+			$data['content_top'] = $this->load->controller('common/content_top');
+			$data['content_bottom'] = $this->load->controller('common/content_bottom');
+			$data['footer'] = $this->load->controller('common/footer');
+			$data['header'] = $this->load->controller('common/header');
+
+			$this->response->setOutput($this->load->view('error/not_found', $data));
+		}
 	}
 }
