@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>SetDisplayMode</title>
+<link type="text/css" rel="stylesheet" href="fpdf.css">
+</head>
+<body>
+<h1>SetDisplayMode</h1>
+<code>SetDisplayMode(<b>mixed</b> zoom [, <b>string</b> layout])</code>
+<h2>Opis</h2>
+Definiuje sposób w jaki dokument będzie pokazany odbiorcy. Można ustawić poziom powiększenia: strony
+mogą być wyświetlane całe na ekranie, mogą zajmować całą szerokość okna, mogą być wyświetlone w rozmiarze
+rzeczywistym, skalowane lub wyświetlane wg domyślnych właściwości przeglądania w programie Adobe Reader.
+Można określić układ strony: pojedyncza strona, przeglądanie ciągłe, dwie strony na ekranie lub wg
+ustawień domyślnych przeglądającego.
+<h2>Parametry</h2>
+<dl class="param">
+<dt><code>zoom</code></dt>
+<dd>
+Zoom do użycia. Może przyjmować jedną z następujących wartości:
+<ul>
+<li><code>fullpage</code>: wyświetla całą stronę na ekranie</li>
+<li><code>fullwidth</code>: używa maksymalnej szerokości okna</li>
+<li><code>real</code>: używa rzeczywistego rozmiaru (równoznaczne z 100% powiększeniem)</li>
+<li><code>default</code>: wykorzystuje domyślne ustawienia przeglądającego</li>
+</ul>
+lub liczbę wskazującą na poziom powiększenia.
+</dd>
+<dt><code>layout</code></dt>
+<dd>
+Układ strony. Możliwe wartości to:
+<ul>
+<li><code>single</code>: wyświetla pojedynczą stronę w oknie</li>
+<li><code>continuous</code>: wyświetla strony ciągle</li>
+<li><code>two</code>: wyświetla dwie strony w dwóch kolumnach</li>
+<li><code>default</code>: używa domyślnych ustawień przeglądającego</li>
+</ul>
+Wartością domyślną jest <code>default</code>.
+</dd>
+</dl>
+<hr style="margin-top:1.5em">
+<div style="text-align:center"><a href="index.htm">Index</a></div>
+</body>
+</html>

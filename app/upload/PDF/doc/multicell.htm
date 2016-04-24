@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>MultiCell</title>
+<link type="text/css" rel="stylesheet" href="fpdf.css">
+</head>
+<body>
+<h1>MultiCell</h1>
+<code>MultiCell(<b>float</b> w, <b>float</b> h, <b>string</b> txt [, <b>mixed</b> border [, <b>string</b> align [, <b>boolean</b> fill]]])</code>
+<h2>Opis</h2>
+Metoda ta pozwala na drukowanie tekstu z przełamaniem linii. Mogą one być automatyczne (jak tylko tekst osiągnie prawą granicę komórki) lub wyraźne (przez znak \n). Tyle komórek ile jest konieczne do wydrukowania tekstu jest wstawianych, jedna pod drugą.
+<br>
+Tekst może być wyrównany, centrowany lub justowany. Komórka może mieć obramowanie i kolor tła.
+<h2>Parametry</h2>
+<dl class="param">
+<dt><code>w</code></dt>
+<dd>
+Szerokość komórki. Jeśli <code>0</code>, komórka może być rozszerzona aż do prawego marginesu strony.
+</dd>
+<dt><code>h</code></dt>
+<dd>
+Wysokość komórek.
+</dd>
+<dt><code>txt</code></dt>
+<dd>
+Łańcuch do wydrukowania.
+</dd>
+<dt><code>border</code></dt>
+<dd>
+Wskazuje czy ramka ma być rysowana dookoła komórki. Wartość ta może być jedną z liczb:
+<ul>
+<li><code>0</code>: brak obramowania</li>
+<li><code>1</code>: ramka</li>
+</ul>
+lub łańcuch zawierający kilka lub wszystkie następujące znaki (w dowolnym porządku):
+<ul>
+<li><code>L</code>: lewy</li>
+<li><code>T</code>: górny</li>
+<li><code>R</code>: prawy</li>
+<li><code>B</code>: dolny</li>
+</ul>
+Domyślna wartość: <code>0</code>.
+</dd>
+<dt><code>align</code></dt>
+<dd>
+Ustawia wyrównanie tekstu. Możliwe wartości to:
+<ul>
+<li><code>L</code>: wyrównanie do lewej</li>
+<li><code>C</code>: centralnie</li>
+<li><code>R</code>: wyrównanie do prawej</li>
+<li><code>J</code>: justowanie (wartość domyślna)</li>
+</ul>
+</dd>
+<dt><code>fill</code></dt>
+<dd>
+Wskazuje, że tło komórki musi być wypełnione (<code>true</code>) lub przeźroczyste (<code>false</code>).
+Domyślna wartość: <code>false</code>.
+</dd>
+</dl>
+<h2>Zobacz także</h2>
+<a href="setfont.htm">SetFont</a>,
+<a href="setdrawcolor.htm">SetDrawColor</a>,
+<a href="setfillcolor.htm">SetFillColor</a>,
+<a href="settextcolor.htm">SetTextColor</a>,
+<a href="setlinewidth.htm">SetLineWidth</a>,
+<a href="cell.htm">Cell</a>,
+<a href="write.htm">Write</a>,
+<a href="setautopagebreak.htm">SetAutoPageBreak</a>
+<hr style="margin-top:1.5em">
+<div style="text-align:center"><a href="index.htm">Index</a></div>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Cell</title>
+<link type="text/css" rel="stylesheet" href="fpdf.css">
+</head>
+<body>
+<h1>Cell</h1>
+<code>Cell(<b>float</b> w [, <b>float</b> h [, <b>string</b> txt [, <b>mixed</b> border [, <b>int</b> ln [, <b>string</b> align [, <b>boolean</b> fill [, <b>mixed</b> link]]]]]]])</code>
+<h2>Opis</h2>
+Drukuje komórkę (prostokątny obszar) z opcjonalną obwódką, kolorem tła i ciągiem znaków.
+Lewy-górny róg komórki odpowiada aktualnej pozycji. Tekst powinien być wyrównany lub wycentrowany. Po wywołaniu, aktualna pozycja przesuwa się na prawo lub do następnej linii. Możliwe jest wstawienie linku do tekstu.
+<br>
+Jeśli automatyczny podział strony jest włączony i komórka wykracza poza limit, podział strony jest wykonywany przed wstawieniem komórki.
+<h2>Parametry</h2>
+<dl class="param">
+<dt><code>w</code></dt>
+<dd>
+Długość komórki. Jeżeli <code>0</code>, komórka rozszerza się do prawego marginesu.
+</dd>
+<dt><code>h</code></dt>
+<dd>
+Wysokość komórki.
+Domyślna wartość: <code>0</code>.
+</dd>
+<dt><code>txt</code></dt>
+<dd>
+Tekst który ma być wydrukowany.
+Domyślna wartość: pusty ciąg.
+</dd>
+<dt><code>border</code></dt>
+<dd>
+Wskazuje, jeśli obwódka ma być narysowana wokół komórki. Może przyjmować wartość jedną z następujących:
+<ul>
+<li><code>0</code>: brak obwódki</li>
+<li><code>1</code>: obwódka/li>
+</ul>
+lub ciąg znaków zawierający kilka lub wszystkie z następujących znaków (w dowolnym porządku):
+<ul>
+<li><code>L</code>: lewy</li>
+<li><code>T</code>: góra</li>
+<li><code>R</code>: prawy</li>
+<li><code>B</code>: dół</li>
+</ul>
+Domyślna wartość: <code>0</code>.
+</dd>
+<dt><code>ln</code></dt>
+<dd>
+Wskazuje gdzie powinna być aktualna pozycja po wywołaniu. Możliwe wartości to:
+<ul>
+<li><code>0</code>: do prawej</li>
+<li><code>1</code>: do początku następnej linii</li>
+<li><code>2</code>: poniżej</li>
+</ul>
+Wstawienie <code>1</code> jest równoznaczne z wstawieniem <code>0</code> i wywołaniem Ln() po tym.
+Domyślna wartość: <code>0</code>.
+</dd>
+<dt><code>align</code></dt>
+<dd>
+Pozwala centrować lub wyrównywać tekst. Możliwe wartości to:
+<ul>
+<li><code>L</code> lub pusty ciąg: wyrównanie do lewej (domyślna wartość)</li>
+<li><code>C</code>: centralnie</li>
+<li><code>R</code>: wyrównanie do prawej</li>
+</ul>
+</dd>
+<dt><code>fill</code></dt>
+<dd>
+Wskazuje czy komórka musi być wypełniona kolorem (<code>true</code>) czy przeźroczysta (<code>false</code>).
+Domyślna wartość: <code>false</code>.
+</dd>
+<dt><code>link</code></dt>
+<dd>
+Adres url lub identyfikator zwrócony przez AddLink().
+</dd>
+</dl>
+<h2>Przykład</h2>
+<div class="doc-source">
+<pre><code>// Ustawienie czcionki
+$pdf-&gt;SetFont('Arial','B',16);
+// Przesunięcie o 8 cm do prawej.
+$pdf-&gt;Cell(80);
+// wycentrowanie tekstu w ramce 20x10 mm i podział linii
+$pdf-&gt;Cell(20,10,'Title',1,1,'C');</code></pre>
+</div>
+<h2>Zobacz także</h2>
+<a href="setfont.htm">SetFont</a>,
+<a href="setdrawcolor.htm">SetDrawColor</a>,
+<a href="setfillcolor.htm">SetFillColor</a>,
+<a href="settextcolor.htm">SetTextColor</a>,
+<a href="setlinewidth.htm">SetLineWidth</a>,
+<a href="addlink.htm">AddLink</a>,
+<a href="ln.htm">Ln</a>,
+<a href="multicell.htm">MultiCell</a>,
+<a href="write.htm">Write</a>,
+<a href="setautopagebreak.htm">SetAutoPageBreak</a>
+<hr style="margin-top:1.5em">
+<div style="text-align:center"><a href="index.htm">Index</a></div>
+</body>
+</html>

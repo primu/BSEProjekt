@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>AddPage</title>
+<link type="text/css" rel="stylesheet" href="fpdf.css">
+</head>
+<body>
+<h1>AddPage</h1>
+<code>AddPage([<b>string</b> orientation [, <b>mixed</b> size [, <b>int</b> rotation]]])</code>
+<h2>Opis</h2>
+Dodaje nową stronę do dokumentu. Jeśli strona aktualnie istnieje, metoda Footer() jest wywoływana wpierw do stworzenia stopki. Następnie strona jest dodawana, aktualna pozycja jest ustawiona na lewy górny róg uwzględniając lewy i górny margines, a Header() jest wywoływany do ujawnienia nagłówka.
+<br>
+Czcionka która była ustawiona przed wywołaniem jest automatycznie przywracana. Nie ma potrzeby wywoływać
+SetFont() znowu jeśli chcesz kontynuować z tą samą czcionką. Tak samo odnosi się to do kolorów i długości linii.
+<br>
+Początek układu współrzędnych to lewy-górny rów a wartości rosną do dołu.
+<h2>Parametry</h2>
+<dl class="param">
+<dt><code>orientation</code></dt>
+<dd>
+Orientacja strony. Możliwe wartości to (rozróżnia małe i wielkie litery):
+<ul>
+<li><code>P</code> lub <code>Pionowa</code></li>
+<li><code>L</code> lub <code>Pozioma</code></li>
+</ul>
+Domyślną wartością jest jedna przekazywana do konstruktora.
+</dd>
+<dt><code>size</code></dt>
+<dd>
+Format strony. Może być to jedna z następujących wartości (rozróżnia małe i wielkie litery):
+<ul>
+<li><code>A3</code></li>
+<li><code>A4</code></li>
+<li><code>A5</code></li>
+<li><code>Letter</code></li>
+<li><code>Legal</code></li>
+</ul>
+lub tablica zawierająca długość i wysokość (wyrażona w jednostkach użytkownika).<br>
+<br>
+Domyślną wartością jest jedna przekazywana do konstruktora.
+</dd>
+<dt><code>rotation</code></dt>
+<dd>
+Kąt o który należy obrócić stronę. Musi to być wielokrotność 90 stopni.
+Wartości dodatnie oznaczają przesunięcie zgodnie z kierunkiem wskazówek zegara.
+Domyślną wartością jest <code>0</code>.
+</dd>
+</dl>
+<h2>Zobacz także</h2>
+<a href="__construct.htm">__construct</a>,
+<a href="header.htm">Header</a>,
+<a href="footer.htm">Footer</a>,
+<a href="setmargins.htm">SetMargins</a>
+<hr style="margin-top:1.5em">
+<div style="text-align:center"><a href="index.htm">Index</a></div>
+</body>
+</html>

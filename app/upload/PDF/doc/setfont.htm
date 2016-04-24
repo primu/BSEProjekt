@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>SetFont</title>
+<link type="text/css" rel="stylesheet" href="fpdf.css">
+</head>
+<body>
+<h1>SetFont</h1>
+<code>SetFont(<b>string</b> family [, <b>string</b> style [, <b>float</b> size]])</code>
+<h2>Opis</h2>
+Ustawie czcionkę używaną do drukowania łańcuchów znaków. Obowiązkowe jest wywołanie tej metody co najmniej raz przed drukowaniem tekstu.
+<br>
+Czcionka może być jedną ze standardowych lub czcionką dodaną przez metodę AddFont(). Standardowe czcionki używają kodowania Windows cp1252 (Western Europe).
+<br>
+Metoda ta może być wywołana przed stworzeniem pierwszej strony a czcionka jest przekazywana ze strony do strony.
+<br>
+Jeśli życzysz sobie zmienić aktualny rozmiar czcionki, łatwiej jest wywołać SetFontSize().
+<br>
+<br>
+<strong>Uwaga:</strong> Pliki metryczne czcionki muszą być dostępne. Są one wyszukiwane w kolejności w:
+<ul>
+<li>katalogu zdefiniowanym przez stałą <code>FPDF_FONTPATH</code> (jeżeli ta stała jest zdefiniowana)</li>
+<li>Katalogu <code>font</code> zlokalizowanym w katalogu zawierającym <code>fpdf.php</code> (jeśli istnieje)</li>
+<li>Te katalogi muszą być dostępne przez <code>include()</code></li>
+</ul>
+Przykład definiowania <code>FPDF_FONTPATH</code>:
+<div class="doc-source">
+<pre><code>define('FPDF_FONTPATH','/home/www/font');
+require('fpdf.php');</code></pre>
+</div>
+Jeśli nie znaleziono pliku odwołującego się do określonej czcionki, błąd "Could not include font
+definition file" jest wyświetlany.
+<h2>Parametry</h2>
+<dl class="param">
+<dt><code>family</code></dt>
+<dd>
+Rodzina czcionek. Może być to jedna z nazw definiowanych przez AddFont() lub jedna ze standardowych rodzin (z uwzględnieniem małych i wielkich liter):
+<ul>
+<li><code>Courier</code> (o stałej szerokości)</li>
+<li><code>Helvetica</code> lub <code>Arial</code> (równoznaczna; sans serif)</li>
+<li><code>Times</code> (serif)</li>
+<li><code>Symbol</code> (symbolic)</li>
+<li><code>ZapfDingbats</code> (symbolic)</li>
+</ul>
+Możliwe jest wstawienie pustego łańcucha znaków. W tym przypadku aktualna rodzina czcionej pozostaje aktualna.
+</dd>
+<dt><code>style</code></dt>
+<dd>
+Styl czcionki. Możliwe wartości to (z uwzględnieniem małych i wielkich liter):
+<ul>
+<li>pusty łańcuch: regularna</li>
+<li><code>B</code>: pogrubiona</li>
+<li><code>I</code>: pochylona</li>
+<li><code>U</code>: podkreślona</li>
+</ul>
+lub dowolna kombinacja. Domyślną wartością jest regularna. Pogrubienie i pochylenie nie mają zastosowania do <code>Symbol</code> i <code>ZapfDingbats</code>.
+</dd>
+<dt><code>size</code></dt>
+<dd>
+Rozmiar czcionki w punktach.
+<br>
+Domyślną wartością jest aktualny rozmiar. Jeśli nie ma wyspecyfikowanego rozmiaru od początku dokumentu, brana jest wartość 12.
+</dd>
+</dl>
+<h2>Przykład</h2>
+<div class="doc-source">
+<pre><code>// Times regularna 12
+$pdf-&gt;SetFont('Times');
+// Arial pogrubiona 14
+$pdf-&gt;SetFont('Arial','B',14);
+// Usuwa pogrubienie
+$pdf-&gt;SetFont('');
+// Times pogrubiona, pochylona i podkreślona 14
+$pdf-&gt;SetFont('Times','BIU');</code></pre>
+</div>
+<h2>Zobacz także</h2>
+<a href="addfont.htm">AddFont</a>,
+<a href="setfontsize.htm">SetFontSize</a>,
+<a href="cell.htm">Cell</a>,
+<a href="multicell.htm">MultiCell</a>,
+<a href="write.htm">Write</a>
+<hr style="margin-top:1.5em">
+<div style="text-align:center"><a href="index.htm">Index</a></div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>__construct</title>
+<link type="text/css" rel="stylesheet" href="fpdf.css">
+</head>
+<body>
+<h1>__construct</h1>
+<code>__construct([<b>string</b> orientation [, <b>string</b> unit [, <b>mixed</b> size]]])</code>
+<h2>Opis</h2>
+Klasa konstruktora. Pozwala ustawić format strony, orientację i jednostki używane we wszystkich metodach (z wyjątkiem rozmiaru czcionek).
+<h2>Parametry</h2>
+<dl class="param">
+<dt><code>orientation</code></dt>
+<dd>
+Domyślna orientacja strony. Możliwe wartości to (z uwzględnieniem wielkości liter):
+<ul>
+<li><code>P</code> lub <code>Portrait</code></li>
+<li><code>L</code> lub <code>Landscape</code></li>
+</ul>
+Domyślną wartością jest <code>P</code>.
+</dd>
+<dt><code>unit</code></dt>
+<dd>
+Jednostka użytkownika. Możliwe wartości to:
+<ul>
+<li><code>pt</code>: punkt</li>
+<li><code>mm</code>: milimetr</li>
+<li><code>cm</code>: centymetr</li>
+<li><code>in</code>: cal</li>
+</ul>
+Punkt równa się 1/72 cala, czyli około 0.35 mm (cal ma 2.54 cm). Ta jednostka jest bardzo powszechna w poligrafii; rozmiary czcionek są wyrażone w tych jednostkach.
+<br>
+<br>
+Domyślną wartością jest <code>mm</code>.
+</dd>
+<dt><code>size</code></dt>
+<dd>
+Format używanych stron. Może przyjmować jedną z następujących wartości (z uwzględnieniem wielkości liter):
+<ul>
+<li><code>A3</code></li>
+<li><code>A4</code></li>
+<li><code>A5</code></li>
+<li><code>Letter</code></li>
+<li><code>Legal</code></li>
+</ul>
+lub tablicę zawierającą szerokość i wysokość (wyrażone w jednostkach danych przez <code>unit</code>).<br>
+<br>
+Domyślną wartością jest <code>A4</code>.
+</dd>
+</dl>
+<h2>Przykład</h2>
+Przykład z wybranym formatem strony 100x150 mm:
+<div class="doc-source">
+<pre><code>$pdf = new FPDF('P','mm',array(100,150));</code></pre>
+</div>
+<hr style="margin-top:1.5em">
+<div style="text-align:center"><a href="index.htm">Index</a></div>
+</body>
+</html>

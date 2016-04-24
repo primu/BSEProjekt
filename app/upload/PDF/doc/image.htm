@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Image</title>
+<link type="text/css" rel="stylesheet" href="fpdf.css">
+</head>
+<body>
+<h1>Image</h1>
+<code>Image(<b>string</b> file [, <b>float</b> x [, <b>float</b> y [, <b>float</b> w [, <b>float</b> h [, <b>string</b> type [, <b>mixed</b> link]]]]]])</code>
+<h2>Opis</h2>
+Wstawia obrazek. Rozmiar obrazka który będzie na stronie może być wyspecyfikowany przez:
+<ul>
+<li>sprecyzowaną szerokość i wysokość (wyrażoną w jednostkach użytkownika lub DPI)</li>
+<li>jedną sprecyzowaną wartość. Pozostałe wartości będą obliczone automatycznie tak, by trzymać oryginalny współczynnik proporcji</li>
+<li>bez sprecyzowanego wymiaru, w tym przypadku obrazek jest wstawiany z rozdzielczością 96 dpi</li>
+</ul>
+Wspierane fotmaty to JPEG, PNG i GIF. Biblioteka GD jest wymagana dla GIF.
+<br>
+<br>
+Dla JPEGów, wszystkie skale są dozwolone:
+<ul>
+<li>skala szarości</li>
+<li>RGB (24 bits)</li>
+<li>CMYK (32 bits)</li>
+</ul>
+Dla obrazków PNG, dozwolone są:
+<ul>
+<li>skala szarości na co najwyżej 8 bitów (256 poziomów)</li>
+<li>kolory indeksowane</li>
+<li>RGB (24 bits)</li>
+</ul>
+Dla obrazków GIF: w przypadku animowanego GIFu, jedynie pierwsza ramka będzie wykorzystana.<br>
+<br>
+Wspierana jest przeźroczystość.<br>
+<br>
+Format może to specyfikować bezpośrednio lub może to wynikać z rozszerzenia pliku.<br>
+<br>
+Możliwe jest umieszczenie linku na obrazku.<br>
+<br>
+Uwaga: jeśli obrazek jest używany kilka razy, jedynie jedna kopia jest osadzona w pliku pdf.
+<h2>Parametry</h2>
+<dl class="param">
+<dt><code>file</code></dt>
+<dd>
+Ścieżka lub url do obrazka.
+</dd>
+<dt><code>x</code></dt>
+<dd>
+Odcięta lewego górnego-rogu. Jeśli nie jest określona lub równa <code>null</code>, aktualna odcięta jest używana.
+</dd>
+<dt><code>y</code></dt>
+<dd>
+Rzędna lewego-górnego rogu. Jeśli nie jest wyspecyfikowana lub równa <code>null</code>, aktualna rzędna jest używana;
+ponadto podział strony jest przeprowadzany wcześniej, jeśli to niezbędne (w przypadku gdy automatyczne łamanie strony
+jest włączone) i, po wywołaniu, aktualna rzędna jest przenoszona na spód obrazka.
+</dd>
+<dt><code>w</code></dt>
+<dd>
+Szerokość obrazka na stronie. Są trzy możliwe przypadki:
+<ul>
+<li>Jeśli ta wartość jest dodatnia, oznacza to że szerokość jest w jednostkach użytkownika</li>
+<li>Jeśli ta wartość jest ujemna, wartość bezwzględna reprezentuje  rozdzielczość poziomą w DPI</li>
+<li>Jeśli nie jest określona lub równa 0, jest automatycznie obliczana</li>
+</ul>
+</dd>
+<dt><code>h</code></dt>
+<dd>
+Wysokość obrazka na stronie. Są trzy możliwe przypadki:
+<ul>
+<li>Jeśli ta wartość jest dodatnia, reprezentuje ona wysokość w jednostkach użytkownika</li>
+<li>Jeśli ta wartość jest ujemna, wartość bezwzględna reprezentuje rozdzielczość pionową w DPI</li>
+<li>Jeśli nie jest określona lub równa 0, jest automatycznie obliczana</li>
+</ul>
+</dd>
+<dt><code>type</code></dt>
+<dd>
+Format obrazka. Możliwe wartości to (rozróżnia małe i wielkie litery): <code>JPG</code>, <code>JPEG</code>,
+<code>PNG</code> i <code>GIF</code>. Jeśli nie jest określony, typy obrazka jest określany na podstawie
+rozszerzenia pliku.
+</dd>
+<dt><code>link</code></dt>
+<dd>
+URL lub identyfikator zwracany przez AddLink().
+</dd>
+</dl>
+<h2>Przykład</h2>
+<div class="doc-source">
+<pre><code>// Umieść logo z pliku w lewym górnym rogu z rozdzielczością 300 DPI (oddalone 10 pikseli od lewej strony i 10 pikseli od góry strony)
+$pdf-&gt;Image('logo.png',10,10,-300);
+// Umieść obrazek bezpośrednio z linku www (dynamicznie)
+$pdf-&gt;Image('http://chart.googleapis.com/chart?cht=p3&amp;chd=t:60,40&amp;chs=250x100&amp;chl=Hello|World',60,30,90,0,'PNG');</code></pre>
+</div>
+<h2>Zobacz także</h2>
+<a href="addlink.htm">AddLink</a>
+<hr style="margin-top:1.5em">
+<div style="text-align:center"><a href="index.htm">Index</a></div>
+</body>
+</html>
