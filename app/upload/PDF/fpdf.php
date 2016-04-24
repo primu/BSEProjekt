@@ -1053,14 +1053,15 @@ protected function _checkoutput()
 	}
 	if(ob_get_length())
 	{
+		ob_clean();
 		// The output buffer is not empty
-		if(preg_match('/^(\xEF\xBB\xBF)?\s*$/',ob_get_contents()))
+	/*	if(preg_match('/^(\xEF\xBB\xBF)?\s*$/',ob_get_contents()))
 		{
 			// It contains only a UTF-8 BOM and/or whitespace, let's clean it
 			ob_clean();
 		}
 		else
-			$this->Error("Some data has already been output, can't send PDF file");
+			$this->Error("Some data has already been output, can't send PDF file");*/
 	}
 }
 

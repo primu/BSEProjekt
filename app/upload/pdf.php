@@ -1,7 +1,8 @@
 <?php
 $filename = "bilet_na_koncert.pdf";
-
-$tickets = array(
+if (!isset($tickets)) {
+global $tickets;
+ $tickets = array(
 	array(
 		'nr_rezerwacji' => "666_69",
 		'kod_rezerwacji' => "4636457573457347474745373474",
@@ -33,7 +34,7 @@ $tickets = array(
 		'miejsce' => "Piętro: 0\nMiejsce: -1\nRząd: G"
 	)
 );
-
+}
 //-------------------------------------------
 require('PDF/fpdf.php');
 require('PDF/fpdi.php');

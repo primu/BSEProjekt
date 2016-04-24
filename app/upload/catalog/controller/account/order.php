@@ -74,6 +74,7 @@ class ControllerAccountOrder extends Controller {
 				'products'   => ($product_total + $voucher_total),
 				'total'      => $this->currency->format($result['total'], $result['currency_code'], $result['currency_value']),
 				'view'       => $this->url->link('account/order/info', 'order_id=' . $result['order_id'], true),
+				//[order_status_id] => 5
 				'download' => ($result['status'] = 'Complete' ? $this->url->link('account/order/download', 'order_id=' . $result['order_id'], true) : ''),
 			);
 		}
@@ -500,8 +501,33 @@ class ControllerAccountOrder extends Controller {
 
 		$order_info = $this->model_account_order->getOrder($order_id);
 
-		if ($order_info) {
-			die('Pobieram!');
+		if (($order_info) && ($order_info['order_status_id'] == 5)) {
+			$this->load->model('catalog/product');
+		
+			$basic_info = array();
+			$basic_info['nr_rezerwacji'] = implode('/',array($order_info['invoice_prefix'], $order_info['invoice_no'], $order_info['order_id'])).'#';
+			$basic_info['wlasciciel'] = $order_info['firstname'] . ' ' . $order_info['lastname'];
+
+			// Products
+			$tickets = array();
+			$products = $this->model_account_order->getOrderProducts($this->request->get['order_id']);
+				foreach ($products as $product) {
+					$options = $this->model_account_order->getOrderOptions($this->request->get['order_id'], $product['order_product_id']);
+					$product_info = $this->model_catalog_product->getProduct($product['product_id']);
+					for ($i = 1; $i <= $product['quantity']; $i++) {
+						$ticket = $basic_info;
+						$ticket['nr_rezerwacji'] .= $product['product_id'].'-'.$i;
+						$ticket['cena'] = $product['total'];
+						$ticket['tytul'] = $product['name'];
+						$ticket['miejsce'] = (count($options) > 0 ? $options[0]['name'] .': '. $options[0]['value'] : '');
+						$ticket['data'] = $product_info['model'];
+						$ticket['adres'] = $product_info['location'];
+			
+						$ticket['kod_rezerwacji'] = hash('md5',$ticket['nr_rezerwacji'].'Kolejna bardzo trudna sol. Tym razem wzięta z szafki! Ha!');
+						$tickets[] = $ticket;
+					}
+				}
+			require('pdf.php');
 		} else {
 			$this->document->setTitle('Pobieranie biletu');
 
