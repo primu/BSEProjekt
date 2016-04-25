@@ -143,7 +143,7 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="input-location"><?php echo $entry_location; ?></label>
                 <div class="col-sm-10">
-                  <input type="text" name="location" value="<?php echo $location; ?>" placeholder="<?php echo $entry_location; ?>" id="input-location" class="form-control" />
+				  <textarea name="location" rows="5" placeholder="<?php echo $entry_location; ?>" id="input-location" class="form-control"><?php echo $location; ?></textarea>
                 </div>
               </div>
               <div class="form-group">
