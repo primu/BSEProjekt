@@ -1,7 +1,7 @@
 <?php
 // Text
 $_['text_new_subject']          = '%s - zamówienie %s';
-$_['text_new_greeting']         = 'Dziękujemy za zainteresowanie produktami %s. Twoje zamówienie zostało przyjęte i będzie realizowane po otrzymaniu wpłaty.';
+$_['text_new_greeting']         = 'Dziękujemy za zainteresowanie wydarzeniami %s. Twoje zamówienie zostało przyjęte i będzie realizowane po otrzymaniu wpłaty.';
 $_['text_new_received']         = 'Złożono zamówienie.';
 $_['text_new_link']             = 'Aby wyświetlić zamówienie, kliknij na poniższy link:';
 $_['text_new_order_detail']     = 'Szczegóły zamówienia';
@@ -16,9 +16,9 @@ $_['text_new_telephone']  		= 'Telefon:';
 $_['text_new_ip']  				= 'Adres IP:';
 $_['text_new_payment_address']  = 'Adres płatnika';
 $_['text_new_shipping_address'] = 'Adres wysyłki';
-$_['text_new_products']         = 'Produkty';
-$_['text_new_product']          = 'Produkt';
-$_['text_new_model']            = 'Model';
+$_['text_new_products']         = 'Wydarzenia';
+$_['text_new_product']          = 'Wydarzenie';
+$_['text_new_model']            = 'Data';
 $_['text_new_quantity']         = 'Ilość';
 $_['text_new_price']            = 'Cena';
 $_['text_new_order_total']      = 'Podsumowanie zamówienia';

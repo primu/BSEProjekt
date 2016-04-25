@@ -14,8 +14,8 @@ $_['text_empty']    = 'Twoja lista życzeń jest pusta.';
 
 // Column
 $_['column_image']  = 'Obraz';
-$_['column_name']   = 'Nazwa produktu';
-$_['column_model']  = 'Model';
+$_['column_name']   = 'Nazwa wydarzenia';
+$_['column_model']  = 'Data';
 $_['column_stock']  = 'Magazyn';
 $_['column_price']  = 'Cena jednostkowa';
 $_['column_action'] = 'Akcja';

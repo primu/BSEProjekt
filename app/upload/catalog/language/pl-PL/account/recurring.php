@@ -3,7 +3,7 @@ $_['heading_title'] = 'Płatności cykliczne';
 $_['button_continue'] = 'Kontynuuj';
 $_['button_view'] = 'Widok';
 $_['text_empty'] = 'Nie znaleziono płatności cyklicznych';
-$_['text_product'] = 'Produkt: ';
+$_['text_product'] = 'Wydarzenie: ';
 $_['text_order'] = 'Zamówienie: ';
 $_['text_quantity'] = 'Ilość: ';
 $_['text_account'] = 'Konto';
@@ -17,7 +17,7 @@ $_['column_date_added'] = 'Utworzono';
 $_['column_type'] = 'Rodzaj';
 $_['column_amount'] = 'Kwota';
 $_['column_status'] = 'Status';
-$_['column_product'] = 'Produkt';
+$_['column_product'] = 'Wydarzenie';
 $_['column_action'] = 'Akcja';
 $_['column_recurring_id'] = 'Identyfikator profilu';
 

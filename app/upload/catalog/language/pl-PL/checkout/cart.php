@@ -28,15 +28,15 @@ $_['text_payment_until_canceled_description'] = '%s każdego %d %s do odwołania
 
 // Column
 $_['column_image']          = 'Obraz';
-$_['column_name']           = 'Nazwa produktu';
-$_['column_model']          = 'Model';
+$_['column_name']           = 'Nazwa wydarzenia';
+$_['column_model']          = 'Data';
 $_['column_quantity']       = 'Ilość';
 $_['column_price']          = 'Cena jednostkowa';
 $_['column_total']          = 'Razem';
 
 // Error
-$_['error_stock']            = 'Produkty oznaczone *** nie są dostępne w żądanej ilości lub nie ma ich w magazynie!';
+$_['error_stock']            = 'Bilety oznaczone *** nie są dostępne w żądanej ilości!';
 $_['error_minimum']          = 'Minimalna zamawiana ilość dla %s to %s!';
 $_['error_required']         = '%s wymagane!';
-$_['error_product']          = 'Uwaga: W Twoim koszyku nie ma żadnych produktów!';
+$_['error_product']          = 'Uwaga: W Twoim koszyku nie ma żadnych biletów!';
 $_['error_recurring_required'] = 'Proszę wybrać płatność cykliczną!';

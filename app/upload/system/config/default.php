@@ -1,7 +1,7 @@
 <?php
 // Site
 $_['site_base']            = '';
-$_['site_ssl']             = false;
+$_['site_ssl']             = true;
 
 // Language
 $_['language_default']     = 'en-gb';

@@ -9,7 +9,7 @@ $_['text_add']          = 'Dodaj opinię';
 $_['text_edit']         = 'Edytuj opinię';
 
 // Column
-$_['column_product']    = 'Produkt';
+$_['column_product']    = 'Wydarzenie';
 $_['column_author']     = 'Autor';
 $_['column_rating']     = 'Ocena';
 $_['column_status']     = 'Status';
@@ -17,7 +17,7 @@ $_['column_date_added'] = 'Data dodania';
 $_['column_action']     = 'Działania';
 
 // Entry
-$_['entry_product']     = 'Produkt';
+$_['entry_product']     = 'Wydarzenie';
 $_['entry_author']      = 'Autor';
 $_['entry_rating']      = 'Ocena';
 $_['entry_status']      = 'Status';
@@ -29,7 +29,7 @@ $_['help_product']      = '(Autouzupełnianie)';
 
 // Error
 $_['error_permission']  = 'Ostrzeżenie: Nie masz uprawnień do modyfikowania opinii!';
-$_['error_product']     = 'Produkt wymagany!';
+$_['error_product']     = 'Wydarzenie wymagane!';
 $_['error_author']      = 'Autor musi mieć od 3 do 64 znaków!';
 $_['error_text']        = 'Treść opinii musi mieć co najmniej 1 znak!';
 $_['error_rating']      = 'Ocena wymagana!';

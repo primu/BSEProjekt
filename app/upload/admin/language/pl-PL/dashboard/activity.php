@@ -11,8 +11,8 @@ $_['text_customer_forgotten']      = '<a href="customer_id=%d">%s</a> poprosił 
 $_['text_customer_login']          = '<a href="customer_id=%d">%s</a> zalogował się.';
 $_['text_customer_password']       = '<a href="customer_id=%d">%s</a> zaktualizował swoje hasło.';
 $_['text_customer_register']       = '<a href="customer_id=%d">%s</a> założył nowe konto.';
-$_['text_customer_return_account'] = '<a href="customer_id=%d">%s</a> dokonał <a href="return_id=%d">zwrotu</a> produktu.';
-$_['text_customer_return_guest']  = '%s dokonał <a href="return_id=%d">zwrotu</a> produktu.';
+$_['text_customer_return_account'] = '<a href="customer_id=%d">%s</a> dokonał <a href="return_id=%d">zwrotu</a> biletu.';
+$_['text_customer_return_guest']  = '%s dokonał <a href="return_id=%d">zwrotu</a> biletu.';
 $_['text_customer_order_account']  = '<a href="customer_id=%d">%s</a> złożył <a href="order_id=%d">nowe zamówienie</a>.';
 $_['text_customer_order_guest']    = '%s złożył <a href="order_id=%d">nowe zamówienie</a>.';
 $_['text_affiliate_edit']          = '<a href="affiliate_id=%d">%s</a> zaktualizował dane konta.';

@@ -85,14 +85,14 @@ $tplIdx = $pdf->importPage(1);
 		$pdf->Ln();
 		$pdf->Write(10, $ticket['kod_rezerwacji']); 
 		$pdf->SetY(62); 
-		$pdf->Cell(0,5, iconv('UTF-8','iso-8859-2//TRANSLIT//IGNORE',"Cena: ".$ticket['cena']." zł"), 0, 1, 'R'); 
+		$pdf->Cell(0,5, iconv('UTF-8','iso-8859-2//TRANSLIT//IGNORE',"Cena: ".number_format($ticket['cena'],2)." zł"), 0, 1, 'R'); 
 
 		$pdf->SetFont('', 'B', 20); 
 		$pdf->Write(20, iconv('UTF-8','iso-8859-2//TRANSLIT//IGNORE',$ticket['tytul'])); 
 
 		$pdf->SetFont('', '', 12); 
 		$pdf->SetXY(24,82);
-		$tekst = date('d-m-Y \g\o\d\z. G:i',$ticket['data'])."\n\n".$ticket['adres']."\n\nWłaściciel rezerwacji: ".$ticket['wlasciciel']."\n\n".$ticket['miejsce'];
+		$tekst = $ticket['data']."\n\n".$ticket['adres']."\n\nWłaściciel rezerwacji: ".$ticket['wlasciciel']."\n\n".$ticket['miejsce'];
 		$pdf->MultiCell(100, 5,iconv('UTF-8','iso-8859-2//TRANSLIT//IGNORE',$tekst), 0, 'L');
 
 		$data = "<code>".$ticket['kod_rezerwacji']."</code><id>".$ticket['nr_rezerwacji']."</id><event>".$ticket['tytul']."</event><client>".$ticket['wlasciciel']."</client><time>".$ticket['data']."</time>";

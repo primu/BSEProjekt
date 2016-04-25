@@ -12,8 +12,8 @@ $_['text_forgotten']      = '<a href="customer_id=%d">%s</a> poprosił o zmianę
 $_['text_login']          = '<a href="customer_id=%d">%s</a> zalogował się.';
 $_['text_password']       = '<a href="customer_id=%d">%s</a> zaktualizował swoje hasło.';
 $_['text_register']       = '<a href="customer_id=%d">%s</a> założył konto.';
-$_['text_return_account'] = '<a href="customer_id=%d">%s</a> dodał zwrot produktu.';
-$_['text_return_guest']   = '%s dodał zwrot produktu.';
+$_['text_return_account'] = '<a href="customer_id=%d">%s</a> dodał zwrot biletu.';
+$_['text_return_guest']   = '%s dodał zwrot biletu.';
 $_['text_order_account']  = '<a href="customer_id=%d">%s</a> złożył <a href="order_id=%d">nowe zamówienie</a>.';
 $_['text_order_guest']    = '%s złożył <a href="order_id=%d">nowe zamówienie</a>.';
 

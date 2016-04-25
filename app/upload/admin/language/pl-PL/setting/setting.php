@@ -5,7 +5,7 @@ $_['heading_title']                    = 'Ustawienia';
 // Text
 $_['text_success']                     = 'Sukces: Ustawienia zmodyfikowane!';
 $_['text_edit']                        = 'Edytuj ustawienia';
-$_['text_product']                     = 'Produkty';
+$_['text_product']                     = 'Wydarzenia';
 $_['text_review']                      = 'Opinie';
 $_['text_voucher']                     = 'Bony';
 $_['text_tax']                         = 'Podatki';

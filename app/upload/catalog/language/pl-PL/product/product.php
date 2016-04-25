@@ -1,9 +1,9 @@
 <?php
 // Text
 $_['text_search']                             = 'Szukaj';
-$_['text_brand']                              = 'Marka';
-$_['text_manufacturer']                       = 'Marka:';
-$_['text_model']                              = 'Model:';
+$_['text_brand']                              = 'Zespół';
+$_['text_manufacturer']                       = 'Zaspół:';
+$_['text_model']                              = 'Data:';
 $_['text_reward']                             = 'Punkty lojalnościowe:';
 $_['text_points']                             = 'Cena w punktach lojalnościowych:';
 $_['text_stock']                              = 'Dostępność:';
@@ -11,16 +11,16 @@ $_['text_instock']                            = 'W magazynie';
 $_['text_tax']                                = 'Cena netto:';
 $_['text_discount']                           = ' lub więcej ';
 $_['text_option']                             = 'Dostępne opcje';
-$_['text_minimum']                            = 'Ten produkt posiada minimalną ilość %s';
+$_['text_minimum']                            = 'To wydarzenie posiada minimalną ilość %s';
 $_['text_reviews']                            = '%s opinie';
 $_['text_write']                              = 'Napisz opinię';
 $_['text_login']                              = 'Aby dodać opinię <a href="%s">zaloguj się</a> kub <a href="%s">zarejestruj</a>';
-$_['text_no_reviews']                         = 'Jeszcze brak opinii na temat tego produktu';
+$_['text_no_reviews']                         = 'Jeszcze brak opinii na temat tego wydarzenia';
 $_['text_note']                               = '<span class="text-danger">Uwaga:</span> HTML nie jest interpretowany!';
 $_['text_success']                            = 'Opinia została przekazana, dziękujemy.';
-$_['text_related']                            = 'Powiązane produkty';
+$_['text_related']                            = 'Powiązane wydarzenia';
 $_['text_tags']                               = 'Tagi:';
-$_['text_error']                              = 'Nie znaleziono produktu!';
+$_['text_error']                              = 'Nie znaleziono wydarzenia!';
 $_['text_payment_recurring']                    = 'Profil płatności';
 $_['text_trial_description']                  = '%s every %d %s(s) for %d payment(s) then';
 $_['text_payment_description']                = '%s every %d %s(s) for %d payment(s)';
