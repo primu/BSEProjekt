@@ -1,1 +1,1 @@
-mysqldump -u root -pvagrant --add-drop-table opencart>/tmp/db.sql
+mysqldump -u root -pvagrant --add-drop-table opencart>/vagrant/database.sql
