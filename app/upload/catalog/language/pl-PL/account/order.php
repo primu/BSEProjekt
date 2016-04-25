@@ -21,9 +21,9 @@ $_['text_error']            = 'Nie można znaleźć żądanego zamówienia!';
 
 // Column
 $_['column_order_id']       = 'Nr zamówienia';
-$_['column_product']        = 'Liczba produktów';
+$_['column_product']        = 'Liczba biletów';
 $_['column_customer']       = 'Klient';
-$_['column_name']           = 'Nazwa produktu';
+$_['column_name']           = 'Nazwa wydarzenia';
 $_['column_model']          = 'Data';
 $_['column_quantity']       = 'Ilość';
 $_['column_price']          = 'Cena';

@@ -1,7 +1,7 @@
 <?php
 // Text
 $_['text_new_subject']          = '%s - zamówienie %s';
-$_['text_new_greeting']         = 'Dziękujemy za zainteresowanie produktami %s. Twoje zamówienie zostało przyjęte i będzie realizowane po otrzymaniu wpłaty.';
+$_['text_new_greeting']         = 'Dziękujemy za zainteresowanie wydarzeniami %s. Twoje zamówienie zostało przyjęte i będzie realizowane po otrzymaniu wpłaty.';
 $_['text_new_received']         = 'Złożono zamówienie.';
 $_['text_new_link']             = 'Aby wyświetlić zamówienie, kliknij na poniższy link:';
 $_['text_new_order_detail']     = 'Szczegóły zamówienia';

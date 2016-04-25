@@ -1,16 +1,16 @@
 <?php
 // Text
 $_['text_refine']       = 'Sprecyzuj wyszukiwanie';
-$_['text_product']      = 'Produkty';
+$_['text_product']      = 'Wydarzenia';
 $_['text_error']        = 'Nie znaleziono kategorii!';
-$_['text_empty']        = 'Brak produktów w kategorii.';
+$_['text_empty']        = 'Brak wydarzeń w kategorii.';
 $_['text_quantity']     = 'Ilość:';
 $_['text_manufacturer'] = 'Zespół:';
 $_['text_model']        = 'Data wydarzenia:';
 $_['text_points']       = 'Punkty lojalnościowe:';
 $_['text_price']        = 'Cena:';
 $_['text_tax']          = 'Cena netto:';
-$_['text_compare']      = 'Porównaj produkt (%s)';
+$_['text_compare']      = 'Porównaj wydarzenie (%s)';
 $_['text_sort']         = 'Sortuj według:';
 $_['text_default']      = 'Domyślnie';
 $_['text_name_asc']     = 'Nazwa (A - Z)';

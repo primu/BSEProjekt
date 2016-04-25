@@ -16,7 +16,7 @@ $_['text_points']       = 'Punkty lojalnościowe:';
 $_['text_price']        = 'Cena:';
 $_['text_tax']          = 'Cena netto:';
 $_['text_reviews']      = 'Na podstawie %s opinii.';
-$_['text_compare']      = 'Porównanie produktów (%s)';
+$_['text_compare']      = 'Porównanie wydarzeń (%s)';
 $_['text_sort']         = 'Sortuj według:';
 $_['text_default']      = 'Domyślnie';
 $_['text_name_asc']     = 'Nazwa (A - Z)';
@@ -31,4 +31,4 @@ $_['text_limit']        = 'Pokaż:';
 
 // Entry
 $_['entry_search']      = 'Szukaj';
-$_['entry_description'] = 'Szukaj w opisach produktów';
+$_['entry_description'] = 'Szukaj w opisach wydarzeń';

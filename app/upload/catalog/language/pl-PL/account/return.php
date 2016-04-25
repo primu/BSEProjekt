@@ -1,6 +1,6 @@
 <?php
 // Heading
-$_['heading_title']      = 'Zwroty produktu';
+$_['heading_title']      = 'Zwroty biletu';
 
 // Text
 $_['text_account']       = 'Konto';
@@ -26,7 +26,7 @@ $_['column_order_id']    = 'Nr zamówienia';
 $_['column_status']      = 'Status';
 $_['column_date_added']  = 'Data dodania';
 $_['column_customer']    = 'Klient';
-$_['column_product']     = 'Nazwa produktu';
+$_['column_product']     = 'Nazwa wydarzenia';
 $_['column_model']       = 'Data';
 $_['column_quantity']    = 'Ilość';
 $_['column_price']       = 'Cena';
@@ -46,7 +46,7 @@ $_['entry_product']      = 'Nazwa wydarzenia';
 $_['entry_model']        = 'Data wydarzenia';
 $_['entry_quantity']     = 'Ilość';
 $_['entry_reason']       = 'Przyczyna zwrotu';
-$_['entry_opened']       = 'Produkt jest otwarty';
+$_['entry_opened']       = 'Wydarzenie jest otwarte';
 $_['entry_fault_detail'] = 'Wadliwy lub inne szczegóły';
 $_['entry_captcha']      = 'Wprowadź kod w polu poniżej';
 
@@ -59,6 +59,6 @@ $_['error_email']        = 'Adres e-mail wygląda na nieprawidłowy!';
 $_['error_telephone']    = 'Telefon musi mieć od 3 do 32 znaków!';
 $_['error_product']      = 'Nazwa wydarzenia musi mieć od 3 do 255 znaków!';
 $_['error_model']        = 'Data wydarzenia musi mieć od 3 do 64 znaków!';
-$_['error_reason']       = 'Musisz wybrać powód zwrotu produktu!';
+$_['error_reason']       = 'Musisz wybrać powód zwrotu biletu!';
 $_['error_captcha']      = 'Kod weryfikacyjny nie pasuje do obrazu!';
 $_['error_agree']        = 'Ostrzeżenie: Musisz wyrazić zgodę na %s!';

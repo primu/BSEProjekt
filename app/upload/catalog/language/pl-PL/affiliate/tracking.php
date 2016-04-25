@@ -12,4 +12,4 @@ $_['entry_generator']  = 'Generator linków śledzenia';
 $_['entry_link']       = 'Link śledzenia';
 
 // Help
-$_['help_generator']  = 'Wpisz nazwę produktu, do którego chcesz linkować';
+$_['help_generator']  = 'Wpisz nazwę wydarzenia, do którego chcesz linkować';
