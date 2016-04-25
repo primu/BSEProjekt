@@ -1,0 +1,8 @@
+2016-04-25 16:26:06 - PHP Notice:  Undefined variable: sort_price_tax in /vagrant/app/upload/system/storage/modification/admin/view/template/catalog/product_list.tpl on line 102
+2016-04-25 16:26:06 - PHP Notice:  Undefined variable: column_price_tax in /vagrant/app/upload/system/storage/modification/admin/view/template/catalog/product_list.tpl on line 102
+2016-04-25 16:27:26 - PHP Notice:  Undefined variable: sort_price_tax in /vagrant/app/upload/system/storage/modification/admin/view/template/catalog/product_list.tpl on line 102
+2016-04-25 16:27:26 - PHP Notice:  Undefined variable: column_price_tax in /vagrant/app/upload/system/storage/modification/admin/view/template/catalog/product_list.tpl on line 102
+2016-04-25 16:41:49 - PHP Notice:  Undefined variable: sort_price_tax in /vagrant/app/upload/system/storage/modification/admin/view/template/catalog/product_list.tpl on line 102
+2016-04-25 16:41:49 - PHP Notice:  Undefined variable: column_price_tax in /vagrant/app/upload/system/storage/modification/admin/view/template/catalog/product_list.tpl on line 102
+2016-04-25 16:42:20 - PHP Notice:  Undefined variable: sort_price_tax in /vagrant/app/upload/system/storage/modification/admin/view/template/catalog/product_list.tpl on line 102
+2016-04-25 16:42:20 - PHP Notice:  Undefined variable: column_price_tax in /vagrant/app/upload/system/storage/modification/admin/view/template/catalog/product_list.tpl on line 102
