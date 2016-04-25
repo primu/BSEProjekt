@@ -13,9 +13,9 @@ class Url {
 
 	public function link($route, $args = '', $secure = false) {
 		if ($this->ssl && $secure) {
-			$url = 'https://' . $_SERVER['HTTP_HOST'] . rtrim(dirname($_SERVER['SCRIPT_NAME']), '/.\\') . '/index.php?route=' . $route;
+			$url = HTTPS_SERVER . rtrim(dirname($_SERVER['SCRIPT_NAME']), '/.\\') . '/index.php?route=' . $route;
 		} else {
-			$url = 'http://' . $_SERVER['HTTP_HOST'] . rtrim(dirname($_SERVER['SCRIPT_NAME']), '/.\\') . '/index.php?route=' . $route;
+			$url = HTTP_SERVER . rtrim(dirname($_SERVER['SCRIPT_NAME']), '/.\\') . '/index.php?route=' . $route;
 		}
 		
 		if ($args) {
