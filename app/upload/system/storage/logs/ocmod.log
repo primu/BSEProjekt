@@ -1,0 +1,380 @@
+2016-04-25 16:25:42 - MOD: Modification Default
+FILE: system/engine/action.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 34
+FILE: system/engine/loader.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 41
+LINE: 92
+LINE: 104
+LINE: 142
+FILE: system/library/config.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 23
+FILE: system/library/language.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 35
+LINE: 41
+LINE: 47
+FILE: system/library/template/basic.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 18
+----------------------------------------------------------------
+2016-04-25 16:25:45 - MOD: Modification Default
+FILE: system/engine/action.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 34
+FILE: system/engine/loader.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 41
+LINE: 92
+LINE: 104
+LINE: 142
+FILE: system/library/config.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 23
+FILE: system/library/language.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 35
+LINE: 41
+LINE: 47
+FILE: system/library/template/basic.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 18
+----------------------------------------------------------------
+2016-04-25 16:25:47 - MOD: Modification Default
+FILE: system/engine/action.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 34
+FILE: system/engine/loader.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 41
+LINE: 92
+LINE: 104
+LINE: 142
+FILE: system/library/config.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 23
+FILE: system/library/language.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 35
+LINE: 41
+LINE: 47
+FILE: system/library/template/basic.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 18
+----------------------------------------------------------------
+2016-04-25 16:26:01 - MOD: Modification Default
+FILE: system/engine/action.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 34
+FILE: system/engine/loader.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 41
+LINE: 92
+LINE: 104
+LINE: 142
+FILE: system/library/config.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 23
+FILE: system/library/language.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 35
+LINE: 41
+LINE: 47
+FILE: system/library/template/basic.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 18
+----------------------------------------------------------------
+MOD: Price+Tax
+FILE: admin/view/template/setting/setting.tpl
+CODE: <legend><?php echo $text_tax; ?></legend>
+LINE: 580
+FILE: admin/controller/setting/setting.php
+CODE: $data['entry_tax'] = $this->language->get('entry_tax');
+LINE: 90
+CODE: if (isset($this->request->post['config_tax'])) {
+LINE: 666
+FILE: admin/language/pl-PL/setting/setting.php
+CODE: $_['entry_tax']                        = 'Display Prices With Tax';
+NOT FOUND!
+FILE: admin/language/pl-PL/catalog/product.php
+CODE: $_['entry_price']            = 'Price';
+NOT FOUND!
+CODE: $_['column_action']          = 'Action';
+NOT FOUND!
+FILE: admin/model/catalog/product.php
+CODE: class ModelCatalogProduct extends Model {
+LINE: 214
+FILE: admin/controller/catalog/product.php
+CODE: class ControllerCatalogProduct extends Controller {
+LINE: 24
+CODE: $data['entry_stock_status'] = $this->language->get('entry_stock_status');
+LINE: 583
+CODE: $data['entry_price'] = $this->language->get('entry_price');
+LINE: 419
+LINE: 584
+CODE: $data['button_filter'] = $this->language->get('button_filter');
+LINE: 428
+CODE: if (isset($this->request->post['date_available'])) {
+LINE: 902
+CODE: if (isset($this->request->post['product_image'])) {
+LINE: 1254
+CODE: 'price'                   => $product_option_value['price'],
+LINE: 1140
+CODE: 'price'      => $result['price'],
+LINE: 392
+CODE: $data['sort_order'] = $this->url->link('catalog/product', 'token=' . $this->session->data['token'] . '&sort=p.sort_order' . $url, 'SSL');
+NOT FOUND!
+FILE: admin/view/template/catalog/product_form.tpl
+CODE: <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-product" class="form-horizontal">
+LINE: 189
+CODE: <label class="col-sm-2 control-label" for="input-price"><?php echo $entry_price; ?></label>
+LINE: 321
+CODE: <td class="text-right"><input type="text" name="product_discount[<?php echo $discount_row; ?>][price]" value="<?php echo $product_discount['price']; ?>" placeholder="<?php echo $entry_price; ?>" class="form-control" /></td>
+LINE: 901
+CODE: <?php $discount_row++; ?>
+LINE: 924
+CODE: <td class="text-right"><?php echo $entry_priority; ?></td>
+LINE: 883
+LINE: 950
+CODE: <td class="text-right"><input type="text" name="product_special[<?php echo $special_row; ?>][price]" value="<?php echo $product_special['price']; ?>" placeholder="<?php echo $entry_price; ?>" class="form-control" /></td>
+LINE: 971
+CODE: <?php $special_row++; ?>
+LINE: 994
+CODE: html += '  <td class="text-right"><input type="text" name="product_discount[' + discount_row + '][price]" value="" placeholder="<?php echo $entry_price; ?>" class="form-control" /></td>';
+LINE: 1507
+CODE: $('#option a[href=\'#tab-option' + option_row + '\']').tab('show');
+LINE: 1438
+CODE: html += '  <td class="text-right"><input type="text" name="product_special[' + special_row + '][price]" value="" placeholder="<?php echo $entry_price; ?>" class="form-control" /></td>';
+LINE: 1540
+CODE: $('#option a[href=\'#tab-option' + option_row + '\']').tab('show');
+LINE: 1438
+CODE: <input type="text" name="product_option[<?php echo $option_row; ?>][product_option_value][<?php echo $option_value_row; ?>][price]" value="<?php echo $product_option_value['price']; ?>" placeholder="<?php echo $entry_price; ?>" class="form-control" /></td>
+LINE: 770
+CODE: <?php $option_value_row++; ?>
+LINE: 807
+CODE: html += '        <td class="text-right"><?php echo $entry_price; ?></td>';
+LINE: 1411
+CODE: html += '  <input type="text" name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][price]" value="" placeholder="<?php echo $entry_price; ?>" class="form-control" /></td>';
+LINE: 1491
+CODE: $('#option-value' + option_row + ' tbody').append(html);
+LINE: 1510
+FILE: admin/view/template/catalog/product_list.tpl
+CODE: <a href="<?php echo $sort_price; ?>"><?php echo $column_price; ?></a>
+LINE: 101
+CODE: <td class="text-right"><?php if ($product['special']) { ?>
+LINE: 138
+----------------------------------------------------------------
+2016-04-25 16:28:02 - MOD: Modification Default
+FILE: system/engine/action.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 34
+FILE: system/engine/loader.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 41
+LINE: 92
+LINE: 104
+LINE: 142
+FILE: system/library/config.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 23
+FILE: system/library/language.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 35
+LINE: 41
+LINE: 47
+FILE: system/library/template/basic.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 18
+----------------------------------------------------------------
+2016-04-25 16:28:05 - MOD: Modification Default
+FILE: system/engine/action.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 34
+FILE: system/engine/loader.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 41
+LINE: 92
+LINE: 104
+LINE: 142
+FILE: system/library/config.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 23
+FILE: system/library/language.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 35
+LINE: 41
+LINE: 47
+FILE: system/library/template/basic.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 18
+----------------------------------------------------------------
+2016-04-25 16:28:11 - MOD: Modification Default
+FILE: system/engine/action.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 34
+FILE: system/engine/loader.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 41
+LINE: 92
+LINE: 104
+LINE: 142
+FILE: system/library/config.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 23
+FILE: system/library/language.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 35
+LINE: 41
+LINE: 47
+FILE: system/library/template/basic.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 18
+----------------------------------------------------------------
+2016-04-25 16:41:40 - MOD: Modification Default
+FILE: system/engine/action.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 34
+FILE: system/engine/loader.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 41
+LINE: 92
+LINE: 104
+LINE: 142
+FILE: system/library/config.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 23
+FILE: system/library/language.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 35
+LINE: 41
+LINE: 47
+FILE: system/library/template/basic.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 18
+----------------------------------------------------------------
+MOD: Price+Tax
+FILE: admin/view/template/setting/setting.tpl
+CODE: <legend><?php echo $text_tax; ?></legend>
+LINE: 580
+FILE: admin/controller/setting/setting.php
+CODE: $data['entry_tax'] = $this->language->get('entry_tax');
+LINE: 90
+CODE: if (isset($this->request->post['config_tax'])) {
+LINE: 666
+FILE: admin/language/pl-PL/setting/setting.php
+CODE: $_['entry_tax']                        = 'Display Prices With Tax';
+NOT FOUND!
+FILE: admin/language/pl-PL/catalog/product.php
+CODE: $_['entry_price']            = 'Price';
+NOT FOUND!
+CODE: $_['column_action']          = 'Action';
+NOT FOUND!
+FILE: admin/model/catalog/product.php
+CODE: class ModelCatalogProduct extends Model {
+LINE: 214
+FILE: admin/controller/catalog/product.php
+CODE: class ControllerCatalogProduct extends Controller {
+LINE: 24
+CODE: $data['entry_stock_status'] = $this->language->get('entry_stock_status');
+LINE: 583
+CODE: $data['entry_price'] = $this->language->get('entry_price');
+LINE: 419
+LINE: 584
+CODE: $data['button_filter'] = $this->language->get('button_filter');
+LINE: 428
+CODE: if (isset($this->request->post['date_available'])) {
+LINE: 902
+CODE: if (isset($this->request->post['product_image'])) {
+LINE: 1254
+CODE: 'price'                   => $product_option_value['price'],
+LINE: 1140
+CODE: 'price'      => $result['price'],
+LINE: 392
+CODE: $data['sort_order'] = $this->url->link('catalog/product', 'token=' . $this->session->data['token'] . '&sort=p.sort_order' . $url, 'SSL');
+NOT FOUND!
+FILE: admin/view/template/catalog/product_form.tpl
+CODE: <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-product" class="form-horizontal">
+LINE: 189
+CODE: <label class="col-sm-2 control-label" for="input-price"><?php echo $entry_price; ?></label>
+LINE: 321
+CODE: <td class="text-right"><input type="text" name="product_discount[<?php echo $discount_row; ?>][price]" value="<?php echo $product_discount['price']; ?>" placeholder="<?php echo $entry_price; ?>" class="form-control" /></td>
+LINE: 901
+CODE: <?php $discount_row++; ?>
+LINE: 924
+CODE: <td class="text-right"><?php echo $entry_priority; ?></td>
+LINE: 883
+LINE: 950
+CODE: <td class="text-right"><input type="text" name="product_special[<?php echo $special_row; ?>][price]" value="<?php echo $product_special['price']; ?>" placeholder="<?php echo $entry_price; ?>" class="form-control" /></td>
+LINE: 971
+CODE: <?php $special_row++; ?>
+LINE: 994
+CODE: html += '  <td class="text-right"><input type="text" name="product_discount[' + discount_row + '][price]" value="" placeholder="<?php echo $entry_price; ?>" class="form-control" /></td>';
+LINE: 1507
+CODE: $('#option a[href=\'#tab-option' + option_row + '\']').tab('show');
+LINE: 1438
+CODE: html += '  <td class="text-right"><input type="text" name="product_special[' + special_row + '][price]" value="" placeholder="<?php echo $entry_price; ?>" class="form-control" /></td>';
+LINE: 1540
+CODE: $('#option a[href=\'#tab-option' + option_row + '\']').tab('show');
+LINE: 1438
+CODE: <input type="text" name="product_option[<?php echo $option_row; ?>][product_option_value][<?php echo $option_value_row; ?>][price]" value="<?php echo $product_option_value['price']; ?>" placeholder="<?php echo $entry_price; ?>" class="form-control" /></td>
+LINE: 770
+CODE: <?php $option_value_row++; ?>
+LINE: 807
+CODE: html += '        <td class="text-right"><?php echo $entry_price; ?></td>';
+LINE: 1411
+CODE: html += '  <input type="text" name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][price]" value="" placeholder="<?php echo $entry_price; ?>" class="form-control" /></td>';
+LINE: 1491
+CODE: $('#option-value' + option_row + ' tbody').append(html);
+LINE: 1510
+FILE: admin/view/template/catalog/product_list.tpl
+CODE: <a href="<?php echo $sort_price; ?>"><?php echo $column_price; ?></a>
+LINE: 101
+CODE: <td class="text-right"><?php if ($product['special']) { ?>
+LINE: 138
+----------------------------------------------------------------
+2016-04-25 16:43:31 - MOD: Modification Default
+FILE: system/engine/action.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 34
+FILE: system/engine/loader.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 41
+LINE: 92
+LINE: 104
+LINE: 142
+FILE: system/library/config.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 23
+FILE: system/library/language.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 35
+LINE: 41
+LINE: 47
+FILE: system/library/template/basic.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 18
+----------------------------------------------------------------
+2016-04-25 16:43:33 - MOD: Modification Default
+FILE: system/engine/action.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 34
+FILE: system/engine/loader.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 41
+LINE: 92
+LINE: 104
+LINE: 142
+FILE: system/library/config.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 23
+FILE: system/library/language.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 35
+LINE: 41
+LINE: 47
+FILE: system/library/template/basic.php
+REGEX: ~(require|include)(_once)?\(([^)]+)~
+LINE: 18
+----------------------------------------------------------------
