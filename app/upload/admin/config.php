@@ -1,7 +1,7 @@
 <?php
 // HTTP
-define('HTTP_SERVER', 'http://localhost:8090/admin/');
-define('HTTP_CATALOG', 'http://localhost:8090/');
+define('HTTP_SERVER', 'http://localhost/admin/');
+define('HTTP_CATALOG', 'http://localhost/');
 // HTTPS
 define('HTTPS_SERVER', 'https://localhost/admin/');
 define('HTTPS_CATALOG', 'https://localhost/');

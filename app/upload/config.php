@@ -1,7 +1,7 @@
 <?php
 // HTTP
-define('HTTP_SERVER', 'http://localhost:8090/');
-define('HTTP_ADMIN', 'http://localhost:8090/admin/');
+define('HTTP_SERVER', 'http://localhost/');
+define('HTTP_ADMIN', 'http://localhost/admin/');
 
 // HTTPS
 define('HTTPS_SERVER', 'https://localhost/');
