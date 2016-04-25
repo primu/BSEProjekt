@@ -12,7 +12,7 @@ $_['column_email']          = 'E-mail';
 $_['column_customer_group'] = 'Grupa klienta';
 $_['column_status']         = 'Status';
 $_['column_orders']         = 'Liczba zamówień';
-$_['column_products']       = 'Liczba produktów';
+$_['column_products']       = 'Liczba biletów';
 $_['column_total']          = 'Razem';
 $_['column_action']         = 'Działania';
 

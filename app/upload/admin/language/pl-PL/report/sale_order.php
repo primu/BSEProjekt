@@ -14,7 +14,7 @@ $_['text_all_status']   = 'Wszystkie statusy';
 $_['column_date_start'] = 'Data rozpoczęcia';
 $_['column_date_end']   = 'Data zakończenia';
 $_['column_orders']     = 'Liczba zamówień';
-$_['column_products']   = 'Liczba produktów';
+$_['column_products']   = 'Liczba biletów';
 $_['column_tax']        = 'Podatek';
 $_['column_total']      = 'Razem';
 

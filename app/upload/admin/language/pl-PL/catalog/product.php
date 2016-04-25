@@ -1,12 +1,12 @@
 <?php
 // Heading
-$_['heading_title']          = 'Produkty';
+$_['heading_title']          = 'Wydarzenia';
 
 // Text
-$_['text_success']           = 'Sukces: Produkty zmodyfikowane!';
-$_['text_list']              = 'Lista produktów';
-$_['text_add']               = 'Dodaj produkt';
-$_['text_edit']              = 'Edycja produktu';
+$_['text_success']           = 'Sukces: Wydarzenia zmodyfikowane!';
+$_['text_list']              = 'Lista wydarzeń';
+$_['text_add']               = 'Dodaj wydarzenie';
+$_['text_edit']              = 'Edycja wydarzenia';
 $_['text_plus']              = '+';
 $_['text_minus']             = '-';
 $_['text_default']           = 'Domyślne';
@@ -16,8 +16,8 @@ $_['text_percent']           = 'Procent';
 $_['text_amount']            = 'Stała kwota';
 
 // Column
-$_['column_name']            = 'Nazwa produktu';
-$_['column_model']           = 'Model';
+$_['column_name']            = 'Nazwa wydarzenia';
+$_['column_model']           = 'Data';
 $_['column_image']           = 'Obraz';
 $_['column_price']           = 'Cena';
 $_['column_quantity']        = 'Ilość';
@@ -25,13 +25,13 @@ $_['column_status']          = 'Status';
 $_['column_action']          = 'Działania';
 
 // Entry
-$_['entry_name']             = 'Nazwa produktu';
+$_['entry_name']             = 'Nazwa wydarzenia';
 $_['entry_description']      = 'Opis';
 $_['entry_meta_title'] 	     = 'Tytuł Meta Tag';
 $_['entry_meta_keyword'] 	 = 'Słowa kluczowe Tag meta';
 $_['entry_meta_description'] = 'Opis Tag meta';
 $_['entry_keyword']          = 'SEO słowo kluczowe';
-$_['entry_model']            = 'Model';
+$_['entry_model']            = 'Data';
 $_['entry_sku']              = 'SKU';
 $_['entry_upc']              = 'UPC';
 $_['entry_ean']              = 'EAN';
@@ -74,8 +74,8 @@ $_['entry_sort_order']       = 'Kolejność sortowania';
 $_['entry_category']         = 'Kategorie';
 $_['entry_filter']           = 'Filtry';
 $_['entry_download']         = 'Pobieranie';
-$_['entry_related']          = 'Produkty powiązane';
-$_['entry_tag']          	 = 'Tagi produktu';
+$_['entry_related']          = 'Wydarzenia powiązane';
+$_['entry_tag']          	 = 'Tagi wydarzenia';
 $_['entry_reward']           = 'Punkty nagrody';
 $_['entry_layout']           = 'Nadpisanie układu';
 $_['entry_recurring']        = 'Profil cykliczny';
@@ -90,7 +90,7 @@ $_['help_isbn']              = 'Międzynarodowy Znormalizowany Numer Książki (
 $_['help_mpn']               = 'Numer katalogowy producenta';
 $_['help_manufacturer']      = '(Autouzupełnianie)';
 $_['help_minimum']           = 'Wymuś minimalną wartość zamówienia';
-$_['help_stock_status']      = 'Pokazywany status, gdy brak produktu na magazynie';
+$_['help_stock_status']      = 'Pokazywany status, gdy brak biletów na magazynie';
 $_['help_points']            = 'Liczba punktów potrzebnych, aby kupić ten przedmiot. Jeśli nie chcesz, aby można było kupić ten produkt za punkty, zostaw 0.';
 $_['help_category']          = '(Autouzupełnianie)';
 $_['help_filter']            = '(Autouzupełnianie)';
@@ -100,8 +100,8 @@ $_['help_tag']          	 = 'oddzielone przecinkami';
 
 // Error
 $_['error_warning']          = 'Ostrzeżenie: Sprawdź dokładnie błędy w formularzu!';
-$_['error_permission']       = 'Ostrzeżenie: Nie masz uprawnień do modyfikowania produktów!';
-$_['error_name']             = 'Nazwa produktu musi mieć od 3 do 255 znaków!';
+$_['error_permission']       = 'Ostrzeżenie: Nie masz uprawnień do modyfikowania wydarzeń!';
+$_['error_name']             = 'Nazwa wydarzenia musi mieć od 3 do 255 znaków!';
 $_['error_meta_title']       = 'Meta Tytuł musi mieć od 3 do 255 znaków!';
-$_['error_model']            = 'Model produktu musi mieć od 3 do 64 znaków!';
+$_['error_model']            = 'Data wydarzenia musi mieć od 3 do 64 znaków!';
 $_['error_keyword']          = 'SEO słowo kluczowe już w użyciu!';
