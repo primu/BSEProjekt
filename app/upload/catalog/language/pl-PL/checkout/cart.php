@@ -28,8 +28,8 @@ $_['text_payment_until_canceled_description'] = '%s każdego %d %s do odwołania
 
 // Column
 $_['column_image']          = 'Obraz';
-$_['column_name']           = 'Nazwa produktu';
-$_['column_model']          = 'Model';
+$_['column_name']           = 'Nazwa wydarzenia';
+$_['column_model']          = 'Data';
 $_['column_quantity']       = 'Ilość';
 $_['column_price']          = 'Cena jednostkowa';
 $_['column_total']          = 'Razem';

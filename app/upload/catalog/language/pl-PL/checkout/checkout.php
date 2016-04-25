@@ -41,8 +41,8 @@ $_['text_month']                     = 'miesiąc';
 $_['text_year']                      = 'rok';
 
 // Column
-$_['column_name']                    = 'Nazwa produktu';
-$_['column_model']                   = 'Model';
+$_['column_name']                    = 'Nazwa wydarzenia';
+$_['column_model']                   = 'Data';
 $_['column_quantity']                = 'Ilość';
 $_['column_price']                   = 'Cena jednostkowa';
 $_['column_total']                   = 'Razem';
