@@ -5,7 +5,7 @@ $_['heading_title']     = 'Promocje';
 // Text
 $_['text_empty']        = 'Aktualnie brak promocji.';
 $_['text_quantity']     = 'Ilość:';
-$_['text_manufacturer'] = 'Marka:';
+$_['text_manufacturer'] = 'Zespół:';
 $_['text_model']        = 'Data wydarzenia:';
 $_['text_points']       = 'Punkty lojalnościowe:';
 $_['text_price']        = 'Cena:';
