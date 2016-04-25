@@ -75,7 +75,7 @@ class ControllerAccountOrder extends Controller {
 				'total'      => $this->currency->format($result['total'], $result['currency_code'], $result['currency_value']),
 				'view'       => $this->url->link('account/order/info', 'order_id=' . $result['order_id'], true),
 				//[order_status_id] => 5
-				'download' => ($result['status'] = 'Complete' ? $this->url->link('account/order/download', 'order_id=' . $result['order_id'], true) : ''),
+				'download' => ($result['status'] == 'Complete' ? $this->url->link('account/order/download', 'order_id=' . $result['order_id'], true) : ''),
 			);
 		}
 
