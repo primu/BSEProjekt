@@ -6,3 +6,5 @@
 2016-04-25 16:41:49 - PHP Notice:  Undefined variable: column_price_tax in /vagrant/app/upload/system/storage/modification/admin/view/template/catalog/product_list.tpl on line 102
 2016-04-25 16:42:20 - PHP Notice:  Undefined variable: sort_price_tax in /vagrant/app/upload/system/storage/modification/admin/view/template/catalog/product_list.tpl on line 102
 2016-04-25 16:42:20 - PHP Notice:  Undefined variable: column_price_tax in /vagrant/app/upload/system/storage/modification/admin/view/template/catalog/product_list.tpl on line 102
+2016-04-26 11:38:26 - PHP Notice:  Undefined index: L_LONGMESSAGE0 in /vagrant/app/upload/catalog/controller/payment/pp_express.php on line 1329
+2016-04-26 11:38:26 - Unable to create Paypal session{"":""}
