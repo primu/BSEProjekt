@@ -1,70 +1,4 @@
-2016-04-25 16:25:42 - MOD: Modification Default
-FILE: system/engine/action.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 34
-FILE: system/engine/loader.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 41
-LINE: 92
-LINE: 104
-LINE: 142
-FILE: system/library/config.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 23
-FILE: system/library/language.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 35
-LINE: 41
-LINE: 47
-FILE: system/library/template/basic.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 18
-----------------------------------------------------------------
-2016-04-25 16:25:45 - MOD: Modification Default
-FILE: system/engine/action.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 34
-FILE: system/engine/loader.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 41
-LINE: 92
-LINE: 104
-LINE: 142
-FILE: system/library/config.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 23
-FILE: system/library/language.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 35
-LINE: 41
-LINE: 47
-FILE: system/library/template/basic.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 18
-----------------------------------------------------------------
-2016-04-25 16:25:47 - MOD: Modification Default
-FILE: system/engine/action.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 34
-FILE: system/engine/loader.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 41
-LINE: 92
-LINE: 104
-LINE: 142
-FILE: system/library/config.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 23
-FILE: system/library/language.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 35
-LINE: 41
-LINE: 47
-FILE: system/library/template/basic.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 18
-----------------------------------------------------------------
-2016-04-25 16:26:01 - MOD: Modification Default
+2016-05-09 12:20:40 - MOD: Modification Default
 FILE: system/engine/action.php
 REGEX: ~(require|include)(_once)?\(([^)]+)~
 LINE: 34
@@ -96,13 +30,13 @@ LINE: 90
 CODE: if (isset($this->request->post['config_tax'])) {
 LINE: 666
 FILE: admin/language/pl-PL/setting/setting.php
-CODE: $_['entry_tax']                        = 'Display Prices With Tax';
-NOT FOUND!
+CODE: $_['entry_tax']                        = 'Wyświetl ceny z podatkiem';
+LINE: 60
 FILE: admin/language/pl-PL/catalog/product.php
-CODE: $_['entry_price']            = 'Price';
-NOT FOUND!
-CODE: $_['column_action']          = 'Action';
-NOT FOUND!
+CODE: $_['entry_price']            = 'Cena';
+LINE: 50
+CODE: $_['column_action']          = 'Działania';
+LINE: 26
 FILE: admin/model/catalog/product.php
 CODE: class ModelCatalogProduct extends Model {
 LINE: 214
@@ -124,8 +58,10 @@ CODE: 'price'                   => $product_option_value['price'],
 LINE: 1140
 CODE: 'price'      => $result['price'],
 LINE: 392
-CODE: $data['sort_order'] = $this->url->link('catalog/product', 'token=' . $this->session->data['token'] . '&sort=p.sort_order' . $url, 'SSL');
-NOT FOUND!
+CODE: $data['sort_order'] = $this->url->link('catalog/product', 'token=' . $this->session->data['token'] . '&sort=p.sort_order' . $url, true);
+LINE: 492
+CODE: $data['column_action'] = $this->language->get('column_action');
+LINE: 417
 FILE: admin/view/template/catalog/product_form.tpl
 CODE: <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-product" class="form-horizontal">
 LINE: 189
@@ -166,73 +102,7 @@ LINE: 101
 CODE: <td class="text-right"><?php if ($product['special']) { ?>
 LINE: 138
 ----------------------------------------------------------------
-2016-04-25 16:28:02 - MOD: Modification Default
-FILE: system/engine/action.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 34
-FILE: system/engine/loader.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 41
-LINE: 92
-LINE: 104
-LINE: 142
-FILE: system/library/config.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 23
-FILE: system/library/language.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 35
-LINE: 41
-LINE: 47
-FILE: system/library/template/basic.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 18
-----------------------------------------------------------------
-2016-04-25 16:28:05 - MOD: Modification Default
-FILE: system/engine/action.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 34
-FILE: system/engine/loader.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 41
-LINE: 92
-LINE: 104
-LINE: 142
-FILE: system/library/config.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 23
-FILE: system/library/language.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 35
-LINE: 41
-LINE: 47
-FILE: system/library/template/basic.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 18
-----------------------------------------------------------------
-2016-04-25 16:28:11 - MOD: Modification Default
-FILE: system/engine/action.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 34
-FILE: system/engine/loader.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 41
-LINE: 92
-LINE: 104
-LINE: 142
-FILE: system/library/config.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 23
-FILE: system/library/language.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 35
-LINE: 41
-LINE: 47
-FILE: system/library/template/basic.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 18
-----------------------------------------------------------------
-2016-04-25 16:41:40 - MOD: Modification Default
+2016-05-09 12:20:40 - MOD: Modification Default
 FILE: system/engine/action.php
 REGEX: ~(require|include)(_once)?\(([^)]+)~
 LINE: 34
@@ -264,13 +134,13 @@ LINE: 90
 CODE: if (isset($this->request->post['config_tax'])) {
 LINE: 666
 FILE: admin/language/pl-PL/setting/setting.php
-CODE: $_['entry_tax']                        = 'Display Prices With Tax';
-NOT FOUND!
+CODE: $_['entry_tax']                        = 'Wyświetl ceny z podatkiem';
+LINE: 60
 FILE: admin/language/pl-PL/catalog/product.php
-CODE: $_['entry_price']            = 'Price';
-NOT FOUND!
-CODE: $_['column_action']          = 'Action';
-NOT FOUND!
+CODE: $_['entry_price']            = 'Cena';
+LINE: 50
+CODE: $_['column_action']          = 'Działania';
+LINE: 26
 FILE: admin/model/catalog/product.php
 CODE: class ModelCatalogProduct extends Model {
 LINE: 214
@@ -292,8 +162,10 @@ CODE: 'price'                   => $product_option_value['price'],
 LINE: 1140
 CODE: 'price'      => $result['price'],
 LINE: 392
-CODE: $data['sort_order'] = $this->url->link('catalog/product', 'token=' . $this->session->data['token'] . '&sort=p.sort_order' . $url, 'SSL');
-NOT FOUND!
+CODE: $data['sort_order'] = $this->url->link('catalog/product', 'token=' . $this->session->data['token'] . '&sort=p.sort_order' . $url, true);
+LINE: 492
+CODE: $data['column_action'] = $this->language->get('column_action');
+LINE: 417
 FILE: admin/view/template/catalog/product_form.tpl
 CODE: <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-product" class="form-horizontal">
 LINE: 189
@@ -333,48 +205,4 @@ CODE: <a href="<?php echo $sort_price; ?>"><?php echo $column_price; ?></a>
 LINE: 101
 CODE: <td class="text-right"><?php if ($product['special']) { ?>
 LINE: 138
-----------------------------------------------------------------
-2016-04-25 16:43:31 - MOD: Modification Default
-FILE: system/engine/action.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 34
-FILE: system/engine/loader.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 41
-LINE: 92
-LINE: 104
-LINE: 142
-FILE: system/library/config.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 23
-FILE: system/library/language.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 35
-LINE: 41
-LINE: 47
-FILE: system/library/template/basic.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 18
-----------------------------------------------------------------
-2016-04-25 16:43:33 - MOD: Modification Default
-FILE: system/engine/action.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 34
-FILE: system/engine/loader.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 41
-LINE: 92
-LINE: 104
-LINE: 142
-FILE: system/library/config.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 23
-FILE: system/library/language.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 35
-LINE: 41
-LINE: 47
-FILE: system/library/template/basic.php
-REGEX: ~(require|include)(_once)?\(([^)]+)~
-LINE: 18
 ----------------------------------------------------------------
